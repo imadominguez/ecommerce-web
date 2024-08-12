@@ -1,5 +1,7 @@
 import { LoginForm } from "@/app/(auth)/login/components/login-form";
+import { buttonVariants } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function LoginPage() {
   return (
@@ -15,6 +17,17 @@ export default function LoginPage() {
         <h2 className=" text-center text-2xl font-bold leading-9 tracking-tight">Ingresa a tu cuenta</h2>
       </div>
       <LoginForm />
+      <p className="mt-5 text-center text-sm ">
+        No tenes una cuenta?
+        <Link
+          href="/register"
+          className={buttonVariants({
+            variant: "link",
+          })}
+        >
+          Crear cuenta
+        </Link>
+      </p>
     </div>
   );
 }

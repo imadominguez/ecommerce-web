@@ -1,20 +1,37 @@
 import type { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import { loginSchema } from "@/lib/zod";
+import { db } from "@/lib/db";
+import bcryptjs from "bcryptjs";
 export default {
   providers: [
     Credentials({
-      // You can specify which fields should be submitted, by adding keys to the `credentials` object.
-      // e.g. domain, username, password, 2FA token, etc.
       authorize: async (credentials) => {
-        console.log(credentials);
-        if (credentials.email !== "example@gmail.com") {
+        const { success, data } = loginSchema.safeParse(credentials);
+
+        if (!success) {
           throw new Error("Credenciales invalidas");
         }
-        return {
-          id: "1",
-          name: "Imanol Dominguez",
-          email: "example@gmail.com",
-        };
+        // Verificar si existe el usuario en la base de datos
+
+        const user = await db.user.findUnique({
+          where: {
+            email: data.email,
+          },
+        });
+
+        if (!user || !user.password) {
+          throw new Error("Credenciales invalidas");
+        }
+
+        // Verificar si la contrasena es correcta
+        const isValidPassword = await bcryptjs.compare(data.password, user.password);
+
+        if (!isValidPassword) {
+          throw new Error("Credenciales invalidas");
+        }
+
+        return user;
       },
     }),
   ],

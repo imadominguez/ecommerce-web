@@ -1,44 +1,52 @@
 "use client";
-
-import Link from "next/link";
 import { useState, useTransition } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-
+import { useRouter } from "next/navigation";
 import { z } from "zod";
-import { loginSchema } from "@/lib/zod";
+import { registerSchema } from "@/lib/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { EyeOffIcon, EyeIcon, RotateCcwIcon } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { loginAction } from "@/actions/auth-action";
-import { useRouter } from "next/navigation";
+
+import { EyeOffIcon, EyeIcon, RotateCcwIcon } from "lucide-react";
+
+import { registerAction } from "@/actions/auth-action";
+import { signIn } from "next-auth/react";
 
 type TypeInputPassword = "text" | "password";
-export const LoginForm = () => {
+export const RegisterForm = () => {
   const router = useRouter();
 
   const [isPending, startTransition] = useTransition();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [typeInputPassword, setTypeInputPassword] = useState<TypeInputPassword>("password");
 
-  const form = useForm<z.infer<typeof loginSchema>>({
-    resolver: zodResolver(loginSchema),
+  const form = useForm<z.infer<typeof registerSchema>>({
+    resolver: zodResolver(registerSchema),
     defaultValues: {
       email: "",
       password: "",
+      name: "",
     },
   });
 
-  async function onSubmit(values: z.infer<typeof loginSchema>) {
+  async function onSubmit(values: z.infer<typeof registerSchema>) {
     setErrorMessage(null);
 
     startTransition(async () => {
-      const response = await loginAction(values);
+      const response = await registerAction(values);
       if (response?.error) {
         setErrorMessage(response?.error);
       } else {
-        router.push("/dashboard");
+        await signIn("credentials", {
+          email: values.email,
+          password: values.password,
+          redirect: false,
+        });
+
+        router.push("/");
       }
     });
   }
@@ -47,6 +55,19 @@ export const LoginForm = () => {
     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} method="POST" className="space-y-6">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Nombre</FormLabel>
+                <FormControl>
+                  <Input placeholder="Ingresa tu nombre" type="text" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="email"
@@ -91,7 +112,7 @@ export const LoginForm = () => {
           {errorMessage && <FormMessage>{errorMessage}</FormMessage>}
           <div>
             <Button className="w-full" disabled={isPending} type="submit">
-              {!isPending ? "Ingresar" : <RotateCcwIcon className="animate-spin" />}
+              {!isPending ? "Crear cuenta" : <RotateCcwIcon className="animate-spin" />}
             </Button>
           </div>
         </form>
