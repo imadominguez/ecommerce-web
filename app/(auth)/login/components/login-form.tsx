@@ -11,9 +11,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { EyeOffIcon, EyeIcon } from "lucide-react";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { loginAction } from "@/actions/auth-action";
+import { useRouter } from "next/navigation";
 
 type TypeInputPassword = "text" | "password";
 export const LoginForm = () => {
+  const router = useRouter();
+  const [errorMessage, setErrorMessage] = useState<string | null>();
   const [typeInputPassword, setTypeInputPassword] = useState<TypeInputPassword>("password");
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -23,10 +27,15 @@ export const LoginForm = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof loginSchema>) {
+  async function onSubmit(values: z.infer<typeof loginSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values);
+
+    const response = await loginAction(values);
+    response?.error && setErrorMessage(response?.error);
+    if (response?.success) {
+      router.push("/dashboard");
+    }
   }
 
   return (
@@ -69,12 +78,12 @@ export const LoginForm = () => {
                     )}
                   </div>
                 </FormControl>
-                {/* <FormDescription>This is your public display name.</FormDescription> */}
+                <FormDescription>Debe contener al menos 8 caracteres.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-
+          {errorMessage && <span className="text-red-500  text-end block !p-0 !m-0 !mt-3">{errorMessage}</span>}
           <div>
             <Button className="w-full" type="submit">
               Ingresar
