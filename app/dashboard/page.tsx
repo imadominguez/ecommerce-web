@@ -1,5 +1,6 @@
-import { auth, signOut } from "@/auth";
-import { Button } from "@/components/ui/button";
+import { auth } from "@/auth";
+import { LogoutButton } from "@/components/button/logout-button";
+
 import { redirect } from "next/navigation";
 
 export default async function DashboardPage() {
@@ -14,15 +15,7 @@ export default async function DashboardPage() {
       <h1>Dashboard Page</h1>
       <pre>{JSON.stringify(session, null, 2)}</pre>
 
-      <form
-        action={async () => {
-          "use server";
-
-          await signOut();
-        }}
-      >
-        <Button type="submit">Cerrar sesion</Button>
-      </form>
+      <LogoutButton />
     </div>
   );
 }
