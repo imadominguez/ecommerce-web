@@ -1,10 +1,10 @@
-import { LogoutButton } from "@/components/button/logout-button";
+import { UserButton } from "@/components/button/user-button";
 
 export default function Home() {
   return (
     <div>
       <p>Home shop page</p>
-      <LogoutButton />
+      <UserButton />
     </div>
   );
 }
