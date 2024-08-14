@@ -2,7 +2,7 @@ import Image from "next/image";
 import { MoreHorizontal, PlusCircle } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   DropdownMenu,
@@ -15,6 +15,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 
 import { PageContainer } from "@/components/layout/page-container";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Link from "next/link";
 
 export default function ProductsPage() {
   return (
@@ -26,10 +27,10 @@ export default function ProductsPage() {
             <TabsTrigger value="stock-0">Sin stock</TabsTrigger>
             <TabsTrigger value="disabled">Inactivos</TabsTrigger>
           </TabsList>
-          <Button size="sm" className="h-8 gap-1">
+          <Link href={"/dashboard/add-product"} className={buttonVariants({ size: "sm" })}>
             <PlusCircle className="h-3.5 w-3.5" />
             <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Agregar Producto</span>
-          </Button>
+          </Link>
         </div>
         <TabsContent value="all">
           <Card>
