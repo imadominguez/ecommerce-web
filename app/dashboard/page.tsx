@@ -1,3 +1,4 @@
+import { PageContainer } from "@/components/layout/page-container";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
@@ -8,7 +9,7 @@ import Link from "next/link";
 
 export default async function DashboardPage() {
   return (
-    <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8 lg:px-12 container">
+    <PageContainer>
       <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
         <Card x-chunk="dashboard-01-chunk-0">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -219,6 +220,6 @@ export default async function DashboardPage() {
           </CardContent>
         </Card>
       </div>
-    </main>
+    </PageContainer>
   );
 }
