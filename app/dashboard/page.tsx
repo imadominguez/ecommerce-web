@@ -1,16 +1,12 @@
-import { auth } from "@/auth";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { TableHeader, TableRow, TableHead, TableBody, TableCell, Table } from "@/components/ui/table";
-import { DollarSign, Users, CreditCard, Activity, ArrowUpRight } from "lucide-react";
+import { DollarSign, Users, CreditCard, Activity } from "lucide-react";
 import Link from "next/link";
-// import { LogoutButton } from "@/components/button/logout-button";
 
 export default async function DashboardPage() {
-  // const session = await auth();
-
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8 lg:px-12 container">
       <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
