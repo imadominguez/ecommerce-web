@@ -15,7 +15,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
   }
   return (
     <div className="flex min-h-screen w-full flex-col">
-      <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
+      <header className="sticky max-w-screen-2xl w-full border-b top-0 mx-auto justify-between flex h-16 items-center gap-4  bg-background px-4 md:px-6">
         <NavbarLinks />
         <Sheet>
           <SheetTrigger asChild>
