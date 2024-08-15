@@ -1,11 +1,12 @@
 import Link from "next/link";
-import React from "react";
+import React, { Suspense } from "react";
 import Image from "next/image";
 import { MenuIcon, ShoppingCartIcon } from "lucide-react";
 import { Links } from "./navbar-link";
 import { UserButton } from "../button/user-button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { DashboardLink } from "./dashboard-link";
 const LINKS_NAVBAR = [
   {
     name: "Nuestra empresa",
@@ -39,7 +40,7 @@ function NavbarLinks({
 }
 export const Navbar = () => {
   return (
-    <header className="mx-auto flex items-center justify-between p-7 py-5">
+    <header className="mx-auto flex items-center justify-between md:p-7 py-5">
       {/* mobile */}
       <Sheet>
         <SheetTrigger className="lg:hidden" asChild>
@@ -51,7 +52,13 @@ export const Navbar = () => {
           <nav className="flex list-none flex-col items-start gap-y-5 pt-5">
             <NavbarLinks links={LINKS_NAVBAR} />
           </nav>
-          <UserButton />
+          <div>
+            <UserButton />
+
+            <Suspense fallback={<div className="bg-slate-600 animate-pulse"></div>}>
+              <DashboardLink />
+            </Suspense>
+          </div>
         </SheetContent>
       </Sheet>
       <Link href="/" className="hidden flex-1 items-center gap-x-2 lg:flex">
@@ -72,6 +79,9 @@ export const Navbar = () => {
         <div className="ml-1 hidden lg:block">
           <UserButton />
         </div>
+        <Suspense fallback={<div className="bg-slate-600 animate-pulse"></div>}>
+          <DashboardLink />
+        </Suspense>
       </div>
     </header>
   );

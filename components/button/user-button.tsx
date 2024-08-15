@@ -13,7 +13,7 @@ export const UserButton = async () => {
           await signOut();
         }}
       >
-        <Button type="submit" size={"sm"} variant={"secondary"}>
+        <Button type="submit" size={"sm"} variant={"secondary"} className="w-full">
           Cerrar sesion
         </Button>
       </form>
