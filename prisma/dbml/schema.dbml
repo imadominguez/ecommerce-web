@@ -1,0 +1,211 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table Category {
+  id String [pk]
+  name String [unique, not null]
+  Product Product [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+}
+
+Table Product {
+  id String [pk]
+  title String [not null]
+  description String [not null]
+  price Float [not null]
+  color Color
+  inStock Int [not null, default: 0]
+  slug String [unique, not null]
+  tags String[] [not null]
+  images String[] [not null]
+  inDiscount Boolean [not null, default: false]
+  discount Int
+  brand Brand [not null]
+  brandId String [not null]
+  Category Category
+  categoryId String
+  productImage ProductImage [not null]
+  OrderItem OrderItem [not null]
+  Comment Comment [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+}
+
+Table ProductImage {
+  id String [pk]
+  url String [not null]
+  product Product [not null]
+  productId String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+}
+
+Table User {
+  id String [pk]
+  name String
+  email String [unique, not null]
+  emailVerified DateTime
+  password String
+  image String
+  role Role [not null, default: 'user']
+  accounts Account [not null]
+  Address UserAddress
+  Order Order [not null]
+  Comment Comment [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+}
+
+Table Country {
+  id String [pk]
+  name String [not null]
+  Address UserAddress [not null]
+  OrderAddress OrderAddress [not null]
+}
+
+Table UserAddress {
+  id String [pk]
+  firstName String [not null]
+  lastName String [not null]
+  address String [not null]
+  address2 String
+  postalCode String [not null]
+  phone String [not null]
+  city String [not null]
+  country Country [not null]
+  countryId String [not null]
+  user User [not null]
+  userId String [unique, not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+}
+
+Table Order {
+  id String [pk]
+  subTotal Float [not null]
+  envio Float [not null]
+  total Float [not null]
+  itemsInOrder Int [not null]
+  isPaid Boolean [not null, default: false]
+  paidAt DateTime
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  user User [not null]
+  userId String [not null]
+  OrderItem OrderItem [not null]
+  OrderAddress OrderAddress
+  transactionId String
+}
+
+Table OrderItem {
+  id String [pk]
+  quantity Int [not null]
+  price Float [not null]
+  order Order [not null]
+  orderId String [not null]
+  product Product [not null]
+  productId String [not null]
+}
+
+Table OrderAddress {
+  id String [pk]
+  firstName String [not null]
+  lastName String [not null]
+  address String [not null]
+  address2 String
+  postalCode String [not null]
+  city String [not null]
+  phone String [not null]
+  country Country [not null]
+  countryId String [not null]
+  Order Order [not null]
+  orderId String [unique, not null]
+}
+
+Table Comment {
+  id String [pk]
+  content String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  user User [not null]
+  userId String [not null]
+  product Product [not null]
+  productId String [not null]
+}
+
+Table Account {
+  userId String [not null]
+  type String [not null]
+  provider String [not null]
+  providerAccountId String [not null]
+  refresh_token String
+  access_token String
+  expires_at Int
+  token_type String
+  scope String
+  id_token String
+  session_state String
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  user User [not null]
+
+  indexes {
+    (provider, providerAccountId) [pk]
+  }
+}
+
+Table VerificationToken {
+  identifier String [not null]
+  token String [not null]
+  expires DateTime [not null]
+
+  indexes {
+    (identifier, token) [pk]
+  }
+}
+
+Table Brand {
+  id String [pk]
+  name String [not null]
+  product Product [not null]
+}
+
+Enum Role {
+  user
+  admin
+}
+
+Enum Color {
+  blue
+  red
+  yellow
+  black
+  magenta
+}
+
+Ref: Product.brandId > Brand.id
+
+Ref: Product.categoryId > Category.id
+
+Ref: ProductImage.productId > Product.id
+
+Ref: UserAddress.countryId > Country.id
+
+Ref: UserAddress.userId - User.id
+
+Ref: Order.userId > User.id
+
+Ref: OrderItem.orderId > Order.id
+
+Ref: OrderItem.productId > Product.id
+
+Ref: OrderAddress.countryId > Country.id
+
+Ref: OrderAddress.orderId - Order.id
+
+Ref: Comment.userId > User.id
+
+Ref: Comment.productId > Product.id
+
+Ref: Account.userId > User.id [delete: Cascade]
