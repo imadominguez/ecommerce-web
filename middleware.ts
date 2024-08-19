@@ -1,23 +1,19 @@
-import NextAuth from "next-auth";
-import authConfig from "@/auth.config";
-import { NextResponse } from "next/server";
+import NextAuth from 'next-auth';
+import authConfig from '@/auth.config';
+import { NextResponse } from 'next/server';
 
-export const { auth: middleware } = NextAuth(authConfig);
+const { auth: middleware } = NextAuth(authConfig);
 
-const publicRoutes = ["/", "/login", "/register"];
+const publicRoutes = ['/', '/login', '/register', '/products'];
 
 export default middleware((req) => {
   const { nextUrl, auth } = req;
   const isLoggedIn = !!auth?.user;
-  const isAdmin = auth?.user.role === "admin";
+  const isAdmin = auth?.user.role === 'admin' ? true : false;
 
-  // proteger el dashboard
-  if (!publicRoutes.includes(nextUrl.pathname) && !isLoggedIn) {
-    return NextResponse.redirect(new URL("/login", nextUrl));
-  }
-
-  if (!publicRoutes.includes(nextUrl.pathname) && isLoggedIn && !isAdmin) {
-    return NextResponse.redirect(new URL("/login", nextUrl));
+  if (!publicRoutes.includes(nextUrl.pathname) && !isAdmin) {
+    // Si está autenticado, pero no es administrador, redirige a /login
+    return NextResponse.redirect(new URL('/', nextUrl));
   }
 
   return NextResponse.next();
@@ -26,8 +22,8 @@ export default middleware((req) => {
 export const config = {
   matcher: [
     // Skip Next.js internals and all static files, unless found in search params
-    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
     // Always run for API routes
-    "/(api|trpc)(.*)",
+    '/(api|trpc)(.*)',
   ],
 };
