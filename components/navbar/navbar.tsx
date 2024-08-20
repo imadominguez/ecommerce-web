@@ -15,7 +15,7 @@ const LINKS_NAVBAR = [
   },
   {
     name: "Tienda online",
-    href: "/shop",
+    href: "/products",
     isDisable: false,
   },
 ];
