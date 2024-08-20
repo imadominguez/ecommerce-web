@@ -10,11 +10,14 @@ export default middleware((req) => {
   const { nextUrl, auth } = req;
   const isLoggedIn = !!auth?.user;
   const isAdmin = auth?.user.role === 'admin';
-  const isPublicRoute = publicRoutes.includes(nextUrl.pathname)
+  const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
 
   // Redirección a la página de inicio
-  const redirectToHome = NextResponse.redirect(new URL('/', nextUrl))
+  const redirectToHome = NextResponse.redirect(new URL('/', nextUrl));
 
+  if (nextUrl.pathname.startsWith('/products/')) {
+    return NextResponse.next();
+  }
   // Redirigir a la página de inicio si no es una ruta pública y el usuario no es un administrador
   if (!isPublicRoute && !isAdmin) {
     return redirectToHome;
