@@ -17,8 +17,8 @@ export default async function ProductDetailPage({ params: { slug } }: Props) {
   });
   const product = productDB[0];
   return (
-    <PageContainer className="my-0 max-h-[80dvh] overflow-hidden py-0">
-      <div className="flex h-full pt-6">
+    <PageContainer className="my-0 overflow-hidden py-0 lg:max-h-[80dvh]">
+      <div className="flex h-full flex-col pt-6 lg:flex-row">
         {/* <nav aria-label="Breadcrumb">
           <ol role="list" className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
             {product.breadcrumbs.map((breadcrumb) => (
