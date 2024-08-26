@@ -12,7 +12,7 @@ export default function ShopLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="container">
+    <div className="mx-auto max-w-[2500px]">
       <Navbar />
       <Carrousel images={CARROUSEL_IMAGES_HOME} delay={1000} loop />
       {children}
