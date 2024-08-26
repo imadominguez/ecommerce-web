@@ -1,15 +1,17 @@
 'use client';
 
-import Link from 'next/link';
-import { useEffect, useState, useTransition } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-
+import { useState, useTransition } from 'react';
 import { z } from 'zod';
 import { loginSchema } from '@/lib/zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { EyeOffIcon, EyeIcon, RotateCcwIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+
+// componentes
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
   Form,
   FormControl,
@@ -19,10 +21,10 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+// server action
 import { loginAction } from '@/actions/auth-action';
-import { useRouter } from 'next/navigation';
+import { TypeInputPassword } from '@/types/inputs';
 
-type TypeInputPassword = 'text' | 'password';
 export const LoginForm = () => {
   const router = useRouter();
 
@@ -43,11 +45,12 @@ export const LoginForm = () => {
     setErrorMessage(null);
 
     startTransition(async () => {
-      const response = await loginAction(values);
-      if (response?.error) {
-        setErrorMessage(response?.error);
+      const { success, message, name_user } = await loginAction(values);
+      if (success) {
+        toast.success(`Bienvenido/a ${name_user}`);
+        router.push('/');
       } else {
-        router.push('/dashboard');
+        toast.error(message);
       }
     });
   }
