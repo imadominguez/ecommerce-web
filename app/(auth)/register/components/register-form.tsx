@@ -18,6 +18,8 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 
+import { toast } from 'sonner';
+
 import { EyeOffIcon, EyeIcon, RotateCcwIcon } from 'lucide-react';
 
 import { registerAction } from '@/actions/auth-action';
@@ -46,9 +48,10 @@ export const RegisterForm = () => {
 
     startTransition(async () => {
       const response = await registerAction(values);
-      if (response?.error) {
-        setErrorMessage(response?.error);
-      } else {
+      if (response?.success) {
+        setTimeout(() => {
+          toast.success(`Bienvenido/a ${response.name_user}`);
+        }, 2000);
         await signIn('credentials', {
           email: values.email,
           password: values.password,

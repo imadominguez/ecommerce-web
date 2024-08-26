@@ -1,23 +1,23 @@
-"use server";
+'use server';
 
-import { signIn } from "@/auth";
-import { db } from "@/lib/db";
-import { loginSchema, registerSchema } from "@/lib/zod";
-import { AuthError } from "next-auth";
-import { z } from "zod";
-import bcryptjs from "bcryptjs";
+import { signIn } from '@/auth';
+import { db } from '@/lib/db';
+import { loginSchema, registerSchema } from '@/lib/zod';
+import { AuthError } from 'next-auth';
+import { z } from 'zod';
+import bcryptjs from 'bcryptjs';
 
 export const loginAction = async (values: z.infer<typeof loginSchema>) => {
   const { email, password } = values;
   try {
-    await signIn("credentials", {
+    await signIn('credentials', {
       email,
       password,
       redirect: false,
     });
     return {
       success: true,
-      message: "Sesion iniciada",
+      message: 'Sesion iniciada',
     };
   } catch (error) {
     if (error instanceof AuthError) {
@@ -27,14 +27,16 @@ export const loginAction = async (values: z.infer<typeof loginSchema>) => {
   }
 };
 
-export const registerAction = async (values: z.infer<typeof registerSchema>) => {
+export const registerAction = async (
+  values: z.infer<typeof registerSchema>
+) => {
   try {
     const { data, success } = registerSchema.safeParse(values);
 
     if (!success) {
       return {
         success: false,
-        error: "Revisa el formulario",
+        error: 'Revisa el formulario',
       };
     }
     // verificar si el usuario ya existe
@@ -47,7 +49,7 @@ export const registerAction = async (values: z.infer<typeof registerSchema>) => 
     if (user) {
       return {
         success: false,
-        error: "Ya existe un usuario con ese email",
+        error: 'Ya existe un usuario con ese email',
       };
     }
 
@@ -64,11 +66,12 @@ export const registerAction = async (values: z.infer<typeof registerSchema>) => 
 
     return {
       success: true,
-      message: "Usuario creado",
+      message: 'Usuario creado',
+      name_user: data.name,
     };
   } catch (error) {
     if (error instanceof AuthError) {
-      return { successs: false, error: error.cause?.err?.message };
+      return { success: false, error: error.cause?.err?.message };
     }
     console.log(error);
   }
