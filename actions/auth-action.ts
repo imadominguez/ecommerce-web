@@ -10,20 +10,37 @@ import bcryptjs from 'bcryptjs';
 export const loginAction = async (values: z.infer<typeof loginSchema>) => {
   const { email, password } = values;
   try {
-    await signIn('credentials', {
-      email,
-      password,
-      redirect: false,
+    const user = await db.user.findMany({
+      where: {
+        email,
+      },
     });
-    return {
-      success: true,
-      message: 'Sesion iniciada',
-    };
+    if (user) {
+      await signIn('credentials', {
+        email,
+        password,
+        redirect: false,
+      });
+      return {
+        success: true,
+        message: 'Sesion iniciada',
+        name_user: user[0].name,
+      };
+    } else {
+      return {
+        success: false,
+        message: 'No se pudo iniciar sesion',
+      };
+    }
   } catch (error) {
     if (error instanceof AuthError) {
-      return { successs: false, error: error.cause?.err?.message };
+      return { success: false, message: error.cause?.err?.message };
     }
     console.log(error);
+    return {
+      success: false,
+      message: 'No se pudo iniciar sesion',
+    };
   }
 };
 
@@ -36,7 +53,7 @@ export const registerAction = async (
     if (!success) {
       return {
         success: false,
-        error: 'Revisa el formulario',
+        message: 'Revisa el formulario',
       };
     }
     // verificar si el usuario ya existe
@@ -49,7 +66,7 @@ export const registerAction = async (
     if (user) {
       return {
         success: false,
-        error: 'Ya existe un usuario con ese email',
+        message: 'Ya existe un usuario con ese email',
       };
     }
 
@@ -70,9 +87,13 @@ export const registerAction = async (
       name_user: data.name,
     };
   } catch (error) {
-    if (error instanceof AuthError) {
-      return { success: false, error: error.cause?.err?.message };
-    }
     console.log(error);
+    if (error instanceof AuthError) {
+      return { success: false, message: error.cause?.err?.message };
+    }
+    return {
+      success: false,
+      message: 'Hubo un error al crear la cuenta',
+    };
   }
 };
