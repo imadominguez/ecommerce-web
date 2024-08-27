@@ -1,6 +1,10 @@
 {
   "extends": "next/core-web-vitals",
   "plugins": [
-    "prettier-plugin-tailwindcss"
-  ]
+    "import"
+  ],
+  "rules": {
+    "no-unused-vars": "error",
+    "import/no-unused-modules": "error"
+  }
 }
