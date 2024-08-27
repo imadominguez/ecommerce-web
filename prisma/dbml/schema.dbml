@@ -22,6 +22,7 @@ Table Product {
   images String[] [not null]
   inDiscount Boolean [not null, default: false]
   discount Int
+  isActive Boolean [not null, default: true]
   brand Brand [not null]
   brandId String [not null]
   Category Category

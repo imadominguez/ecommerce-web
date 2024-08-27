@@ -42,6 +42,7 @@ model Product {
   images      String[]
   inDiscount  Boolean  @default(false)
   discount    Int?
+  isActive    Boolean  @default(true)
 
   // Relaciones
   brand        Brand          @relation(fields: [brandId], references: [id])
