@@ -1,40 +1,37 @@
-import NextAuth from 'next-auth';
-import authConfig from '@/auth.config';
 import { NextResponse } from 'next/server';
-
-const { auth: middleware } = NextAuth(authConfig);
+import { auth } from './auth';
 
 const publicRoutes = ['/', '/login', '/register', '/products'];
 
-export default middleware((req) => {
-  const { nextUrl, auth } = req;
-  const isLoggedIn = !!auth?.user;
-  const isAdmin = auth?.user.role === 'admin';
+export default auth((req) => {
+  const { nextUrl } = req;
+  const isLoggedIn = !!req.auth;
+
+  // Acceder al rol del usuario
+  const userRole = req.auth?.user?.role;
+  const isAdmin = userRole === 'admin';
+
+  console.log('Middleware - auth:', req.auth);
+  console.log('Middleware - userRole:', userRole);
+  console.log('Middleware - isAdmin:', isAdmin);
+
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
 
-  // Redirección a la página de inicio
-  const redirectToHome = NextResponse.redirect(new URL('/', nextUrl));
-
-  if (nextUrl.pathname.startsWith('/products/')) {
+  if (isPublicRoute) {
     return NextResponse.next();
   }
-  // Redirigir a la página de inicio si no es una ruta pública y el usuario no es un administrador
-  if (!isPublicRoute && !isAdmin) {
-    return redirectToHome;
+
+  if (!isLoggedIn) {
+    return NextResponse.redirect(new URL('/login', nextUrl));
   }
-  // Redirigir a la página de inicio si el usuario ya está autenticado y trata de acceder a /login o /register
-  if (isLoggedIn && ['/login', '/register'].includes(nextUrl.pathname)) {
-    return redirectToHome;
+
+  if (!isPublicRoute && !isAdmin) {
+    return NextResponse.redirect(new URL('/', nextUrl));
   }
 
   return NextResponse.next();
 });
 
 export const config = {
-  matcher: [
-    // Skip Next.js internals and all static files, unless found in search params
-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-    // Always run for API routes
-    '/(api|trpc)(.*)',
-  ],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 };
