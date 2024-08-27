@@ -11,8 +11,7 @@ interface Props {
 export default async function ProductsPage({ searchParams }: Props) {
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
 
-  const { products, currentPage, totalPages } = await getAllProducts({ page });
-  console.log(products[0].images);
+  const { products, totalPages } = await getAllProducts({ page });
   return (
     <div>
       <div className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 sm:pb-24 lg:max-w-7xl lg:px-8">

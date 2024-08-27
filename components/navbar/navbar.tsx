@@ -5,7 +5,7 @@ import { MenuIcon, ShoppingCartIcon } from 'lucide-react';
 import { Links } from './navbar-link';
 import { UserButton } from '../button/user-button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Button, buttonVariants } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { DashboardLink } from './dashboard-link';
 const LINKS_NAVBAR = [
   {

@@ -2,6 +2,7 @@ import { PageContainer } from '@/components/layout/page-container';
 import { Button } from '@/components/ui/button';
 import { db } from '@/lib/db';
 import { currencyFormat } from '@/utils/currencyFormat';
+import Image from 'next/image';
 
 interface Props {
   params: {
@@ -51,9 +52,11 @@ export default async function ProductDetailPage({ params: { slug } }: Props) {
         {/* Image gallery */}
         <div className="mx-auto max-w-2xl sm:px-6 lg:grid lg:gap-x-8 lg:px-8">
           <div className="aspect-h-1 aspect-w-2 overflow-hidden rounded-lg">
-            <img
+            <Image
               alt={product.images[0]}
               src={product.images[0]}
+              width={300}
+              height={300}
               className="h-full w-full object-cover object-center transition-transform hover:scale-125"
             />
           </div>
