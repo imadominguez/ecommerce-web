@@ -23,6 +23,7 @@ Table Product {
   inDiscount Boolean [not null, default: false]
   discount Int
   isActive Boolean [not null, default: true]
+  isFeatured Boolean [not null, default: false]
   brand Brand [not null]
   brandId String [not null]
   category Category

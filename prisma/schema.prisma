@@ -43,6 +43,7 @@ model Product {
   inDiscount  Boolean  @default(false)
   discount    Int?
   isActive    Boolean  @default(true)
+  isFeatured  Boolean  @default(false)
 
   // Relaciones
   brand        Brand          @relation(fields: [brandId], references: [id])
