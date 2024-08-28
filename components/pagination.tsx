@@ -61,6 +61,7 @@ export const Pagination = ({ totalPages }: Props) => {
               // className="mr-8 "
               href={createPageUrl(+currentPage - 1)}
               aria-disabled="true"
+              scroll={false}
             >
               <ArrowLeftCircleIcon size={20} />
             </Link>
@@ -70,16 +71,16 @@ export const Pagination = ({ totalPages }: Props) => {
           {allPages.map((page, index) => (
             <li key={`${page} + ${index} + 1`} className="page-item">
               <Link
-                
                 className={clsx(
-                  'relative z-10 inline-flex items-center rounded  px-4 py-2 text-sm font-semibold  focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary',
+                  'relative z-10 inline-flex items-center rounded px-4 py-2 text-sm font-semibold focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary',
                   {
-                    'bg-primary text-white  shadow-md hover:bg-primary/80':
+                    'bg-primary text-white shadow-md hover:bg-primary/80':
                       page === +currentPage,
                     'hover:bg-muted': page !== +currentPage,
-                  },
+                  }
                 )}
                 href={createPageUrl(page)}
+                scroll={false}
               >
                 {page}
               </Link>
@@ -91,6 +92,7 @@ export const Pagination = ({ totalPages }: Props) => {
             <Link
               // className='ml-8'
               href={createPageUrl(+currentPage + 1)}
+              scroll={false}
             >
               <ArrowRightCircleIcon size={20} />
             </Link>
