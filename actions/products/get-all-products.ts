@@ -1,5 +1,4 @@
 import { db } from '@/lib/db';
-import { unstable_noStore } from 'next/cache';
 
 interface PaginationOptions {
   page?: number;
@@ -21,13 +20,20 @@ export const getAllProducts = async ({
     skip: (page - 1) * take,
     take: take,
   });
-  if (!products.length) {
-    throw new Error('no se pudo cargar');
+  if (products.length === 0) {
+    return {
+      ok: false,
+      products: [],
+      totalPages: 0,
+      currentPage: 0,
+      totalProducts: 0,
+    };
   }
   const count = await db.product.count();
   const pages = Math.ceil(count / take);
 
   return {
+    ok: true,
     currentPage: page,
     totalPages: pages,
     products,
