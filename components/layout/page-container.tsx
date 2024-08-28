@@ -9,7 +9,7 @@ export const PageContainer = ({ children, className }: Props) => {
   return (
     <main
       className={cn(
-        'container flex flex-1 flex-col gap-4 p-0 md:gap-8 md:p-8 lg:px-12',
+        'mx-auto flex w-full max-w-7xl flex-1 flex-col px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10',
         className
       )}
     >

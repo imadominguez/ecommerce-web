@@ -10,7 +10,7 @@ import { DashboardLink } from './dashboard-link';
 const LINKS_NAVBAR = [
   {
     name: 'Nuestra empresa',
-    href: '#',
+    href: '/',
     isDisable: false,
   },
   {
