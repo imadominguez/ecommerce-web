@@ -25,7 +25,7 @@ Table Product {
   isActive Boolean [not null, default: true]
   brand Brand [not null]
   brandId String [not null]
-  Category Category
+  category Category
   categoryId String
   productImage ProductImage [not null]
   OrderItem OrderItem [not null]
