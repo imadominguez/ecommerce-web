@@ -30,6 +30,7 @@ export const LoginForm = () => {
 
   const [isPending, startTransition] = useTransition();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [typeInputPassword, setTypeInputPassword] =
     useState<TypeInputPassword>('password');
 
@@ -43,11 +44,13 @@ export const LoginForm = () => {
 
   async function onSubmit(values: z.infer<typeof loginSchema>) {
     setErrorMessage(null);
-
+    setIsSuccess(false);
     startTransition(async () => {
       const { success, message, name_user } = await loginAction(values);
       if (success) {
+        setIsSuccess(true);
         toast.success(`Bienvenido/a ${name_user}`);
+
         router.push('/');
       } else {
         toast.error(message);
@@ -115,6 +118,11 @@ export const LoginForm = () => {
             )}
           />
           {errorMessage && <FormMessage>{errorMessage}</FormMessage>}
+          {isSuccess && (
+            <FormMessage>
+              <span className="text-green-500">Ingreso exitoso</span>
+            </FormMessage>
+          )}
           <div>
             <Button
               className="w-full uppercase tracking-wider"
