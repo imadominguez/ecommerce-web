@@ -21,6 +21,8 @@ export const SearchInput = () => {
       params.delete('query');
     }
 
+    params.set('page', '1');
+
     replace(`${pathname}?${params.toString()}`);
   }, DEBOUNCE_DELAY);
 
