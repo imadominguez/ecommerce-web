@@ -8,7 +8,7 @@ interface PaginationOptions {
   inStock?: number | undefined;
 }
 
-export const getAllProducts = async ({
+export const getProducts = async ({
   page = 1,
   take = 12,
   title,
