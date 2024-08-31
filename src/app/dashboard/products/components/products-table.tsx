@@ -29,7 +29,7 @@ import Image from 'next/image';
 import { currencyFormat } from '@/utils/currencyFormat';
 
 import { PaginationProductsTable } from './pagination-products-table';
-import { getAllProducts } from '@/actions/products/get-all-products';
+import { getProducts } from '@/actions/products/get-products';
 
 interface Props {
   query?: string;
@@ -44,7 +44,7 @@ export const ProductsTable = async ({
   isActive,
   inStock,
 }: Props) => {
-  const { products, totalPages, totalProducts } = await getAllProducts({
+  const { products, totalPages, totalProducts } = await getProducts({
     title: query,
     page: currentPage,
     take: 10,

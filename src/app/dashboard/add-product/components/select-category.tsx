@@ -1,4 +1,4 @@
-import { getCategories } from '@/actions/products/get-all-categories';
+import { getCategories } from '@/actions/categories/get-categories';
 import {
   Select,
   SelectContent,
