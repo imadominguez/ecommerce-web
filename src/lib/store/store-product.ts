@@ -1,6 +1,6 @@
-import { Product } from "@/types/product";
-import { create } from "zustand";
-import { devtools } from "zustand/middleware";
+import { Product } from '@/types/product';
+import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
 interface ProductState {
   product: Product;
   addStock: () => void;
