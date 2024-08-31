@@ -4,9 +4,7 @@ import { Loader2, PlusCircle } from 'lucide-react';
 import { buttonVariants } from '@/components/ui/button';
 import { PageContainer } from '@/components/layout/page-container';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ProductsAllTable } from './components/products-all-table';
-import { ProductsInstockTable } from './components/products-instock-table';
-import { ProductsInactiveTable } from './components/products-inactive-table';
+import { ProductsTable } from './components/products-table';
 import { SkeletonTableProduct } from '@/components/product/skeleton/skeleton-table-product';
 
 export default function ProductsPage({
@@ -54,7 +52,7 @@ export default function ProductsPage({
             key={query ?? '' + currentPage}
             fallback={<SkeletonTableProduct />}
           >
-            <ProductsAllTable query={query} currentPage={currentPage} />
+            <ProductsTable query={query} currentPage={currentPage} />
           </Suspense>
         </TabsContent>
 
@@ -68,7 +66,11 @@ export default function ProductsPage({
               </div>
             }
           >
-            <ProductsInstockTable />
+            <ProductsTable
+              inStock={0}
+              query={query}
+              currentPage={currentPage}
+            />
           </Suspense>
         </TabsContent>
 
@@ -81,7 +83,11 @@ export default function ProductsPage({
               </div>
             }
           >
-            <ProductsInactiveTable />
+            <ProductsTable
+              isActive={false}
+              query={query}
+              currentPage={currentPage}
+            />
           </Suspense>
         </TabsContent>
       </Tabs>

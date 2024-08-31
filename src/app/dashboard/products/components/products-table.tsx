@@ -1,8 +1,8 @@
-import { db } from '@/lib/db';
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
@@ -15,29 +15,42 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { currencyFormat } from '@/utils/currencyFormat';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { EditIcon, MoreVerticalIcon, TrashIcon } from 'lucide-react';
 import Image from 'next/image';
-import { CardFooter } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { currencyFormat } from '@/utils/currencyFormat';
 
-export const ProductsInstockTable = async () => {
-  const products = await db.product.findMany({
-    where: {
-      inStock: 0,
-    },
+import { PaginationProductsTable } from './pagination-products-table';
+import { getAllProducts } from '@/actions/products/get-all-products';
+
+interface Props {
+  query?: string;
+  currentPage: number;
+  isActive?: boolean;
+  inStock?: number;
+}
+
+export const ProductsTable = async ({
+  query,
+  currentPage,
+  isActive,
+  inStock,
+}: Props) => {
+  const { products, totalPages, totalProducts } = await getAllProducts({
+    title: query,
+    page: currentPage,
+    take: 10,
+    isActive,
+    inStock,
   });
-
-  const totalProducts = products.length;
-  console.log(products);
 
   return (
     <Card>
@@ -125,10 +138,15 @@ export const ProductsInstockTable = async () => {
         </Table>
       </CardContent>
       <CardFooter>
-        <div className="text-xs text-muted-foreground">
-          Showing <strong>1-10</strong> of <strong>{totalProducts}</strong>{' '}
-          products
+        <div className="w-full flex-1 text-xs text-muted-foreground">
+          Mostrando{' '}
+          <strong>
+            {(currentPage - 1) * 10 + 1}-{currentPage * 10}
+          </strong>{' '}
+          de <strong>{totalProducts}</strong>{' '}
+          {totalProducts > 1 ? 'productos' : 'producto'}
         </div>
+        <PaginationProductsTable totalPages={totalPages} />
       </CardFooter>
     </Card>
   );

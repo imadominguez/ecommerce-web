@@ -4,12 +4,16 @@ interface PaginationOptions {
   page?: number;
   take?: number;
   title?: string;
+  isActive?: boolean;
+  inStock?: number | undefined;
 }
 
 export const getAllProducts = async ({
   page = 1,
   take = 12,
   title,
+  isActive,
+  inStock,
 }: PaginationOptions) => {
   if (isNaN(page)) {
     page = 1;
@@ -25,6 +29,8 @@ export const getAllProducts = async ({
           contains: title,
           mode: 'insensitive',
         },
+        isActive,
+        inStock,
       },
 
       skip: (page - 1) * take,
