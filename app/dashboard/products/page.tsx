@@ -7,11 +7,22 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ProductsAllTable } from './components/products-all-table';
 import { ProductsInstockTable } from './components/products-instock-table';
 import { ProductsInactiveTable } from './components/products-inactive-table';
+import { SkeletonTableProduct } from '@/components/product/skeleton/skeleton-table-product';
 
-export default function ProductsPage() {
+export default function ProductsPage({
+  searchParams,
+}: {
+  searchParams?: {
+    query?: string;
+    page?: string;
+  };
+}) {
+  const query = searchParams?.query || undefined;
+  const currentPage = Number(searchParams?.page) || 1;
   return (
     <PageContainer>
       <Tabs defaultValue="all">
+        {/* Tabs */}
         <div className="flex items-center justify-between">
           <TabsList className="grid w-max grid-cols-3">
             <TabsTrigger value="all">Todos</TabsTrigger>
@@ -31,18 +42,17 @@ export default function ProductsPage() {
           </Link>
         </div>
 
+        {/* All Products */}
         <TabsContent value="all">
           <Suspense
-            fallback={
-              <div className="flex h-full items-center justify-center">
-                <Loader2 className="h-4 w-4 animate-spin" />
-                <p>Cargando...</p>
-              </div>
-            }
+            key={query ?? '' + currentPage}
+            fallback={<SkeletonTableProduct />}
           >
-            <ProductsAllTable />
+            <ProductsAllTable query={query} currentPage={currentPage} />
           </Suspense>
         </TabsContent>
+
+        {/* Stock 0 */}
         <TabsContent value="stock-0">
           <Suspense
             fallback={

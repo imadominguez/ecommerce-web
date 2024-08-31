@@ -29,8 +29,33 @@ import { EditIcon, MoreVerticalIcon, TrashIcon } from 'lucide-react';
 import Image from 'next/image';
 import { currencyFormat } from '@/utils/currencyFormat';
 
-export const ProductsAllTable = async () => {
-  const products = await db.product.findMany();
+interface Props {
+  query?: string;
+  currentPage: number;
+}
+
+export const ProductsAllTable = async ({ query, currentPage }: Props) => {
+  const products = await db.product.findMany({
+    where: {
+      title: {
+        contains: query,
+        mode: 'insensitive',
+      },
+    },
+    take: 10,
+    skip: (currentPage - 1) * 10,
+  });
+
+  const count = await db.product.count({
+    where: {
+      title: {
+        contains: query,
+        mode: 'insensitive',
+      },
+    },
+    take: 10,
+    skip: (currentPage - 1) * 10,
+  });
 
   return (
     <Card>
@@ -119,7 +144,8 @@ export const ProductsAllTable = async () => {
       </CardContent>
       <CardFooter>
         <div className="text-xs text-muted-foreground">
-          Showing <strong>1-10</strong> of <strong>32</strong> products
+          Mostrando <strong>1-10</strong> de <strong>{count}</strong>{' '}
+          {count > 1 ? 'productos' : 'producto'}
         </div>
       </CardFooter>
     </Card>
