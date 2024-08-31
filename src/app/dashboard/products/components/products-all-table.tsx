@@ -1,4 +1,3 @@
-import { db } from '@/lib/db';
 import {
   Card,
   CardContent,
@@ -29,32 +28,19 @@ import { EditIcon, MoreVerticalIcon, TrashIcon } from 'lucide-react';
 import Image from 'next/image';
 import { currencyFormat } from '@/utils/currencyFormat';
 
+import { PaginationProductsTable } from './pagination-products-table';
+import { getAllProducts } from '@/actions/products/get-all-products';
+
 interface Props {
   query?: string;
   currentPage: number;
 }
 
 export const ProductsAllTable = async ({ query, currentPage }: Props) => {
-  const products = await db.product.findMany({
-    where: {
-      title: {
-        contains: query,
-        mode: 'insensitive',
-      },
-    },
+  const { products, totalPages, totalProducts } = await getAllProducts({
+    title: query,
+    page: currentPage,
     take: 10,
-    skip: (currentPage - 1) * 10,
-  });
-
-  const count = await db.product.count({
-    where: {
-      title: {
-        contains: query,
-        mode: 'insensitive',
-      },
-    },
-    take: 10,
-    skip: (currentPage - 1) * 10,
   });
 
   return (
@@ -143,10 +129,15 @@ export const ProductsAllTable = async ({ query, currentPage }: Props) => {
         </Table>
       </CardContent>
       <CardFooter>
-        <div className="text-xs text-muted-foreground">
-          Mostrando <strong>1-10</strong> de <strong>{count}</strong>{' '}
-          {count > 1 ? 'productos' : 'producto'}
+        <div className="w-full flex-1 text-xs text-muted-foreground">
+          Mostrando{' '}
+          <strong>
+            {(currentPage - 1) * 10 + 1}-{currentPage * 10}
+          </strong>{' '}
+          de <strong>{totalProducts}</strong>{' '}
+          {totalProducts > 1 ? 'productos' : 'producto'}
         </div>
+        <PaginationProductsTable totalPages={totalPages} />
       </CardFooter>
     </Card>
   );
