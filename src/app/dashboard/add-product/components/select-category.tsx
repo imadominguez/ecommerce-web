@@ -1,4 +1,7 @@
-import { getCategories } from '@/actions/categories/get-categories';
+'use client';
+
+import { useEffect } from 'react';
+
 import {
   Select,
   SelectContent,
@@ -7,44 +10,57 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { sleep } from '@/utils/sleep';
 import Link from 'next/link';
+import { useCategoryStore } from '@/store/category/useCategoryStore';
 
-export const SelectCategory = async () => {
-  await sleep(5);
+interface SelectCategoryProps {
+  value: string;
+  // eslint-disable-next-line no-unused-vars
+  onChange: (value: string) => void;
+}
 
-  const { ok, message, categories } = await getCategories();
+export const SelectCategory = ({ value, onChange }: SelectCategoryProps) => {
+  const { categories, loading, error, fetchCategories } = useCategoryStore();
 
-  if (!ok && message === 'No hay categorias creadas.') {
+  useEffect(() => {
+    fetchCategories();
+  }, [fetchCategories]);
+
+  if (loading) {
     return (
       <div className="grid w-full cursor-not-allowed place-content-center rounded bg-muted py-3">
-        <Link href={'/dashboard/category'}>Crear categoria</Link>
+        <small>Cargando categorías...</small>
       </div>
     );
   }
 
-  if (!ok) {
+  if (error) {
+    if (error === 'No hay categorias creadas.') {
+      return (
+        <div className="grid w-full cursor-not-allowed place-content-center rounded bg-muted py-3">
+          <Link href={'/dashboard/category'}>Crear categoria</Link>
+        </div>
+      );
+    }
     return (
       <div className="grid w-full cursor-not-allowed place-content-center rounded bg-muted py-3">
-        <small>{message}</small>
+        <small>{error}</small>
       </div>
     );
   }
 
   return (
-    <Select>
+    <Select value={value} onValueChange={onChange}>
       <SelectTrigger>
         <SelectValue placeholder={'Selecciona una categoria'} />
       </SelectTrigger>
       <SelectContent id="category">
         <SelectGroup>
-          {categories.map(({ id, name }) => {
-            return (
-              <SelectItem key={id} value={name}>
-                {name}
-              </SelectItem>
-            );
-          })}
+          {categories.map(({ id, name }) => (
+            <SelectItem key={id} value={name}>
+              {name}
+            </SelectItem>
+          ))}
         </SelectGroup>
       </SelectContent>
     </Select>
