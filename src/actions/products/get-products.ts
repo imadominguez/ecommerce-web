@@ -6,6 +6,7 @@ interface PaginationOptions {
   title?: string;
   isActive?: boolean;
   inStock?: number | undefined;
+  isFeatured?: boolean;
 }
 
 export const getProducts = async ({
@@ -14,6 +15,7 @@ export const getProducts = async ({
   title,
   isActive,
   inStock,
+  isFeatured,
 }: PaginationOptions) => {
   if (isNaN(page)) {
     page = 1;
@@ -31,6 +33,7 @@ export const getProducts = async ({
         },
         isActive,
         inStock,
+        isFeatured,
       },
 
       skip: (page - 1) * take,
