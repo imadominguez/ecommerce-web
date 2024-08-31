@@ -41,9 +41,9 @@ export default function AddProductPage() {
           </Badge>
           <div className="hidden items-center gap-2 md:ml-auto md:flex">
             <Button variant="outline" size="sm">
-              Discard
+              Descartar
             </Button>
-            <Button size="sm">Save Product</Button>
+            <Button size="sm">Guardar producto</Button>
           </div>
         </div>
         <div className="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">
