@@ -12,7 +12,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen w-full flex-col">
+    <div className="flex min-h-screen w-full flex-col bg-muted">
       <header className="sticky top-0 z-50 mx-auto flex h-16 w-full max-w-screen-2xl items-center justify-between gap-4 border-b bg-background px-4 md:px-6">
         <NavbarLinks />
         <Sheet>
