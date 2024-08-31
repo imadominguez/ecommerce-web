@@ -25,9 +25,15 @@ export default function ProductsPage({
         {/* Tabs */}
         <div className="flex items-center justify-between">
           <TabsList className="grid w-max grid-cols-3">
-            <TabsTrigger value="all">Todos</TabsTrigger>
-            <TabsTrigger value="stock-0">Sin stock</TabsTrigger>
-            <TabsTrigger value="disabled">Inactivos</TabsTrigger>
+            <TabsTrigger className="text-xs uppercase" value="all">
+              Todos
+            </TabsTrigger>
+            <TabsTrigger className="text-xs uppercase" value="stock-0">
+              Sin stock
+            </TabsTrigger>
+            <TabsTrigger className="text-xs uppercase" value="disabled">
+              Inactivos
+            </TabsTrigger>
           </TabsList>
           <Link
             href={'/dashboard/add-product'}
