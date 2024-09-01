@@ -43,7 +43,7 @@ const ProductDetails = ({
   initialStatus = false,
 }: ProductDetailsProps) => {
   const {
-    name,
+    title,
     description,
     inStock,
     category,
@@ -57,10 +57,10 @@ const ProductDetails = ({
     setStatus,
     clearStore: clearProductStore,
   } = useProductStore((state) => ({
-    name: state.name || initialName,
+    title: state.title || initialName,
     description: state.description || initialDescription,
     inStock: state.inStock || initialInStock,
-    category: state.category || initialCategory,
+    category: state.categoryId || initialCategory,
     isFeatured: state.isFeatured || initialIsFeatured,
     status: state.status || initialStatus,
     setName: state.setName,
@@ -97,7 +97,7 @@ const ProductDetails = ({
               type="text"
               className="w-full"
               placeholder="Ingresa el nombre..."
-              value={name}
+              value={title}
               onChange={(e) => setName(e.target.value)}
             />
           </div>

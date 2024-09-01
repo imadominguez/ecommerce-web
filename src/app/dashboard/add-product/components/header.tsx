@@ -7,6 +7,7 @@ import { useCategoryStore } from '@/store/category/useCategoryStore';
 import { useProductStore } from '@/store/product/useProductStore';
 
 import { useRouter } from 'next/navigation';
+import SaveProductButton from './save-product-button';
 
 export const Header = () => {
   const { clearStore: clearProductStore } = useProductStore((state) => ({
@@ -42,9 +43,7 @@ export const Header = () => {
         >
           Descartar
         </Button>
-        <Button size="sm" className="uppercase tracking-tight">
-          Guardar producto
-        </Button>
+        <SaveProductButton />
       </div>
     </div>
   );

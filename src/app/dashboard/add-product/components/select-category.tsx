@@ -57,7 +57,7 @@ export const SelectCategory = ({ value, onChange }: SelectCategoryProps) => {
       <SelectContent id="category">
         <SelectGroup>
           {categories.map(({ id, name }) => (
-            <SelectItem key={id} value={name}>
+            <SelectItem key={id} value={id}>
               {name}
             </SelectItem>
           ))}

@@ -5,6 +5,7 @@ import { useCategoryStore } from '@/store/category/useCategoryStore';
 import { useProductStore } from '@/store/product/useProductStore';
 import { useRouter } from 'next/navigation';
 import React from 'react';
+import SaveProductButton from './save-product-button';
 
 export const Footer = () => {
   const { clearStore: clearProductStore } = useProductStore((state) => ({
@@ -32,9 +33,7 @@ export const Footer = () => {
       >
         Descartar
       </Button>
-      <Button size="sm" className="uppercase tracking-tight">
-        Guardar producto
-      </Button>
+      <SaveProductButton />
     </div>
   );
 };
