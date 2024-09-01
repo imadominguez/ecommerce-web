@@ -3,14 +3,14 @@ import create from 'zustand';
 import { persist } from 'zustand/middleware';
 
 interface ProductState {
-  name: string;
+  title: string;
   description: string;
   inStock: number;
-  category: string;
+  categoryId: string;
   isFeatured: boolean;
   status: boolean;
   images: string[];
-  setName: (name: string) => void;
+  setName: (title: string) => void;
   setDescription: (description: string) => void;
   setInStock: (inStock: number) => void;
   setCategory: (category: string) => void;
@@ -24,27 +24,27 @@ interface ProductState {
 export const useProductStore = create<ProductState>()(
   persist(
     (set) => ({
-      name: '',
+      title: '',
       description: '',
       inStock: 0,
-      category: '',
+      categoryId: '',
       isFeatured: false,
       status: false,
       images: [],
-      setName: (name) => set({ name }),
+      setName: (title) => set({ title }),
       setDescription: (description) => set({ description }),
       setInStock: (inStock) => set({ inStock }),
-      setCategory: (category) => set({ category }),
+      setCategory: (categoryId) => set({ categoryId }),
       setIsFeatured: (isFeatured) => set({ isFeatured }),
       setStatus: (status) => set({ status }),
       setImages: (images) => set({ images }),
       clearImages: () => set({ images: [] }),
       clearStore: () =>
         set({
-          name: '',
+          title: '',
           description: '',
           inStock: 0,
-          category: '',
+          categoryId: '',
           isFeatured: false,
           status: false,
           images: [],
