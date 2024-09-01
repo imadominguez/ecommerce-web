@@ -17,14 +17,14 @@ export const {
       if (user) {
         token.role = user.role;
       }
-      console.log('JWT callback - token:', token);
+
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
         session.user.role = token.role;
       }
-      console.log('Session callback - session:', session);
+
       return session;
     },
   },
