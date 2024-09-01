@@ -2,22 +2,23 @@
 
 import Image from 'next/image';
 
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination } from 'swiper/modules';
+// import { Swiper, SwiperSlide } from 'swiper/react';
+// import { Pagination } from 'swiper/modules';
 
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import { Images } from '@/types/carrousel-images';
+// import 'swiper/css';
+// import 'swiper/css/navigation';
+// import 'swiper/css/pagination';
+// import { Images } from '@/types/carrousel-images';
 import { Button } from './ui/button';
 
-interface Props {
-  images: Images[];
-  loop: boolean;
-  delay: number;
-}
+// interface Props {
+//   images: Images[];
+//   loop: boolean;
+//   delay: number;
+// }
 
-export const Carrousel = ({ images, delay, loop }: Props) => {
+// export const Carrousel = ({ images, delay, loop }: Props) => {
+export const Carrousel = () => {
   return (
     // <div>
     //   <Swiper

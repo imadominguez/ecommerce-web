@@ -1,6 +1,6 @@
-import { db } from "../db";
+import { db } from '../db';
 
-import { initialData } from "./seed";
+import { initialData } from './seed';
 
 async function main() {
   await db.orderAddress.deleteMany();
@@ -15,7 +15,7 @@ async function main() {
   await db.user.deleteMany();
   await db.country.deleteMany();
   await db.category.deleteMany();
-  console.log("✅ Registros borrados");
+  console.log('✅ Registros borrados');
   // Obtén los datos de prueba
   const { brand, countries, products, users, categories } = initialData;
   // Crea registros de categorías
@@ -43,30 +43,31 @@ async function main() {
 
   // Crea registros de productos con imágenes y categorías asignadas aleatoriamente
   for (let i = 0; i < products.length; i++) {
-    const newProduct = await db.product.create({
+    await db.product.create({
       data: {
         title: `Producto ${i + 1}`,
         description: `Descripción del producto ${i + 1}`,
         price: Math.floor(Math.random() * 1000),
-        color: "black",
+        color: 'black',
         inStock: Math.floor(Math.random() * 100),
         slug: `producto-${i + 1}`,
-        categoryId: categoriesDB[Math.floor(Math.random() * categoriesDB.length)].id,
-        tags: ["tag1", "tag2"],
+        categoryId:
+          categoriesDB[Math.floor(Math.random() * categoriesDB.length)].id,
+        tags: ['tag1', 'tag2'],
         images: [...(products[i].images ?? [])] || [],
         brandId: brandDB[Math.floor(Math.random() * brandDB.length)].id,
       },
     });
   }
 
-  console.log("✅ Productos creados");
+  console.log('✅ Productos creados');
 
   users.forEach(async (user) => {
     await db.user.create({
       data: user,
     });
   });
-  console.log("✅ Usuarios creados");
+  console.log('✅ Usuarios creados');
 
   countries.forEach(async (country) => {
     await db.country.create({
@@ -74,11 +75,11 @@ async function main() {
     });
   });
 
-  console.log(" ");
-  console.log("✅ Seed ejecutado con éxito");
+  console.log(' ');
+  console.log('✅ Seed ejecutado con éxito');
 }
 
 (() => {
-  if (process.env.NODE_ENV === "production") return;
+  if (process.env.NODE_ENV === 'production') return;
   main();
 })();

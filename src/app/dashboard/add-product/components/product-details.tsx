@@ -49,12 +49,14 @@ const ProductDetails = ({
     category,
     isFeatured,
     status,
+    price,
     setName,
     setDescription,
+    setPrice,
     setInStock,
+    setIsActive,
     setCategory,
     setIsFeatured,
-    setStatus,
     clearStore: clearProductStore,
   } = useProductStore((state) => ({
     title: state.title || initialName,
@@ -62,13 +64,16 @@ const ProductDetails = ({
     inStock: state.inStock || initialInStock,
     category: state.categoryId || initialCategory,
     isFeatured: state.isFeatured || initialIsFeatured,
-    status: state.status || initialStatus,
+    status: state.isActive || initialStatus,
+    price: state.price || 0,
     setName: state.setName,
     setDescription: state.setDescription,
+    setPrice: state.setPrice,
+    setIsActive: state.setIsActive,
     setInStock: state.setInStock,
     setCategory: state.setCategory,
     setIsFeatured: state.setIsFeatured,
-    setStatus: state.setStatus,
+
     clearStore: state.clearStore,
   }));
 
@@ -114,6 +119,17 @@ const ProductDetails = ({
         </div>
         <div className="mt-3 grid grid-cols-2 place-content-center gap-3">
           <div className="grid gap-2">
+            <Label htmlFor="price">Precio</Label>
+            <Input
+              id="price"
+              name="price"
+              type="number"
+              min={0}
+              value={price}
+              onChange={(e) => setPrice(Number(e.target.value))}
+            />
+          </div>
+          <div className="grid gap-2">
             <Label htmlFor="inStock">Stock</Label>
             <Input
               id="inStock"
@@ -124,6 +140,8 @@ const ProductDetails = ({
               onChange={(e) => setInStock(Number(e.target.value))}
             />
           </div>
+        </div>
+        <div className="mt-3 grid grid-cols-2 place-content-center gap-3">
           <div className="grid gap-2">
             <Label htmlFor="category">Categoria</Label>
             <SelectCategory
@@ -131,8 +149,6 @@ const ProductDetails = ({
               onChange={(value) => setCategory(value)}
             />
           </div>
-        </div>
-        <div className="mt-3 grid grid-cols-2 place-content-center gap-3">
           <div className="grid gap-2">
             <Label htmlFor="isFeatured">Destacado</Label>
             <Select
@@ -152,11 +168,13 @@ const ProductDetails = ({
               </SelectContent>
             </Select>
           </div>
+        </div>
+        <div className="mt-3 grid grid-cols-2 place-content-center gap-3">
           <div className="grid gap-2">
             <Label htmlFor="status">Status</Label>
             <Select
               value={status ? 'true' : 'false'}
-              onValueChange={(value) => setStatus(value === 'true')}
+              onValueChange={(value) => setIsActive(value === 'true')}
             >
               <SelectTrigger id="status" aria-label="Select status">
                 <SelectValue placeholder="Selecciona el status" />

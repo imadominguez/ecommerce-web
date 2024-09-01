@@ -5,18 +5,32 @@ import { persist } from 'zustand/middleware';
 interface ProductState {
   title: string;
   description: string;
+  price: number;
+  color?: 'blue' | 'red' | 'black' | 'yellow' | 'magenta' | undefined;
   inStock: number;
-  categoryId: string;
-  isFeatured: boolean;
-  status: boolean;
+  slug: string;
+  tags: string[];
   images: string[];
+  inDiscount: boolean;
+  discount: number;
+  isActive: boolean;
+  isFeatured: boolean;
+  brandId: string;
+  categoryId: string;
   setName: (title: string) => void;
   setDescription: (description: string) => void;
   setInStock: (inStock: number) => void;
   setCategory: (category: string) => void;
   setIsFeatured: (isFeatured: boolean) => void;
-  setStatus: (status: boolean) => void;
   setImages: (images: string[]) => void;
+  setIsActive: (isActive: boolean) => void;
+  setInDiscount: (inDiscount: boolean) => void;
+  setDiscount: (discount: number) => void;
+  setPrice: (price: number) => void;
+  setColor: (color: 'blue' | 'red' | 'black' | 'yellow' | 'magenta') => void;
+  setSlug: (slug: string) => void;
+  setTags: (tags: string[]) => void;
+  setBrand: (brandId: string) => void;
   clearImages: () => void;
   clearStore: () => void;
 }
@@ -31,13 +45,29 @@ export const useProductStore = create<ProductState>()(
       isFeatured: false,
       status: false,
       images: [],
+      price: 0,
+      color: undefined,
+      slug: '',
+      tags: [],
+      inDiscount: false,
+      discount: 0,
+      isActive: false,
+      brandId: '',
+
       setName: (title) => set({ title }),
       setDescription: (description) => set({ description }),
       setInStock: (inStock) => set({ inStock }),
       setCategory: (categoryId) => set({ categoryId }),
       setIsFeatured: (isFeatured) => set({ isFeatured }),
-      setStatus: (status) => set({ status }),
       setImages: (images) => set({ images }),
+      setIsActive: (isActive) => set({ isActive }),
+      setInDiscount: (inDiscount) => set({ inDiscount }),
+      setDiscount: (discount) => set({ discount }),
+      setPrice: (price) => set({ price }),
+      setColor: (color) => set({ color }),
+      setSlug: (slug) => set({ slug }),
+      setTags: (tags) => set({ tags }),
+      setBrand: (brandId) => set({ brandId }),
       clearImages: () => set({ images: [] }),
       clearStore: () =>
         set({
@@ -46,7 +76,14 @@ export const useProductStore = create<ProductState>()(
           inStock: 0,
           categoryId: '',
           isFeatured: false,
-          status: false,
+          isActive: false,
+          inDiscount: false,
+          discount: 0,
+          price: 0,
+          color: undefined,
+          slug: '',
+          tags: [],
+          brandId: '',
           images: [],
         }),
     }),

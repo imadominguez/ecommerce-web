@@ -1,7 +1,7 @@
 import { Carrousel } from '@/components/carrousel';
 import { PageContainer } from '@/components/layout/page-container';
 
-import { CARROUSEL_IMAGES_HOME } from '@/lib/constant';
+// import { CARROUSEL_IMAGES_HOME } from '@/lib/constant';
 
 import { ProductsFeatured } from './components/products-featured';
 import { Suspense } from 'react';
@@ -9,7 +9,8 @@ import { Suspense } from 'react';
 export default async function Home() {
   return (
     <PageContainer>
-      <Carrousel images={CARROUSEL_IMAGES_HOME} delay={1000} loop />
+      {/* <Carrousel images={CARROUSEL_IMAGES_HOME} delay={1000} loop /> */}
+      <Carrousel />
 
       <Suspense
         fallback={

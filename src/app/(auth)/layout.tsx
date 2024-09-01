@@ -1,6 +1,4 @@
-import { auth } from '@/auth';
 import { Navbar } from '@/components/navbar/navbar';
-import { redirect } from 'next/navigation';
 
 export default async function AuthLayout({
   children,

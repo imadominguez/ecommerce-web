@@ -14,6 +14,8 @@ import { useProductStore } from '@/store/product/useProductStore';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { useEffect } from 'react';
 
 const PRODUCT_IMAGE_PLACEHOLDER = '/imgs/placeholder.jpg';
 
@@ -27,7 +29,26 @@ export const ProductImages = () => {
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || []);
     const newImages = files.map((file) => URL.createObjectURL(file));
+
+    const updatedImages = [...images, ...newImages];
     setImages([...images, ...newImages]);
+    localStorage.setItem('productImages', JSON.stringify(updatedImages));
+  };
+
+  useEffect(() => {
+    const storedImages = localStorage.getItem('productImages');
+    if (storedImages) {
+      setImages(JSON.parse(storedImages));
+    }
+    return () => {
+      clearImages();
+      localStorage.removeItem('productImages');
+    };
+  }, [clearImages, setImages]);
+
+  const handleClearImages = () => {
+    clearImages();
+    localStorage.removeItem('productImages');
   };
 
   return (
@@ -41,21 +62,34 @@ export const ProductImages = () => {
       </CardHeader>
       <CardContent>
         <div className="grid gap-2">
-          <p>
-            <span className="font-semibold">Nota:</span> Puedes subir hasta 5
-            imágenes.
+          <p className="text-sm text-muted-foreground">
+            <span className="font-semibold">Nota:</span>{' '}
+            <small>Solo formato .png</small>
           </p>
           <div className="grid grid-cols-3 gap-2">
             {images.length === 0 ? (
               <>
                 <div className="col-span-3">
-                  <Image
-                    alt="Placeholder"
-                    className="aspect-square w-full rounded-md object-cover"
-                    height={300}
-                    src={PRODUCT_IMAGE_PLACEHOLDER}
-                    width={300}
-                  />
+                  <Dialog>
+                    <DialogTrigger>
+                      <Image
+                        alt="Placeholder"
+                        className="aspect-square w-full rounded-md object-cover"
+                        height={300}
+                        src={PRODUCT_IMAGE_PLACEHOLDER}
+                        width={300}
+                      />
+                    </DialogTrigger>
+                    <DialogContent>
+                      <Image
+                        alt="Placeholder"
+                        className="aspect-square w-full rounded-md object-cover"
+                        height={300}
+                        src={PRODUCT_IMAGE_PLACEHOLDER}
+                        width={300}
+                      />
+                    </DialogContent>
+                  </Dialog>
                 </div>
                 <Image
                   alt="Placeholder"
@@ -75,13 +109,26 @@ export const ProductImages = () => {
             ) : images.length === 1 ? (
               <>
                 <div className="col-span-3">
-                  <Image
-                    alt="Product Image"
-                    className="aspect-square w-full rounded-md object-cover"
-                    height={300}
-                    src={images[0]}
-                    width={300}
-                  />
+                  <Dialog>
+                    <DialogTrigger>
+                      <Image
+                        alt="Product Image"
+                        className="aspect-square w-full rounded-md object-cover"
+                        height={300}
+                        src={images[0]}
+                        width={300}
+                      />
+                    </DialogTrigger>
+                    <DialogContent>
+                      <Image
+                        alt="Product Image"
+                        className="aspect-square w-full rounded-md object-cover"
+                        height={300}
+                        src={images[0]}
+                        width={300}
+                      />
+                    </DialogContent>
+                  </Dialog>
                 </div>
                 <Image
                   alt="Placeholder"
@@ -101,23 +148,48 @@ export const ProductImages = () => {
             ) : (
               <>
                 <div className="col-span-3">
-                  <Image
-                    alt="Product Image"
-                    className="aspect-square w-full rounded-md object-cover"
-                    height={300}
-                    src={images[0]}
-                    width={300}
-                  />
+                  <Dialog>
+                    <DialogTrigger>
+                      <Image
+                        alt="Product Image"
+                        className="aspect-square w-full rounded-md object-cover"
+                        height={300}
+                        src={images[0]}
+                        width={300}
+                      />
+                    </DialogTrigger>
+                    <DialogContent>
+                      <Image
+                        alt="Product Image"
+                        className="aspect-square w-full rounded-md object-cover"
+                        height={300}
+                        src={images[0]}
+                        width={300}
+                      />
+                    </DialogContent>
+                  </Dialog>
                 </div>
                 {images.slice(1).map((image, index) => (
-                  <Image
-                    alt="Product Image"
-                    className="aspect-square w-full rounded-md object-cover"
-                    height={300}
-                    key={index}
-                    src={image}
-                    width={300}
-                  />
+                  <Dialog key={index}>
+                    <DialogTrigger key={index}>
+                      <Image
+                        alt="Product Image"
+                        className="aspect-square w-full rounded-md object-cover"
+                        height={300}
+                        src={image}
+                        width={300}
+                      />
+                    </DialogTrigger>
+                    <DialogContent>
+                      <Image
+                        alt="Product Image"
+                        className="aspect-square w-full rounded-md object-cover"
+                        height={300}
+                        src={image}
+                        width={300}
+                      />
+                    </DialogContent>
+                  </Dialog>
                 ))}
               </>
             )}
@@ -142,7 +214,7 @@ export const ProductImages = () => {
             <Button
               variant={'secondary'}
               className="w-full"
-              onClick={clearImages}
+              onClick={handleClearImages}
             >
               Limpiar
             </Button>
