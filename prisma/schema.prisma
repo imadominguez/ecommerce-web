@@ -46,11 +46,12 @@ model Product {
   isFeatured  Boolean  @default(false)
 
   // Relaciones
-  brand        Brand          @relation(fields: [brandId], references: [id])
-  brandId      String
-  category     Category?      @relation(fields: [categoryId], references: [id])
-  categoryId   String?
-  productImage ProductImage[]
+  brand      Brand     @relation(fields: [brandId], references: [id])
+  brandId    String
+  category   Category? @relation(fields: [categoryId], references: [id])
+  categoryId String?
+
+  ProductImage ProductImage[]
   OrderItem    OrderItem[]
   Comment      Comment[]
 

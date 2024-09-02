@@ -9,10 +9,10 @@ interface ProductState {
   color?: 'blue' | 'red' | 'black' | 'yellow' | 'magenta' | undefined;
   inStock: number;
   slug: string;
-  tags: string[];
-  images: string[];
+  tags: string;
+  images: File[];
   inDiscount: boolean;
-  discount: number;
+  discount: number | null;
   isActive: boolean;
   isFeatured: boolean;
   brandId: string;
@@ -22,14 +22,14 @@ interface ProductState {
   setInStock: (inStock: number) => void;
   setCategory: (category: string) => void;
   setIsFeatured: (isFeatured: boolean) => void;
-  setImages: (images: string[]) => void;
+  setImages: (images: File[]) => void;
   setIsActive: (isActive: boolean) => void;
   setInDiscount: (inDiscount: boolean) => void;
   setDiscount: (discount: number) => void;
   setPrice: (price: number) => void;
   setColor: (color: 'blue' | 'red' | 'black' | 'yellow' | 'magenta') => void;
   setSlug: (slug: string) => void;
-  setTags: (tags: string[]) => void;
+  setTags: (tags: string) => void;
   setBrand: (brandId: string) => void;
   clearImages: () => void;
   clearStore: () => void;
@@ -48,9 +48,9 @@ export const useProductStore = create<ProductState>()(
       price: 0,
       color: undefined,
       slug: '',
-      tags: [],
+      tags: '',
       inDiscount: false,
-      discount: 0,
+      discount: null,
       isActive: false,
       brandId: '',
 
@@ -82,7 +82,7 @@ export const useProductStore = create<ProductState>()(
           price: 0,
           color: undefined,
           slug: '',
-          tags: [],
+          tags: '',
           brandId: '',
           images: [],
         }),

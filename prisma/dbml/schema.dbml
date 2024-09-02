@@ -28,7 +28,7 @@ Table Product {
   brandId String [not null]
   category Category
   categoryId String
-  productImage ProductImage [not null]
+  ProductImage ProductImage [not null]
   OrderItem OrderItem [not null]
   Comment Comment [not null]
   createdAt DateTime [default: `now()`, not null]
