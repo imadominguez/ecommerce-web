@@ -1,6 +1,5 @@
-import { db } from '../db';
-
 import { initialData } from './seed';
+import { db } from '../db';
 
 async function main() {
   await db.orderAddress.deleteMany();

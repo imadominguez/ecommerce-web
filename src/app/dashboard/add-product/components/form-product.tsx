@@ -1,9 +1,11 @@
 'use client';
 
-import { z } from 'zod';
+import { set, z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+
+import { Switch } from '@/components/ui/switch';
 
 import {
   Select,
@@ -27,6 +29,7 @@ import Image from 'next/image';
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -35,22 +38,64 @@ import {
 import { useForm } from 'react-hook-form';
 import { Brand, Category } from '@prisma/client';
 import { useState } from 'react';
+import {
+  DollarSign,
+  LoaderCircleIcon,
+  Package,
+  Percent,
+  Upload,
+} from 'lucide-react';
+import { Label } from '@/components/ui/label';
+import { createProduct } from '@/actions/products/create-product';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 const PRODUCT_IMAGE_PLACEHOLDER = '/imgs/placeholder.jpg';
 
+const COLORS = ['blue', 'black', 'magenta', 'yellow'];
+
 const formSchema = z.object({
-  title: z.string(),
-  description: z.string(),
-  inStock: z.string(),
-  categoryId: z.string(),
-  isFeatured: z.string(),
-  brandId: z.string(),
-  file: z
-    .custom<FileList>()
-    .refine((files) => files.length > 0, 'Debe seleccionar un archivo'),
+  title: z
+    .string()
+    .min(3, 'El nombre debe tener al menos 3 caracteres')
+    .refine((value) => value.trim() !== '', 'El nombre no puede estar vacío'),
+  description: z
+    .string()
+    .min(10, 'La descripción debe tener al menos 10 caracteres'),
+  price: z.string().refine((value) => parseFloat(value) > 0, {
+    message: 'El precio debe ser mayor a 0',
+  }),
+  color: z.string().or(z.null()),
+  inStock: z.string().refine((value) => parseInt(value) >= 0, {
+    message: 'El stock debe ser mayor o igual a 0',
+  }),
+  categoryId: z.string().refine((value) => value !== '', {
+    message: 'Debes seleccionar una categoría',
+  }),
+  brandId: z.string().refine((value) => value !== '', {
+    message: 'Debes seleccionar una marca',
+  }),
   isActive: z.string(),
-  price: z.string(),
-  tags: z.string(),
+  isFeatured: z.string(),
+  tags: z.string().refine((value) => value.trim() !== '', {
+    message: 'Debes ingresar al menos un tag',
+  }),
+  file: z.any(),
+  inDiscount: z.boolean(),
+  discountPercentage: z
+    .string()
+    .optional()
+    .refine(
+      (val) => {
+        if (val === '') return true;
+        if (typeof val === 'undefined') return false;
+        const num = parseFloat(val);
+        return !isNaN(num) && num > 0 && num <= 100;
+      },
+      {
+        message: 'El porcentaje de descuento debe ser un número entre 0 y 100',
+      }
+    ),
 });
 
 interface Props {
@@ -59,35 +104,82 @@ interface Props {
 }
 
 export const FormProduct = ({ categories, brands }: Props) => {
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: '',
       description: '',
-      inStock: '0',
+      inStock: '',
       categoryId: '',
       isFeatured: 'false',
+      color: null,
       isActive: 'false',
       brandId: '',
-      price: '0',
+      price: '',
       tags: '',
+      inDiscount: false,
+      discountPercentage: '',
     },
   });
 
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+  const [files, setFiles] = useState<FileList | null>(null);
+  const [isColor, setIsColor] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log({ values });
-  }
-
-  const handleFileChange = (files: FileList | null) => {
-    if (files) {
-      const fileArray = Array.from(files);
+  const handleFileChange = (fileList: FileList | null) => {
+    if (fileList) {
+      const fileArray = Array.from(fileList);
       const previews = fileArray.map((file) => URL.createObjectURL(file));
-      setImagePreviews(previews);
-      form.setValue('file', files);
+      setImagePreviews((prev) => [...prev, ...previews]);
+      setFiles(fileList);
     }
   };
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log({ values, files });
+
+    const formData = new FormData();
+    formData.append('title', values.title);
+    formData.append('description', values.description);
+    formData.append('price', values.price);
+    formData.append('inStock', values.inStock);
+    formData.append('categoryId', values.categoryId);
+    formData.append('brandId', values.brandId);
+    formData.append('isActive', values.isActive);
+    formData.append('isFeatured', values.isFeatured);
+    formData.append('tags', values.tags);
+    formData.append('color', values.color ?? '');
+    formData.append('slug', values.title.toLowerCase().replace(/ /g, '-'));
+    formData.append('inDiscount', values.inDiscount.toString());
+    formData.append('discount', values.discountPercentage?.toString() ?? '');
+    if (files) {
+      for (let i = 0; i < files.length; i++) {
+        formData.append('file', files[i]);
+      }
+    }
+
+    console.log({
+      formData: formData.forEach((value, key) => console.log(key, value)),
+    });
+
+    setIsLoading(true);
+    const { ok, message } = await createProduct(formData);
+
+    if (ok) {
+      form.reset();
+      setImagePreviews([]);
+      setIsLoading(false);
+      setIsColor(false);
+      toast.success('Producto creado con éxito');
+      router.push('/dashboard/products');
+    } else {
+      console.error({ message });
+      setIsLoading(false);
+      toast.error('Ocurrió un error al crear el producto');
+      // alert('Ocurrió un error al crear el producto');
+    }
+  }
 
   return (
     <Form {...form}>
@@ -99,9 +191,6 @@ export const FormProduct = ({ categories, brands }: Props) => {
           <Card x-chunk="dashboard-07-chunk-0">
             <CardHeader>
               <CardTitle>Detalle del producto</CardTitle>
-              <CardDescription>
-                Ingresa los detalles del producto, como su nombre y descripción.
-              </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid gap-6">
@@ -144,7 +233,7 @@ export const FormProduct = ({ categories, brands }: Props) => {
                   />
                 </div>
               </div>
-              <div className="mt-3 grid grid-cols-2 place-content-center gap-3">
+              <div className="mt-3 grid w-full gap-3 sm:grid-cols-2">
                 <div className="grid gap-2">
                   <FormField
                     control={form.control}
@@ -153,13 +242,19 @@ export const FormProduct = ({ categories, brands }: Props) => {
                       <FormItem>
                         <FormLabel>Precio</FormLabel>
                         <FormControl>
-                          <Input
-                            type="number"
-                            placeholder="Ingresa el precio..."
-                            {...field}
-                          />
+                          <div className="relative">
+                            <DollarSign className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
+                            <Input
+                              type="number"
+                              placeholder="0.00"
+                              {...field}
+                              className="pl-9 pr-12"
+                            />
+                            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-500">
+                              ARS
+                            </span>
+                          </div>
                         </FormControl>
-
                         <FormMessage />
                       </FormItem>
                     )}
@@ -173,20 +268,23 @@ export const FormProduct = ({ categories, brands }: Props) => {
                       <FormItem>
                         <FormLabel>En stock</FormLabel>
                         <FormControl>
-                          <Input
-                            type="number"
-                            placeholder="Ingresa la cantidad en stock..."
-                            {...field}
-                          />
+                          <div className="relative">
+                            <Package className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
+                            <Input
+                              type="number"
+                              placeholder="0"
+                              {...field}
+                              className="pl-9"
+                            />
+                          </div>
                         </FormControl>
-
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                 </div>
               </div>
-              <div className="mt-3 grid grid-cols-2 place-content-center gap-3">
+              <div className="mt-3 grid gap-3 sm:grid-cols-2">
                 <div className="grid gap-2">
                   <FormField
                     control={form.control}
@@ -197,7 +295,7 @@ export const FormProduct = ({ categories, brands }: Props) => {
                         <FormControl>
                           <Select
                             onValueChange={field.onChange}
-                            defaultValue={field.value}
+                            defaultValue={field.value ?? undefined}
                           >
                             <SelectTrigger>
                               <SelectValue placeholder="Selecciona una categoria" />
@@ -252,7 +350,7 @@ export const FormProduct = ({ categories, brands }: Props) => {
                   />
                 </div>
               </div>
-              <div className="mt-3 grid grid-cols-2 place-content-center gap-3">
+              <div className="mt-3 grid gap-3 sm:grid-cols-2">
                 <div className="grid gap-2">
                   <FormField
                     control={form.control}
@@ -263,14 +361,16 @@ export const FormProduct = ({ categories, brands }: Props) => {
                         <FormControl>
                           <Select
                             onValueChange={field.onChange}
-                            defaultValue={field.value}
+                            defaultValue={field.value ?? undefined}
                           >
                             <SelectTrigger>
                               <SelectValue placeholder="Selecciona un estado" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="true">Activo</SelectItem>
-                              <SelectItem value="false">Inactivo</SelectItem>
+                              <SelectGroup>
+                                <SelectItem value="true">Activo</SelectItem>
+                                <SelectItem value="false">Inactivo</SelectItem>
+                              </SelectGroup>
                             </SelectContent>
                           </Select>
                         </FormControl>
@@ -290,14 +390,18 @@ export const FormProduct = ({ categories, brands }: Props) => {
                         <FormControl>
                           <Select
                             onValueChange={field.onChange}
-                            defaultValue={field.value}
+                            defaultValue={field.value ?? undefined}
                           >
                             <SelectTrigger>
                               <SelectValue placeholder="Selecciona un estado" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="true">Si</SelectItem>
-                              <SelectItem value="false">No</SelectItem>
+                              <SelectGroup>
+                                <SelectItem value="true">Destacado</SelectItem>
+                                <SelectItem value="false">
+                                  No destacado
+                                </SelectItem>
+                              </SelectGroup>
                             </SelectContent>
                           </Select>
                         </FormControl>
@@ -328,22 +432,124 @@ export const FormProduct = ({ categories, brands }: Props) => {
                   tag1,tag2,tag3
                 </small>
               </div>
+              <div className="mt-3">
+                <FormDescription>
+                  ¿Deseas agregar un color al producto?
+                </FormDescription>
+                <Switch onCheckedChange={() => setIsColor(!isColor)} />
+
+                {isColor && (
+                  <div>
+                    <FormField
+                      control={form.control}
+                      name="color"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Color</FormLabel>
+                          <FormControl>
+                            <Select
+                              onValueChange={field.onChange}
+                              defaultValue={field.value ?? undefined}
+                            >
+                              <SelectTrigger>
+                                <SelectValue placeholder="Selecciona un color" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectGroup>
+                                  {COLORS.map((color) => (
+                                    <SelectItem
+                                      key={color}
+                                      value={color}
+                                      className="capitalize"
+                                    >
+                                      {color}
+                                    </SelectItem>
+                                  ))}
+                                </SelectGroup>
+                              </SelectContent>
+                            </Select>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                )}
+              </div>
+              <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                <div className="grid gap-2">
+                  <FormField
+                    control={form.control}
+                    name="inDiscount"
+                    render={({ field }) => (
+                      <div className="flex items-center justify-between space-x-2 rounded-lg border p-4">
+                        <Label
+                          htmlFor="inDiscount"
+                          className="flex flex-col space-y-1"
+                        >
+                          <span className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                            En descuento
+                          </span>
+                          <span className="text-xs text-muted-foreground">
+                            Activar descuento para este producto
+                          </span>
+                        </Label>
+                        <Switch
+                          id="inDiscount"
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </div>
+                    )}
+                  />
+                </div>
+                <div className="grid gap-2">
+                  <FormField
+                    control={form.control}
+                    name="discountPercentage"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Porcentaje de descuento</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <Percent className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
+                            <Input
+                              type="number"
+                              placeholder="0"
+                              {...field}
+                              className="pl-9 pr-12"
+                              disabled={!form.watch('inDiscount')}
+                            />
+                            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-500">
+                              %
+                            </span>
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
               <div className="mt-3 space-y-3">
                 <Button
                   type="button"
                   variant={'secondary'}
                   className="w-full uppercase"
+                  onClick={() => {
+                    form.reset();
+                    form.unregister('file');
+                    setImagePreviews([]);
+                  }}
                 >
                   Limpiar formulario
-                </Button>
-                <Button type="submit" className="w-full uppercase">
-                  Crear producto
                 </Button>
               </div>
             </CardContent>
           </Card>
         </div>
 
+        {/* Imagenes */}
         <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
           <Card className="overflow-hidden" x-chunk="dashboard-07-chunk-4">
             <CardHeader>
@@ -399,9 +605,79 @@ export const FormProduct = ({ categories, brands }: Props) => {
                         width={300}
                       />
                     </>
+                  ) : imagePreviews.length === 1 ? (
+                    <>
+                      <div className="col-span-3">
+                        <Dialog>
+                          <DialogTrigger>
+                            <Image
+                              alt="Product Image 1"
+                              className="aspect-square w-full rounded-md object-cover"
+                              height={300}
+                              src={imagePreviews[0]}
+                              width={300}
+                            />
+                          </DialogTrigger>
+                          <DialogContent>
+                            <Image
+                              alt="Product Image 1"
+                              className="aspect-square w-full rounded-md object-cover"
+                              height={300}
+                              src={imagePreviews[0]}
+                              width={300}
+                            />
+                          </DialogContent>
+                        </Dialog>
+                      </div>
+
+                      <div className="">
+                        <Dialog>
+                          <DialogTrigger>
+                            <Image
+                              alt="Placeholder"
+                              className="aspect-square w-full rounded-md object-cover"
+                              height={300}
+                              src={PRODUCT_IMAGE_PLACEHOLDER}
+                              width={300}
+                            />
+                          </DialogTrigger>
+                          <DialogContent>
+                            <Image
+                              alt="Placeholder"
+                              className="aspect-square w-full rounded-md object-cover"
+                              height={300}
+                              src={PRODUCT_IMAGE_PLACEHOLDER}
+                              width={300}
+                            />
+                          </DialogContent>
+                        </Dialog>
+                      </div>
+                      <div className="">
+                        <Dialog>
+                          <DialogTrigger>
+                            <Image
+                              alt="Placeholder"
+                              className="aspect-square w-full rounded-md object-cover"
+                              height={300}
+                              src={PRODUCT_IMAGE_PLACEHOLDER}
+                              width={300}
+                            />
+                          </DialogTrigger>
+                          <DialogContent>
+                            <Image
+                              alt="Placeholder"
+                              className="aspect-square w-full rounded-md object-cover"
+                              height={300}
+                              src={PRODUCT_IMAGE_PLACEHOLDER}
+                              width={300}
+                            />
+                          </DialogContent>
+                        </Dialog>
+                      </div>
+                    </>
                   ) : (
                     imagePreviews.map((src, index) => (
-                      <div key={index} className="col-span-3">
+                      <div key={index} className="">
                         <Dialog>
                           <DialogTrigger>
                             <Image
@@ -434,6 +710,7 @@ export const FormProduct = ({ categories, brands }: Props) => {
                         <FormLabel>Subir archivo</FormLabel>
                         <FormControl>
                           <Input
+                            id="file"
                             type="file"
                             multiple
                             accept="image/*"
@@ -445,7 +722,7 @@ export const FormProduct = ({ categories, brands }: Props) => {
                     )}
                   />
                 </div>
-                <div className="mt-3">
+                <div className="mt-3 space-y-3">
                   <Button
                     type="button"
                     variant={'secondary'}
@@ -456,6 +733,17 @@ export const FormProduct = ({ categories, brands }: Props) => {
                     className="w-full"
                   >
                     Limpiar
+                  </Button>
+                  <Button
+                    type="submit"
+                    disabled={isLoading}
+                    className="w-full uppercase"
+                  >
+                    {isLoading ? (
+                      <LoaderCircleIcon className="h-5 w-5 animate-spin" />
+                    ) : (
+                      'Crear producto'
+                    )}
                   </Button>
                 </div>
               </div>
