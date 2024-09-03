@@ -27,7 +27,7 @@ Table Product {
   brand Brand [not null]
   brandId String [not null]
   category Category
-  categoryId String
+  categoryId String [not null]
   ProductImage ProductImage [not null]
   OrderItem OrderItem [not null]
   Comment Comment [not null]
