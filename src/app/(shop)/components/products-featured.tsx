@@ -1,9 +1,7 @@
 import { getProducts } from '@/actions/products/get-products';
 import { ProductCard } from '@/components/product/product-card';
-import { sleep } from '@/utils/sleep';
 
 export const ProductsFeatured = async () => {
-  await sleep(5);
   const { products, ok, totalProducts } = await getProducts({
     isFeatured: true,
   });
