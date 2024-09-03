@@ -44,16 +44,12 @@ export const deleteProduct = async (slug: string) => {
             return publicId;
           });
 
-          console.log('Public ids:', publicIds);
-
           // Eliminamos las imágenes de cloudinary
           for (const publicId of publicIds) {
             await cloudinary.uploader.destroy(publicId, (error, result) => {
               if (error) {
-                console.log('Error deleting image:', error);
                 throw new Error('Error deleting image');
               }
-              console.log('Image deleted:', result);
             });
           }
         } catch (error) {

@@ -131,8 +131,6 @@ export const FormProduct = ({ categories, brands }: Props) => {
     }
   };
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log({ values, files });
-
     const formData = new FormData();
     formData.append('title', values.title);
     formData.append('description', values.description);
@@ -152,10 +150,6 @@ export const FormProduct = ({ categories, brands }: Props) => {
         formData.append('file', files[i]);
       }
     }
-
-    console.log({
-      formData: formData.forEach((value, key) => console.log(key, value)),
-    });
 
     setIsLoading(true);
     const { ok, message } = await createProduct(formData);

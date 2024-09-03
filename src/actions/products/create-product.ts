@@ -33,7 +33,7 @@ const productSchema = z.object({
 export const createProduct = async (productData: FormData) => {
   // Asegúrate de que formData es un objeto plano
   const data = Object.fromEntries(productData);
-  console.log({ first: data });
+
   const productParsed = productSchema.safeParse(data);
 
   if (!productParsed.success) {
@@ -51,7 +51,7 @@ export const createProduct = async (productData: FormData) => {
       const tagsArray = product.tags
         .split(',')
         .map((tag) => tag.trim().toLowerCase());
-      console.log('Creando producto:', product);
+
       const newProduct = await db.product.create({
         data: {
           ...product,
@@ -71,8 +71,6 @@ export const createProduct = async (productData: FormData) => {
           tags: tagsArray,
         },
       });
-
-      console.log('Producto creado:', newProduct);
 
       // Proceso de carga y guardado de imagenes
       // Recorrer las imagenes y guardarlas en la base de datos
@@ -172,41 +170,10 @@ async function uploadImages(images: File[]) {
     });
 
     const uploadedImages = await Promise.all(uploadPromises);
-    console.log({ uploadedImages });
+
     return uploadedImages;
   } catch (error) {
     console.log(error);
     return null;
   }
 }
-
-// async function uploadImages(images: File[]): Promise<string[]> {
-//   try {
-//     const uploadPromises = images.map((image) => {
-//       const reader = new FileReader();
-//       return new Promise<string>((resolve, reject) => {
-//         reader.onloadend = async () => {
-//           try {
-//             const base64Image = reader.result as string;
-//             const response = await cloudinary.uploader.upload(base64Image, {
-//               folder: 'teslo-shop',
-//             });
-//             resolve(response.secure_url);
-//           } catch (error) {
-//             console.error(error);
-//             reject(error);
-//           }
-//         };
-//         reader.onerror = (error) => reject(error);
-//         reader.readAsDataURL(image);
-//       });
-//     });
-
-//     const uploadedImages = await Promise.all(uploadPromises);
-//     console.log({ uploadedImages });
-//     return uploadedImages;
-//   } catch (error) {
-//     console.error(error);
-//     return [];
-//   }
-// }

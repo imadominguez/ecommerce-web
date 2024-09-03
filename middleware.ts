@@ -11,10 +11,6 @@ export default auth((req) => {
   const userRole = req.auth?.user?.role;
   const isAdmin = userRole === 'admin';
 
-  console.log('Middleware - auth:', req.auth);
-  console.log('Middleware - userRole:', userRole);
-  console.log('Middleware - isAdmin:', isAdmin);
-
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
 
   if (isPublicRoute) {

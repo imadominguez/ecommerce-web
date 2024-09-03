@@ -43,7 +43,6 @@ export const updateProduct = async (formData: FormData) => {
       const tagsArray = product.tags
         .split(',')
         .map((tag) => tag.trim().toLowerCase());
-      console.log('Updating product:', product);
 
       const updatedProduct = await db.product.update({
         where: {
@@ -80,8 +79,6 @@ export const updateProduct = async (formData: FormData) => {
           return publicId;
         });
 
-        console.log('Public ids:', publicIds);
-
         // Eliminamos las imágenes de cloudinary
         for (const publicId of publicIds) {
           await cloudinary.uploader.destroy(publicId, (error, result) => {
@@ -89,7 +86,6 @@ export const updateProduct = async (formData: FormData) => {
               console.log('Error deleting image:', error);
               throw new Error('Error deleting image');
             }
-            console.log('Image deleted:', result);
           });
         }
 
@@ -153,8 +149,6 @@ export const updateProduct = async (formData: FormData) => {
 
         return updatedProduct;
       }
-
-      console.log('Product updated:', updatedProduct);
     });
 
     revalidatePath('/dashboard/products');
@@ -195,7 +189,7 @@ async function uploadImages(images: File[]) {
     });
 
     const uploadedImages = await Promise.all(uploadPromises);
-    console.log({ uploadedImages });
+
     return uploadedImages;
   } catch (error) {
     console.log(error);
