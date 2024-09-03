@@ -89,7 +89,7 @@ export const ProductsTable = async ({
                       alt={title}
                       width={100}
                       height={100}
-                      className="rounded-md"
+                      className="aspect-square h-full w-full rounded-md"
                     />
                   </TableCell>
                   <TableCell>{title}</TableCell>
