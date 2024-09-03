@@ -5,6 +5,7 @@ import { db } from '@/lib/db';
 import { z } from 'zod';
 import { v2 as cloudinary } from 'cloudinary';
 import { revalidatePath } from 'next/cache';
+import { Color } from '@prisma/client';
 
 cloudinary.config({
   cloud_name: 'dqpj5d9d1',
@@ -17,7 +18,7 @@ const productSchema = z.object({
   description: z.string(),
   price: z.string(),
   inStock: z.string(),
-  color: z.enum(['blue', 'black', 'magenta', 'yellow']).or(z.null()),
+  color: z.string(),
   tags: z.string(),
   slug: z.string(),
   // images: z.array(z.string()),
@@ -54,6 +55,7 @@ export const createProduct = async (productData: FormData) => {
       const newProduct = await db.product.create({
         data: {
           ...product,
+          color: product.color === '' ? null : (product.color as Color),
           price: parseFloat(product.price),
           inStock: parseInt(product.inStock),
           // inDiscount: product.inDiscount === 'true',
@@ -65,6 +67,7 @@ export const createProduct = async (productData: FormData) => {
               ? undefined
               : product.inDiscount === 'true',
           // ?? TODO: Add brandId to the product data object ??
+
           tags: tagsArray,
         },
       });
