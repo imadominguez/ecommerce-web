@@ -15,7 +15,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,11 +25,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { EditIcon, MoreVerticalIcon, TrashIcon } from 'lucide-react';
-import Image from 'next/image';
 import { currencyFormat } from '@/utils/currencyFormat';
 
 import { PaginationProductsTable } from './pagination-products-table';
 import { getProducts } from '@/actions/products/get-products';
+import { ProductImage } from '@/components/product/product-image';
+import Link from 'next/link';
+import { ButtonDeleteProduct } from './button-delete-product';
 
 interface Props {
   query?: string;
@@ -78,62 +80,71 @@ export const ProductsTable = async ({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {products.map((product) => (
-              <TableRow key={product.id}>
-                <TableCell>
-                  <Image
-                    src={`/products/${product.images[0]}`}
-                    alt={product.title}
-                    width={100}
-                    height={100}
-                    className="rounded-md"
-                  />
-                </TableCell>
-                <TableCell>{product.title}</TableCell>
-                <TableCell>
-                  <Badge
-                    variant={
-                      product.inStock > 10
-                        ? 'stock'
-                        : product.inStock < 10 && product.inStock !== 0
-                          ? 'warning'
-                          : 'nostock'
-                    }
-                  >
-                    {product.inStock}
-                  </Badge>
-                </TableCell>
-                <TableCell className="hidden md:table-cell">
-                  {currencyFormat(product.price)}
-                </TableCell>
+            {products.map(
+              ({ id, images, title, inStock, price, createdAt, slug }) => (
+                <TableRow key={id}>
+                  <TableCell>
+                    <ProductImage
+                      src={images[0]}
+                      alt={title}
+                      width={100}
+                      height={100}
+                      className="rounded-md"
+                    />
+                  </TableCell>
+                  <TableCell>{title}</TableCell>
+                  <TableCell>
+                    <Badge
+                      variant={
+                        inStock > 10
+                          ? 'stock'
+                          : inStock < 10 && inStock !== 0
+                            ? 'warning'
+                            : 'nostock'
+                      }
+                    >
+                      {inStock}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="hidden md:table-cell">
+                    {currencyFormat(price)}
+                  </TableCell>
 
-                <TableCell className="hidden md:table-cell">
-                  {product.createdAt.toLocaleDateString()}
-                </TableCell>
-                <TableCell>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" className="h-8 w-8 p-0">
-                        <span className="sr-only">Abrir menú</span>
-                        <MoreVerticalIcon className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-                      <DropdownMenuItem>
-                        <EditIcon className="mr-2 h-4 w-4" />
-                        <span>Editar</span>
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem>
-                        <TrashIcon className="mr-2 h-4 w-4" />
-                        <span>Eliminar</span>
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell>
-              </TableRow>
-            ))}
+                  <TableCell className="hidden md:table-cell">
+                    {createdAt.toLocaleDateString()}
+                  </TableCell>
+                  <TableCell>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="h-8 w-8 p-0">
+                          <span className="sr-only">Abrir menú</span>
+                          <MoreVerticalIcon className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+                        <DropdownMenuItem className="p-0">
+                          <Link
+                            href={`/dashboard/products/${slug}`}
+                            className={buttonVariants({
+                              className: 'w-full !justify-start',
+                              variant: 'secondary',
+                            })}
+                          >
+                            <EditIcon className="mr-2 h-4 w-4" />
+                            Editar
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem className="p-0">
+                          <ButtonDeleteProduct slug={slug} />
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </TableCell>
+                </TableRow>
+              )
+            )}
           </TableBody>
         </Table>
       </CardContent>

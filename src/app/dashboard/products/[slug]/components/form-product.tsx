@@ -36,8 +36,8 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
-import { Brand, Category } from '@prisma/client';
-import { useState } from 'react';
+import { Brand, Category, Product } from '@prisma/client';
+import { useEffect, useState } from 'react';
 import { DollarSign, LoaderCircleIcon, Package, Percent } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { createProduct } from '@/actions/products/create-product';
@@ -93,33 +93,48 @@ const formSchema = z.object({
 });
 
 interface Props {
+  product: Product;
   categories: Category[];
   brands: Brand[];
 }
 
-export const FormProduct = ({ categories, brands }: Props) => {
+export const FormProduct = ({ product, categories, brands }: Props) => {
+  const {
+    title,
+    description,
+    inStock,
+    categoryId,
+    isFeatured,
+    color,
+    isActive,
+    brandId,
+    price,
+    tags,
+    inDiscount,
+    discount: discountPercentage,
+  } = product;
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: '',
-      description: '',
-      inStock: '',
-      categoryId: '',
-      isFeatured: 'false',
-      color: null,
-      isActive: 'false',
-      brandId: '',
-      price: '',
-      tags: '',
-      inDiscount: false,
-      discountPercentage: '',
+      title: title,
+      description: description,
+      inStock: inStock.toString(),
+      categoryId: categoryId!,
+      isFeatured: isFeatured.toString(),
+      color: color,
+      isActive: isActive.toString(),
+      brandId: brandId!,
+      price: price.toString(),
+      tags: tags.toString(),
+      inDiscount: inDiscount,
+      discountPercentage: discountPercentage?.toString() ?? '',
     },
   });
 
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [files, setFiles] = useState<FileList | null>(null);
-  const [isColor, setIsColor] = useState(false);
+  const [isColor, setIsColor] = useState(color !== null);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleFileChange = (fileList: FileList | null) => {
@@ -153,10 +168,6 @@ export const FormProduct = ({ categories, brands }: Props) => {
       }
     }
 
-    console.log({
-      formData: formData.forEach((value, key) => console.log(key, value)),
-    });
-
     setIsLoading(true);
     const { ok, message } = await createProduct(formData);
 
@@ -173,6 +184,14 @@ export const FormProduct = ({ categories, brands }: Props) => {
       toast.error('Ocurrió un error al crear el producto');
     }
   }
+
+  // Previsualización de la imagen del producto
+  // Si no hay imagenes, se muestra un placeholder
+  useEffect(() => {
+    if (product.images) {
+      setImagePreviews(product.images);
+    }
+  }, [product.images]);
 
   return (
     <Form {...form}>
@@ -288,7 +307,7 @@ export const FormProduct = ({ categories, brands }: Props) => {
                         <FormControl>
                           <Select
                             onValueChange={field.onChange}
-                            defaultValue={field.value ?? undefined}
+                            defaultValue={field.value ?? ''}
                           >
                             <SelectTrigger>
                               <SelectValue placeholder="Selecciona una categoria" />
@@ -429,7 +448,10 @@ export const FormProduct = ({ categories, brands }: Props) => {
                 <FormDescription>
                   ¿Deseas agregar un color al producto?
                 </FormDescription>
-                <Switch onCheckedChange={() => setIsColor(!isColor)} />
+                <Switch
+                  defaultChecked={isColor}
+                  onCheckedChange={() => setIsColor(!isColor)}
+                />
 
                 {isColor && (
                   <div>
@@ -531,11 +553,9 @@ export const FormProduct = ({ categories, brands }: Props) => {
                   className="w-full uppercase"
                   onClick={() => {
                     form.reset();
-                    form.unregister('file');
-                    setImagePreviews([]);
                   }}
                 >
-                  Limpiar formulario
+                  Resetear formulario
                 </Button>
               </div>
             </CardContent>
@@ -723,19 +743,20 @@ export const FormProduct = ({ categories, brands }: Props) => {
                       form.unregister('file');
                       setImagePreviews([]);
                     }}
-                    className="w-full"
+                    className="w-full uppercase"
                   >
                     Limpiar
                   </Button>
                   <Button
                     type="submit"
                     disabled={isLoading}
+                    variant={'outline'}
                     className="w-full uppercase"
                   >
                     {isLoading ? (
                       <LoaderCircleIcon className="h-5 w-5 animate-spin" />
                     ) : (
-                      'Crear producto'
+                      'Editar producto'
                     )}
                   </Button>
                 </div>
