@@ -3,9 +3,13 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        pathname: "/img/logos/**",
-        protocol: "https",
-        hostname: "tailwindui.com",
+        pathname: '/img/logos/**',
+        protocol: 'https',
+        hostname: 'tailwindui.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
       },
     ],
   },
