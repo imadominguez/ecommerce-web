@@ -52,7 +52,17 @@ export const getProducts = async ({
         totalProducts: 0,
       };
     }
-    const count = await db.product.count();
+    const count = await db.product.count({
+      where: {
+        title: {
+          contains: title,
+          mode: 'insensitive',
+        },
+        isActive,
+        inStock,
+        isFeatured,
+      },
+    });
     const pages = Math.ceil(count / take);
 
     return {
