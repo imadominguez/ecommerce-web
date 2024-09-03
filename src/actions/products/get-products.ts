@@ -1,3 +1,5 @@
+'use server';
+
 import { db } from '@/lib/db';
 
 interface PaginationOptions {
@@ -35,7 +37,9 @@ export const getProducts = async ({
         inStock,
         isFeatured,
       },
-
+      orderBy: {
+        inStock: 'asc',
+      },
       skip: (page - 1) * take,
       take: take,
     });
@@ -66,6 +70,26 @@ export const getProducts = async ({
       totalPages: 0,
       currentPage: 0,
       totalProducts: 0,
+    };
+  }
+};
+
+export const getProductBySlug = async ({ slug }: { slug: string }) => {
+  try {
+    const product = await db.product.findUnique({
+      where: {
+        slug,
+      },
+    });
+
+    return {
+      ok: true,
+      product: product,
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      product: null,
     };
   }
 };
