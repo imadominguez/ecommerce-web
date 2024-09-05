@@ -7,6 +7,7 @@ import { UserButton } from '../button/user-button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { DashboardLink } from './dashboard-link';
+import { ModeToggle } from '../button/toggle-mode-button';
 const LINKS_NAVBAR = [
   {
     name: 'Nuestra empresa',
@@ -91,6 +92,9 @@ export const Navbar = () => {
         <Suspense fallback={<div className="animate-pulse bg-slate-600"></div>}>
           <DashboardLink />
         </Suspense>
+        <div>
+          <ModeToggle />
+        </div>
       </div>
     </header>
   );
