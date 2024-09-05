@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-
+import { ThemeProvider } from '@/components/theme-provider';
 import './globals.css';
 import { roboto } from '@/config/fonts';
 import { Toaster } from 'sonner';
@@ -17,8 +17,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={roboto.className}>
-        {children}
-        <Toaster richColors />
+        <ThemeProvider attribute="class" defaultTheme="system">
+          {children}
+          <Toaster richColors />
+        </ThemeProvider>
       </body>
     </html>
   );
