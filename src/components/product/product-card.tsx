@@ -33,7 +33,7 @@ export const ProductCard = ({ product }: Props) => {
         </Link>
         <div className="flex items-center justify-between text-xs">
           <p className="mt-1 font-semibold uppercase opacity-80">{color}</p>
-          <p className="text-lg font-medium text-gray-900">
+          <p className="text-lg font-medium opacity-90">
             {currencyFormat(price)}
           </p>
         </div>
