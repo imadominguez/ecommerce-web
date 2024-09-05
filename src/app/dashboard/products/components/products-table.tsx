@@ -32,7 +32,6 @@ import { getProducts } from '@/actions/products/get-products';
 import { ProductImage } from '@/components/product/product-image';
 import Link from 'next/link';
 import { ButtonDeleteProduct } from './button-delete-product';
-import { sleep } from '@/utils/sleep';
 
 interface Props {
   query?: string;
@@ -47,7 +46,6 @@ export const ProductsTable = async ({
   isActive,
   inStock,
 }: Props) => {
-  await sleep(5);
   const { products, totalPages, totalProducts } = await getProducts({
     title: query,
     page: currentPage,
