@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Menu, Package2 } from 'lucide-react';
 import { NavbarLinks } from './components/navbar-links';
 import { SearchInput } from '@/components/product/search-input';
+import { ModeToggle } from '@/components/button/toggle-mode-button';
 
 export default function DashboardLayout({
   children,
@@ -71,6 +72,9 @@ export default function DashboardLayout({
           </Sheet>
           <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
             <SearchInput />
+          </div>
+          <div>
+            <ModeToggle />
           </div>
         </div>
       </header>
