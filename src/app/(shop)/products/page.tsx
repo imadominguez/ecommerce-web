@@ -22,6 +22,7 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { ListFilterIcon } from 'lucide-react';
+import { Separator } from '@/components/ui/separator';
 
 interface Props {
   searchParams: {
@@ -118,6 +119,7 @@ export default async function ProductsPage({ searchParams }: Props) {
           {/* Filters Desktop */}
           <div className="sticky top-10 hidden lg:block">
             <h3 className="mb-4 text-lg font-semibold">Filtros</h3>
+
             <div className="space-y-4">
               <div>
                 <h4 className="mb-2 text-sm font-medium">Categoría</h4>
@@ -135,6 +137,7 @@ export default async function ProductsPage({ searchParams }: Props) {
                   </SelectContent>
                 </Select>
               </div>
+              <Separator />
               <div>
                 <h4 className="mb-2 text-sm font-medium">Precio</h4>
                 <div className="flex items-center space-x-2">
@@ -143,6 +146,7 @@ export default async function ProductsPage({ searchParams }: Props) {
                   <Input type="number" placeholder="Max" className="w-1/2" />
                 </div>
               </div>
+              <Separator />
               <div>
                 <h4 className="mb-2 text-sm font-medium">Color</h4>
                 <div className="space-y-2">
@@ -164,19 +168,24 @@ export default async function ProductsPage({ searchParams }: Props) {
                   </div>
                 </div>
               </div>
+              <Separator />
               <Button className="w-full">Aplicar filtros</Button>
             </div>
           </div>
         </div>
 
-        <div className="lg:col-span-3">
-          <h2 className="text-2xl font-bold tracking-tight text-gray-900">
-            Nuestros productos
-          </h2>
+        <div className="relative lg:col-span-3">
+          <div className="sticky top-0 z-50 bg-background py-4">
+            <h2 className="text-2xl font-bold tracking-tight">
+              Nuestros productos
+            </h2>
+
+            <Separator />
+          </div>
 
           <ProductGrid
             className={
-              'mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8'
+              'mt-6 grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-3 2xl:gap-x-8'
             }
             products={products}
           />
