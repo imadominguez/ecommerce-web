@@ -52,7 +52,7 @@ export const Carrousel = () => {
           <h2 className="text-balance text-3xl font-bold tracking-tight md:text-4xl">
             Descubre nuestra colección seleccionada
           </h2>
-          <p className="text-pretty text-neutral-600">
+          <p className="text-pretty text-muted-foreground">
             Explora nuestra exclusiva colección de cartuchos de tinta de alta
             calidad.
           </p>
