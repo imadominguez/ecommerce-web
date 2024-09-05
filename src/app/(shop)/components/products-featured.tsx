@@ -23,9 +23,7 @@ export const ProductsFeatured = async () => {
 
     return (
       <div className="mx-auto grid max-w-2xl gap-3 py-16 sm:py-16 lg:max-w-none">
-        <h2 className="mb-4 text-4xl font-bold text-gray-900">
-          Productos destacados
-        </h2>
+        <h2 className="mb-4 text-4xl font-bold">Productos destacados</h2>
         <div className="grid grid-cols-2 gap-4 xl:grid-cols-4">
           {/* Aquí se mostrarán los productos destacados */}
 
