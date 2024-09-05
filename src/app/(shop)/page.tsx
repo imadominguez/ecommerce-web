@@ -1,8 +1,5 @@
 import { Carrousel } from '@/components/carrousel';
 import { PageContainer } from '@/components/layout/page-container';
-
-// import { CARROUSEL_IMAGES_HOME } from '@/lib/constant';
-
 import { ProductsFeatured } from './components/products-featured';
 import { Suspense } from 'react';
 
@@ -16,10 +13,10 @@ export default async function Home() {
       <section className="py-16">
         <div className="container mx-auto grid grid-cols-1 gap-8">
           <div className="flex flex-col items-center justify-center space-y-4">
-            <h2 className="text-4xl uppercase text-primary">
+            <h2 className="text-center text-3xl uppercase text-primary md:text-4xl">
               <strong>Sobre nosotros</strong>
             </h2>
-            <p className="max-w-3xl text-center">
+            <p className="max-w-3xl text-balance md:text-center">
               Descubre nuestra <strong>plataforma integral</strong> que ofrece{' '}
               <strong>
                 servicios expertos en calefacción, seguridad y computación

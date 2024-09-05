@@ -12,7 +12,7 @@ export const ProductCard = ({ product }: Props) => {
   const { id, slug, images, title, price, color } = product;
   return (
     <div key={id} className="group relative rounded-md bg-muted">
-      <div className="aspect-h-1 aspect-w-1 lg:aspect-none h-64 w-full overflow-hidden rounded-t-md bg-gray-200">
+      <div className="aspect-h-1 aspect-w-1 lg:aspect-none h-48 w-full overflow-hidden rounded-t-md bg-gray-200 lg:h-64">
         <Link href={`/products/${slug}`}>
           <ProductImage
             alt={''}
