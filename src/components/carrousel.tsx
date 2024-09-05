@@ -9,7 +9,8 @@ import Image from 'next/image';
 // import 'swiper/css/navigation';
 // import 'swiper/css/pagination';
 // import { Images } from '@/types/carrousel-images';
-import { Button } from './ui/button';
+import { Button, buttonVariants } from './ui/button';
+import Link from 'next/link';
 
 // interface Props {
 //   images: Images[];
@@ -56,7 +57,14 @@ export const Carrousel = () => {
             Explora nuestra exclusiva colección de cartuchos de tinta de alta
             calidad.
           </p>
-          <Button>Comprar ahora</Button>
+          <Link
+            href={'/products'}
+            className={buttonVariants({
+              className: 'w-full',
+            })}
+          >
+            Comprar ahora
+          </Link>
         </div>
         <Image
           src={'/products/1473809-00-A_alt.jpg'}
