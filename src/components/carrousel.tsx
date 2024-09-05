@@ -47,8 +47,8 @@ export const Carrousel = () => {
     //   </Swiper>
     // </div>
     <section className="rounded bg-muted px-4 py-8 sm:px-0 sm:py-12">
-      <div className="mx-auto grid grid-cols-1 items-center justify-items-center gap-8 sm:px-16 md:grid-cols-2">
-        <div className="max-w-md space-y-4">
+      <div className="mx-auto grid grid-cols-1 items-center justify-items-center gap-8 px-5 sm:px-16 md:grid-cols-2">
+        <div className="mx-auto max-w-md space-y-4">
           <h2 className="text-balance text-3xl font-bold tracking-tight md:text-4xl">
             Descubre nuestra colección seleccionada
           </h2>
@@ -63,7 +63,7 @@ export const Carrousel = () => {
           width={800}
           height={800}
           alt="image"
-          className="aspect-auto max-h-96 rounded"
+          className="aspect-auto max-h-96 w-full rounded"
         />
       </div>
     </section>

@@ -23,21 +23,20 @@ export const ProductCard = ({ product }: Props) => {
           />
         </Link>
       </div>
-      <div className="mt-4 flex justify-between p-4 pt-1">
-        <div>
-          <h3 className="text-sm text-gray-700">
-            <Link href={`/products/${slug}`}>
-              <span aria-hidden="true" className="absolute inset-0" />
-              {title}
-            </Link>
-          </h3>
-          <p className="mt-1 text-sm font-semibold uppercase opacity-80">
-            {color}
+      <div className="mt-4 flex flex-col justify-between p-4 pt-1">
+        <Link
+          href={`/products/${slug}`}
+          className="md:text-md text-sm uppercase"
+        >
+          <span aria-hidden="true" className="absolute inset-0" />
+          {title}
+        </Link>
+        <div className="flex items-center justify-between text-xs">
+          <p className="mt-1 font-semibold uppercase opacity-80">{color}</p>
+          <p className="text-lg font-medium text-gray-900">
+            {currencyFormat(price)}
           </p>
         </div>
-        <p className="text-sm font-medium text-gray-900">
-          {currencyFormat(price)}
-        </p>
       </div>
     </div>
   );
