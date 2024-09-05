@@ -19,7 +19,7 @@ export default function ProductsPage({
   const currentPage = Number(searchParams?.page) || 1;
   return (
     <PageContainer>
-      <Tabs defaultValue="all">
+      <Tabs defaultValue="all" className="h-full flex-1">
         {/* Tabs */}
         <div className="flex items-center justify-between">
           <TabsList className="grid w-max grid-cols-3">
@@ -47,7 +47,7 @@ export default function ProductsPage({
         </div>
 
         {/* All Products */}
-        <TabsContent value="all">
+        <TabsContent value="all" className="h-full flex-1">
           <Suspense
             key={query ?? '' + currentPage}
             fallback={<SkeletonTableProduct />}

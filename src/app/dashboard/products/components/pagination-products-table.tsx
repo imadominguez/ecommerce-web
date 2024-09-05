@@ -45,6 +45,22 @@ export const PaginationProductsTable = ({
             })}
           />
         </PaginationItem>
+        {currentPage > totalPages - 3 && (
+          <PaginationItem>
+            <PaginationLink
+              scroll
+              className={currentPage === 1 ? 'bg-muted' : 'border'}
+              href={createPageURL('1')}
+            >
+              1
+            </PaginationLink>
+          </PaginationItem>
+        )}
+        {currentPage > totalPages - 3 && (
+          <PaginationItem>
+            <PaginationEllipsis />
+          </PaginationItem>
+        )}
         {Array.from({ length: 3 }, (_, i) => currentPage + i - 1).map(
           (page) =>
             page >= 1 &&
