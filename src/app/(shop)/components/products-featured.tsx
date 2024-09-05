@@ -1,5 +1,7 @@
 import { getProducts } from '@/actions/products/get-products';
 import { ProductCard } from '@/components/product/product-card';
+import { buttonVariants } from '@/components/ui/button';
+import Link from 'next/link';
 
 export const ProductsFeatured = async () => {
   const {
@@ -31,6 +33,17 @@ export const ProductsFeatured = async () => {
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
+        <div className="mt-7 flex items-center justify-center">
+          <Link
+            className={buttonVariants({
+              variant: 'default',
+              className: 'mt-4',
+            })}
+            href="/products"
+          >
+            Ver tienda online
+          </Link>
+        </div>
       </div>
     );
   }
@@ -44,6 +57,17 @@ export const ProductsFeatured = async () => {
         {productsFeatured.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
+      </div>
+      <div className="mt-7 flex items-center justify-center">
+        <Link
+          className={buttonVariants({
+            variant: 'default',
+            className: 'mt-4',
+          })}
+          href="/products"
+        >
+          Ver tienda online
+        </Link>
       </div>
     </div>
   );
