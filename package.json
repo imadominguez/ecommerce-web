@@ -40,7 +40,8 @@
     "swiper": "^11.1.9",
     "tailwind-merge": "^2.5.1",
     "use-debounce": "^10.0.3",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "zustand": "^4.5.5"
   },
   "devDependencies": {
     "@tailwindcss/aspect-ratio": "^0.4.2",
