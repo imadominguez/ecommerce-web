@@ -13,3 +13,13 @@ export interface Product {
   brandId: string;
   categoryId: string;
 }
+
+export interface CartProduct {
+  id: string;
+  title: string;
+  slug: string;
+  price: number;
+  color: string;
+  image: string;
+  quantity: number;
+}
