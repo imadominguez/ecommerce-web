@@ -9,6 +9,7 @@ export const getCategories = async () => {
     if (!categories) {
       return {
         ok: false,
+        error: null,
         message: 'No hay categorias creadas.',
         categories: [],
       };
@@ -16,6 +17,7 @@ export const getCategories = async () => {
 
     return {
       ok: true,
+      error: null,
       categories,
       message: 'Todo ok.',
     };
@@ -23,6 +25,7 @@ export const getCategories = async () => {
     console.log(error);
     return {
       ok: false,
+      error: true,
       message: 'Error al obtener las categorias.',
       categories: [],
     };
