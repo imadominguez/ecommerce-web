@@ -1,6 +1,7 @@
 'use server';
 
 import { db } from '@/lib/db';
+import { Color } from '@prisma/client';
 
 interface PaginationOptions {
   page?: number;
@@ -9,6 +10,10 @@ interface PaginationOptions {
   isActive?: boolean;
   inStock?: number | undefined;
   isFeatured?: boolean;
+  category?: string;
+  pmin?: number;
+  pmax?: number;
+  color?: string;
 }
 
 export const getProducts = async ({
@@ -18,6 +23,10 @@ export const getProducts = async ({
   isActive,
   inStock,
   isFeatured,
+  category,
+  pmin,
+  pmax,
+  color,
 }: PaginationOptions) => {
   if (isNaN(page)) {
     page = 1;
@@ -36,6 +45,14 @@ export const getProducts = async ({
         isActive,
         inStock,
         isFeatured,
+        category: {
+          name: category === 'null' ? undefined : category,
+        },
+        price: {
+          gte: pmin || undefined, // Si pmin es 0 o undefined, no aplica el filtro.
+          lte: pmax || undefined, // Si pmax es 0 o undefined, no aplica el filtro.
+        },
+        color: color as Color,
       },
       orderBy: {
         inStock: 'asc',
@@ -46,6 +63,7 @@ export const getProducts = async ({
     if (products.length === 0) {
       return {
         ok: false,
+        error: null,
         products: [],
         totalPages: 0,
         currentPage: 0,
@@ -67,6 +85,7 @@ export const getProducts = async ({
 
     return {
       ok: true,
+      error: null,
       currentPage: page,
       totalPages: pages,
       products,
@@ -76,6 +95,7 @@ export const getProducts = async ({
     console.log(error);
     return {
       ok: false,
+      error: true,
       products: [],
       totalPages: 0,
       currentPage: 0,
