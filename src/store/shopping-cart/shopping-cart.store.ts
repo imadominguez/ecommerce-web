@@ -24,7 +24,62 @@ interface State {
 }
 
 const storeApiCart: StateCreator<State> = (set, get) => ({
-  cart: [],
+  cart: [
+    {
+      id: '1',
+      title: 'Producto 1',
+      price: 100,
+      quantity: 1,
+      image: '1473809-00-A_alt.jpg',
+      color: 'black',
+      slug: 'producto-1',
+    },
+    {
+      id: '2',
+      title: 'Producto 2',
+      price: 200,
+      quantity: 1,
+      image: '1473809-00-A_alt.jpg',
+      color: 'black',
+      slug: 'producto-2',
+    },
+    {
+      id: '3',
+      title: 'Producto 3',
+      price: 300,
+      quantity: 1,
+      image: '1473809-00-A_alt.jpg',
+      color: 'black',
+      slug: 'producto-3',
+    },
+    {
+      id: '4',
+      title: 'Producto 4',
+      price: 400,
+      quantity: 1,
+      image: '1473809-00-A_alt.jpg',
+      color: 'black',
+      slug: 'producto-4',
+    },
+    {
+      id: '5',
+      title: 'Producto 5',
+      price: 500,
+      quantity: 1,
+      image: '1473809-00-A_alt.jpg',
+      color: 'black',
+      slug: 'producto-5',
+    },
+    {
+      id: '6',
+      title: 'Producto 6',
+      price: 600,
+      quantity: 1,
+      image: '1473809-00-A_alt.jpg',
+      color: 'black',
+      slug: 'producto-6',
+    },
+  ],
   // ------------------- Metodos para obtener informacion del carrito -------------------
   getTotalItemsById: (id: string) => {
     const { cart } = get();
