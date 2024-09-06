@@ -51,6 +51,10 @@ export const Pagination = ({ totalPages }: Props) => {
   // Generar la lista de páginas para mostrar en la paginación
   const allPages = generatePagination(+currentPage, +totalPages);
 
+  if (totalPages === 0) {
+    return null;
+  }
+
   return (
     <div className="mb-10 mt-10 flex justify-center text-center">
       <nav aria-label="Page navigation example">
