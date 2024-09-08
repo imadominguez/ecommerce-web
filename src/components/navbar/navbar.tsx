@@ -8,6 +8,7 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { DashboardLink } from './dashboard-link';
 import { ModeToggle } from '../button/toggle-mode-button';
+import { ShoppingCart } from './shopping-cart-icon';
 const LINKS_NAVBAR = [
   {
     name: 'Nuestra empresa',
@@ -83,9 +84,7 @@ export const Navbar = () => {
 
       <div className="flex flex-1 items-center justify-end gap-x-2">
         {/* <SearchInput /> */}
-        <div>
-          <ShoppingCartIcon className="h-6 w-6" />
-        </div>
+        <ShoppingCart />
         <div className="ml-1 hidden lg:block">
           <UserButton />
         </div>
