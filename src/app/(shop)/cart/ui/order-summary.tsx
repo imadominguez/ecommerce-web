@@ -1,8 +1,9 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { useCartStore } from '@/store/shopping-cart/shopping-cart.store';
 import { currencyFormat } from '@/utils/currencyFormat';
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
 export const OrderSummary = () => {
@@ -24,15 +25,15 @@ export const OrderSummary = () => {
         <div className="rounded-lg bg-muted p-6">
           <h2 className="mb-4 text-lg font-medium">Resumen del pedido</h2>
           <div className="flex justify-between py-2">
-            <span className="text-gray-500">Subtotal</span>
+            <span className="opacity-80">Subtotal</span>
             <span className="font-medium">Cargando...</span>
           </div>
           <div className="flex justify-between py-2">
-            <span className="text-gray-500">Estimación de envío</span>
+            <span className="opacity-80">Estimación de envío</span>
             <span className="font-medium">Cargando...</span>
           </div>
           <div className="flex justify-between py-2">
-            <span className="text-gray-500">Descuento</span>
+            <span className="opacity-80">Descuento</span>
             <span className="font-medium">Cargando...</span>
           </div>
           <div className="flex justify-between py-2 font-bold">
@@ -48,27 +49,33 @@ export const OrderSummary = () => {
   }
   return (
     <div className="lg:col-span-1">
-      <div className="rounded-lg bg-muted p-6">
+      <div className="sticky top-10 rounded-lg bg-muted p-6">
         <h2 className="mb-4 text-lg font-medium">Resumen del pedido</h2>
         <div className="flex justify-between py-2">
-          <span className="text-gray-500">Subtotal</span>
-          <span className="font-medium">{currencyFormat(20000)}</span>
+          <span className="opacity-80">Subtotal</span>
+          <span className="font-medium">{currencyFormat(subTotal)}</span>
         </div>
         <div className="flex justify-between py-2">
-          <span className="text-gray-500">Estimación de envío</span>
+          <span className="opacity-80">Estimación de envío</span>
           <span className="font-medium">{currencyFormat(0)}</span>
         </div>
         <div className="flex justify-between py-2">
-          <span className="text-gray-500">Descuento</span>
+          <span className="opacity-80">Descuento</span>
           <span className="font-medium">{currencyFormat(0)}</span>
         </div>
         <div className="flex justify-between py-2 font-bold">
           <span>Importe total</span>
-          <span>{currencyFormat(20000)}</span>
+          <span>{currencyFormat(subTotal)}</span>
         </div>
-        <Button className="mt-6 w-full" size="lg">
+        <Link
+          href={'/checkout/address'}
+          className={buttonVariants({
+            className: 'mt-6 w-full',
+            size: 'lg',
+          })}
+        >
           Proceder al pago
-        </Button>
+        </Link>
       </div>
     </div>
   );

@@ -43,13 +43,13 @@ export const ProdcutsCart = () => {
     );
   }
   return (
-    <div className="lg:col-span-2 lg:max-h-[80dvh] lg:overflow-y-scroll">
+    <div className="lg:col-span-2 lg:max-h-[80dvh]">
       {productsInCart.map((item) => (
         <div
           key={item.id}
           className="flex flex-col border-b py-2 md:flex-row lg:py-6"
         >
-          <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200 lg:h-48 lg:w-48">
+          <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200 lg:h-32 lg:w-32">
             <ProductImage
               src={item.image}
               alt={item.title}
