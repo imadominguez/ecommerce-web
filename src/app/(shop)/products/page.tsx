@@ -5,6 +5,7 @@ import { getProducts } from '@/actions/products/get-products';
 import { Separator } from '@/components/ui/separator';
 import { FilterProduct } from './components/filter-product';
 import { getCategories } from '@/actions/categories/get-categories';
+import { Title } from '@/components/title';
 
 interface Props {
   searchParams: {
@@ -45,9 +46,7 @@ export default async function ProductsPage({ searchParams }: Props) {
 
         <div className="relative lg:col-span-3">
           <div className="sticky top-0 z-50 bg-background py-4">
-            <h2 className="text-2xl font-bold tracking-tight">
-              Nuestros productos
-            </h2>
+            <Title title="Productos" />
 
             <Separator />
           </div>

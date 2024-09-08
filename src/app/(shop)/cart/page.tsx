@@ -2,6 +2,7 @@ import { PageContainer } from '@/components/layout/page-container';
 import { Metadata } from 'next';
 import { ProdcutsCart } from './ui/products-cart';
 import { OrderSummary } from './ui/order-summary';
+import { Title } from '@/components/title';
 
 export const metadata: Metadata = {
   title: 'Carrito de compra',
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
 export default function CartPage() {
   return (
     <PageContainer>
-      <h1 className="mb-6 text-2xl font-bold">Shopping Cart</h1>
+      <Title title="Carrito de compras" />
       <div className="relative grid grid-cols-1 gap-8 lg:grid-cols-3">
         {/* Products in cart */}
         <ProdcutsCart />

@@ -1,4 +1,5 @@
 import { PageContainer } from '@/components/layout/page-container';
+import { Title } from '@/components/title';
 import { Button } from '@/components/ui/button';
 import { db } from '@/lib/db';
 import { currencyFormat } from '@/utils/currencyFormat';
@@ -65,9 +66,7 @@ export default async function ProductDetailPage({ params: { slug } }: Props) {
         {/* Product info */}
         <div className="mx-auto flex w-full flex-col px-4 sm:px-6 lg:max-w-7xl lg:px-8">
           <div className="">
-            <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
-              {product.title}
-            </h1>
+            <Title title={product.title} />
           </div>
 
           {/* Options */}

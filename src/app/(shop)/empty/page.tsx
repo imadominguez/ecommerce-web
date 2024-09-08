@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 import { ShoppingCartIcon } from 'lucide-react';
 import { buttonVariants } from '@/components/ui/button';
+import { Title } from '@/components/title';
 
 export const metadata: Metadata = {
   title: 'Carrito Vacío - Teslo | SHOP',
@@ -16,7 +17,7 @@ export default function EmptyPage() {
     <div className="mx-auto flex h-[80dvh] w-full max-w-xs flex-col items-center justify-center">
       <ShoppingCartIcon size={40} className="mx-5" />
       <div className="mt-2 flex flex-col items-center">
-        <h1 className="text-xl font-semibold">Tu carrito esta vacio</h1>
+        <Title title="Tu carrito está vacío" />
       </div>
 
       <Link
