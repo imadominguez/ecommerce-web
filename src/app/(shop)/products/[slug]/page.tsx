@@ -1,4 +1,5 @@
 import { PageContainer } from '@/components/layout/page-container';
+import { ProductImage } from '@/components/product/product-image';
 import { Title } from '@/components/title';
 import { Button } from '@/components/ui/button';
 import { db } from '@/lib/db';
@@ -53,7 +54,7 @@ export default async function ProductDetailPage({ params: { slug } }: Props) {
         {/* Image gallery */}
         <div className="mx-auto max-w-2xl sm:px-6 lg:grid lg:gap-x-8 lg:px-8">
           <div className="aspect-h-1 aspect-w-2 overflow-hidden rounded-lg">
-            <Image
+            <ProductImage
               alt={product.images[0]}
               src={product.images[0]}
               width={300}
