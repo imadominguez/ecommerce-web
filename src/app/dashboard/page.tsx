@@ -20,7 +20,7 @@ import {
 import { DollarSign, Users, CreditCard, Activity } from 'lucide-react';
 import Link from 'next/link';
 
-export default async function DashboardPage() {
+export default function DashboardPage() {
   return (
     <PageContainer>
       <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">

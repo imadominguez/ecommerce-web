@@ -9,7 +9,7 @@ import Image from 'next/image';
 // import 'swiper/css/navigation';
 // import 'swiper/css/pagination';
 // import { Images } from '@/types/carrousel-images';
-import { Button, buttonVariants } from './ui/button';
+import { buttonVariants } from './ui/button';
 import Link from 'next/link';
 
 // interface Props {
@@ -71,7 +71,7 @@ export const Carrousel = () => {
           width={800}
           height={800}
           alt="image"
-          className="aspect-auto max-h-96 w-full rounded"
+          className="aspect-auto h-[30dvh] w-full rounded md:max-h-96 lg:h-[40dvh]"
         />
       </div>
     </section>
