@@ -1,3 +1,4 @@
+import Footer from '@/components/footer';
 import { Navbar } from '@/components/navbar/navbar';
 
 export const metadata = {
@@ -13,6 +14,7 @@ export default function ShopLayout({
     <div className="mx-auto max-w-[2500px]">
       <Navbar />
       {children}
+      <Footer />
     </div>
   );
 }
