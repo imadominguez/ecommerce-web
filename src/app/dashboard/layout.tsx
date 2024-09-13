@@ -3,9 +3,10 @@ import Link from 'next/link';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { Menu, Package2 } from 'lucide-react';
-import { NavbarLinks } from './components/navbar-links';
+import { NavbarLinks } from './(components)/components/navbar-links';
 import { SearchInput } from '@/components/product/search-input';
 import { ModeToggle } from '@/components/button/toggle-mode-button';
+import { Suspense } from 'react';
 
 export default function DashboardLayout({
   children,
@@ -16,7 +17,9 @@ export default function DashboardLayout({
     <div className="flex min-h-screen w-full flex-col bg-muted">
       <header className="sticky top-0 z-50 mx-auto flex h-16 w-full items-center justify-between gap-4 border-b bg-background px-4 md:px-6">
         <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-4">
-          <NavbarLinks />
+          <Suspense fallback={<div>Loading...</div>}>
+            <NavbarLinks />
+          </Suspense>
 
           <Sheet>
             <SheetTrigger asChild>
@@ -71,7 +74,9 @@ export default function DashboardLayout({
             </SheetContent>
           </Sheet>
           <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
-            <SearchInput />
+            <Suspense fallback={<div>Loading...</div>}>
+              <SearchInput />
+            </Suspense>
           </div>
           <div>
             <ModeToggle />
