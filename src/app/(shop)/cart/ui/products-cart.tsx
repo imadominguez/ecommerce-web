@@ -43,7 +43,7 @@ export const ProdcutsCart = () => {
     );
   }
   return (
-    <div className="scroll overflow-y-scroll lg:col-span-2 lg:max-h-[80dvh]">
+    <div className="scroll overflow-y-scroll pr-4 lg:col-span-2 lg:max-h-[80dvh]">
       {productsInCart.map((item) => (
         <div
           key={item.id}
@@ -59,7 +59,7 @@ export const ProdcutsCart = () => {
           </div>
           <div className="ml-4 flex flex-1 flex-col">
             <div>
-              <div className="flex justify-between text-base font-medium text-gray-900">
+              <div className="flex justify-between text-base font-medium">
                 <Link
                   href={`/product/${item.slug}`}
                   className="hover:underline"
@@ -89,9 +89,8 @@ export const ProdcutsCart = () => {
                   }
                 />
               </div>
-              <div className="flex">
-                <p className="ml-4">{currencyFormat(item.price)}</p>
-              </div>
+
+              <p className="ml-4 text-lg">{currencyFormat(item.price)}</p>
             </div>
           </div>
         </div>
