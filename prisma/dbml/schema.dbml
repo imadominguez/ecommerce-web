@@ -179,7 +179,7 @@ Enum Role {
 }
 
 Enum Color {
-  blue
+  cyan
   red
   yellow
   black
