@@ -46,7 +46,7 @@ import { useRouter } from 'next/navigation';
 
 const PRODUCT_IMAGE_PLACEHOLDER = '/imgs/placeholder.jpg';
 
-const COLORS = ['blue', 'black', 'magenta', 'yellow'];
+const COLORS = ['cyan', 'black', 'magenta', 'yellow'];
 
 const formSchema = z.object({
   title: z
