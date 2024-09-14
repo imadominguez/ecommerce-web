@@ -74,3 +74,27 @@
     scroll-behavior: smooth;
   }
 }
+
+/* Estilo para la barra de desplazamiento */
+::-webkit-scrollbar {
+  width: 12px; /* Ancho del scrollbar */
+  height: 12px; /* Altura del scrollbar en un eje horizontal */
+}
+
+/* Estilo para la pista (el fondo detrás del scrollbar) */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+/* Estilo para la manija (la parte que se desplaza) */
+::-webkit-scrollbar-thumb {
+  background-color: var(--blue-primary);
+  border-radius: 10px;
+  border: 3px solid #f1f1f1; /* Añadir un borde para un efecto "más delgado" */
+}
+
+/* Estilo para el hover sobre la manija */
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--blue-light);
+}
