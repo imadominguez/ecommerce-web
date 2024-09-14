@@ -2,70 +2,60 @@
 
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
-import { Package2 } from 'lucide-react';
+import { Home, Package, ShoppingCart } from 'lucide-react';
 import { usePathname } from 'next/navigation';
-import { buttonVariants } from '@/components/ui/button';
 
 type DashboardLinks = {
   name: string;
   href: string;
+  icon: JSX.Element;
 };
 
 const NAVBAR_DASHBOARD_LINKS: DashboardLinks[] = [
   {
     name: 'dashboard',
     href: '/dashboard',
+    icon: <Home className="h-4 w-4" />,
   },
   {
     name: 'ordenes',
     href: '/dashboard/orders',
+    icon: <ShoppingCart className="h-4 w-4" />,
   },
   {
     name: 'productos',
     href: '/dashboard/products',
+    icon: <Package className="h-4 w-4" />,
   },
 ];
 
-export const NavbarLinks = () => {
+interface Props {
+  className?: string;
+}
+
+export const NavbarLinks = ({ className }: Props) => {
   const pathname = usePathname();
 
   return (
-    <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
-      <Link
-        href="#"
-        className="flex items-center gap-2 text-lg font-semibold md:text-base"
-      >
-        <Package2 className="h-6 w-6" />
-        <span className="sr-only">Acme Inc</span>
-      </Link>
-
-      {NAVBAR_DASHBOARD_LINKS.map(({ name, href }) => {
+    <nav className={className}>
+      {NAVBAR_DASHBOARD_LINKS.map(({ name, href, icon }) => {
         return (
           <Link
             key={name}
             className={cn(
-              'capitalize transition-colors hover:text-foreground',
+              'flex items-center gap-3 rounded-lg px-3 py-2 capitalize text-muted-foreground transition-all hover:text-primary',
               {
-                'text-foreground': pathname === href,
+                'bg-muted text-primary': pathname === href,
                 'text-muted-foreground': pathname !== href,
               }
             )}
             href={href}
           >
+            {icon}
             {name}
           </Link>
         );
       })}
-      <Link
-        className={buttonVariants({
-          size: 'sm',
-          className: 'w-max',
-          variant: 'secondary',
-        })}
-        href={'/'}
-      >
-        Ir a la tienda
-      </Link>
     </nav>
   );
 };
