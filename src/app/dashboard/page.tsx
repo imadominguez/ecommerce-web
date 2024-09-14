@@ -22,7 +22,7 @@ import Link from 'next/link';
 
 export default function DashboardPage() {
   return (
-    <PageContainer>
+    <PageContainer className="w-full max-w-none">
       <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
         <Card x-chunk="dashboard-01-chunk-0">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -220,7 +220,7 @@ export default function DashboardPage() {
                 <p className="text-sm font-medium leading-none">
                   Olivia Martin
                 </p>
-                <p className="text-sm text-muted-foreground">
+                <p className="hidden text-sm text-muted-foreground 2xl:flex">
                   olivia.martin@email.com
                 </p>
               </div>
@@ -233,7 +233,7 @@ export default function DashboardPage() {
               </Avatar>
               <div className="grid gap-1">
                 <p className="text-sm font-medium leading-none">Jackson Lee</p>
-                <p className="text-sm text-muted-foreground">
+                <p className="hidden text-sm text-muted-foreground 2xl:flex">
                   jackson.lee@email.com
                 </p>
               </div>
@@ -248,7 +248,7 @@ export default function DashboardPage() {
                 <p className="text-sm font-medium leading-none">
                   Isabella Nguyen
                 </p>
-                <p className="text-sm text-muted-foreground">
+                <p className="hidden text-sm text-muted-foreground 2xl:flex">
                   isabella.nguyen@email.com
                 </p>
               </div>
@@ -261,7 +261,9 @@ export default function DashboardPage() {
               </Avatar>
               <div className="grid gap-1">
                 <p className="text-sm font-medium leading-none">William Kim</p>
-                <p className="text-sm text-muted-foreground">will@email.com</p>
+                <p className="hidden text-sm text-muted-foreground 2xl:flex">
+                  will@email.com
+                </p>
               </div>
               <div className="ml-auto font-medium">+$99.00</div>
             </div>
@@ -272,7 +274,7 @@ export default function DashboardPage() {
               </Avatar>
               <div className="grid gap-1">
                 <p className="text-sm font-medium leading-none">Sofia Davis</p>
-                <p className="text-sm text-muted-foreground">
+                <p className="hidden text-sm text-muted-foreground 2xl:flex">
                   sofia.davis@email.com
                 </p>
               </div>
