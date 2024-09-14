@@ -19,13 +19,13 @@ export const SkeletonTableProduct = () => {
   return (
     <Card className="h-full flex-1">
       <CardHeader>
-        <CardTitle>Productos</CardTitle>
-        <CardDescription>
+        <CardTitle className="text-xl">Productos</CardTitle>
+        <CardDescription className="text-xs">
           Maneja tus productos y mira su rendimiento de ventas.
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <Table>
+        <Table className="text-xs">
           <TableHeader>
             <TableRow>
               <TableHead className="hidden w-[100px] sm:table-cell">
@@ -33,6 +33,9 @@ export const SkeletonTableProduct = () => {
               </TableHead>
               <TableHead>Nombre</TableHead>
               <TableHead>En stock</TableHead>
+              <TableHead className="hidden md:table-cell">
+                En descuento
+              </TableHead>
               <TableHead className="hidden md:table-cell">Precio</TableHead>
               <TableHead className="hidden md:table-cell">Creado el</TableHead>
               <TableHead>
@@ -44,22 +47,25 @@ export const SkeletonTableProduct = () => {
             {[...Array(5)].map((_, index) => (
               <TableRow key={index} className="h-[101px]">
                 <TableCell>
-                  <div className="mr-2 h-16 w-16 animate-pulse rounded-md bg-muted-foreground" />
+                  <div className="mr-2 h-16 w-16 animate-pulse rounded-md bg-muted" />
                 </TableCell>
                 <TableCell>
-                  <div className="h-5 w-40 animate-pulse rounded-md bg-muted-foreground" />
+                  <div className="h-5 w-40 animate-pulse rounded-md bg-muted" />
                 </TableCell>
                 <TableCell>
-                  <div className="mt-2 h-4 w-12 animate-pulse rounded-md bg-muted-foreground" />
+                  <div className="mt-2 h-4 w-12 animate-pulse rounded-md bg-muted" />
                 </TableCell>
                 <TableCell className="hidden md:table-cell">
-                  <div className="mt-2 h-4 w-12 animate-pulse rounded-md bg-muted-foreground" />
+                  <div className="mt-2 h-4 w-12 animate-pulse rounded-md bg-muted" />
                 </TableCell>
                 <TableCell className="hidden md:table-cell">
-                  <div className="mt-2 h-4 w-12 animate-pulse rounded-md bg-muted-foreground" />
+                  <div className="mt-2 h-4 w-12 animate-pulse rounded-md bg-muted" />
+                </TableCell>
+                <TableCell className="hidden md:table-cell">
+                  <div className="mt-2 h-4 w-12 animate-pulse rounded-md bg-muted" />
                 </TableCell>
                 <TableCell>
-                  <div className="mt-2 h-4 w-12 animate-pulse rounded-md bg-muted-foreground" />
+                  <div className="mt-2 h-4 w-12 animate-pulse rounded-md bg-muted" />
                 </TableCell>
               </TableRow>
             ))}
@@ -68,24 +74,15 @@ export const SkeletonTableProduct = () => {
       </CardContent>
       <CardFooter className="flex justify-between">
         <div className="max-w-96 rounded text-xs">
-          <span className="animate-pulse bg-muted-foreground text-muted-foreground">
-            Mostrando{' '}
-          </span>
-          <strong className="animate-pulse bg-muted-foreground text-muted-foreground">
+          <span className="text-muted- animate-pulse bg-muted">Mostrando </span>
+          <strong className="text-muted- animate-pulse bg-muted">
             12-12{' '}
           </strong>{' '}
-          <span className="animate-pulse bg-muted-foreground text-muted-foreground">
-            de
-          </span>{' '}
-          <strong className="animate-pulse bg-muted-foreground text-muted-foreground">
-            {' '}
-            12
-          </strong>{' '}
-          <span className="animate-pulse bg-muted-foreground text-muted-foreground">
-            producto
-          </span>
+          <span className="animate-pulse bg-muted text-muted">de</span>{' '}
+          <strong className="bg-mute animate-pulse text-muted"> 12</strong>{' '}
+          <span className="animate-pulse bg-muted text-muted">producto</span>
         </div>
-        <div className="h-10 w-[395px] animate-pulse rounded bg-muted-foreground">
+        <div className="bg-muted- h-10 w-[395px] animate-pulse rounded">
           &nbsp;
         </div>
       </CardFooter>
