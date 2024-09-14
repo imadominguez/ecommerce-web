@@ -27,20 +27,20 @@ export const SearchInput = () => {
   }, DEBOUNCE_DELAY);
 
   return (
-    <div className="relative ml-auto flex-1 sm:flex-initial">
+    <div className="relative ml-auto flex-1 sm:flex-1">
       <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
       <Input
         type="search"
         defaultValue={searchParams.get('query')?.toString()}
         placeholder={
-          // Ejemplo de hacer validaciones para un placeholder para cada pagina del dashboard
-          // pathname === '/dashboard/products'
-          //   ? 'Busca un producto'
-          //   : 'Busca un cliente'
-          'Haz una busqueda'
+          pathname === '/dashboard/products'
+            ? 'Busca un producto'
+            : pathname === '/dashboard/orders'
+              ? 'Busca una orden'
+              : 'Haz una búsqueda'
         }
         onChange={(event) => handleChange(event.target.value)}
-        className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]"
+        className="w-full appearance-none bg-background pl-8 shadow-none md:w-2/3 lg:w-1/3"
       />
     </div>
   );
