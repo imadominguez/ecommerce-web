@@ -65,7 +65,7 @@ export const Pagination = ({ totalPages }: Props) => {
               // className="mr-8 "
               href={createPageUrl(+currentPage - 1)}
               aria-disabled="true"
-              scroll={false}
+              // scroll={false}
             >
               <ArrowLeftCircleIcon size={20} />
             </Link>
@@ -84,7 +84,7 @@ export const Pagination = ({ totalPages }: Props) => {
                   }
                 )}
                 href={createPageUrl(page)}
-                scroll={false}
+                // scroll={false}
               >
                 {page}
               </Link>
@@ -96,7 +96,7 @@ export const Pagination = ({ totalPages }: Props) => {
             <Link
               // className='ml-8'
               href={createPageUrl(+currentPage + 1)}
-              scroll={false}
+              // scroll={false}
             >
               <ArrowRightCircleIcon size={20} />
             </Link>
