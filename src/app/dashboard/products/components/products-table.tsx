@@ -57,13 +57,13 @@ export const ProductsTable = async ({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Productos</CardTitle>
-        <CardDescription>
+        <CardTitle className="text-xl">Productos</CardTitle>
+        <CardDescription className="text-xs">
           Maneja tus productos y mira su rendimiento de ventas.
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <Table>
+        <Table className="text-xs">
           <TableHeader>
             <TableRow>
               <TableHead className="hidden w-[100px] sm:table-cell">
@@ -71,6 +71,9 @@ export const ProductsTable = async ({
               </TableHead>
               <TableHead>Nombre</TableHead>
               <TableHead>En stock</TableHead>
+              <TableHead className="hidden md:table-cell">
+                En descuento
+              </TableHead>
               <TableHead className="hidden md:table-cell">Precio</TableHead>
 
               <TableHead className="hidden md:table-cell">Creado el</TableHead>
@@ -81,14 +84,23 @@ export const ProductsTable = async ({
           </TableHeader>
           <TableBody>
             {products.map(
-              ({ id, images, title, inStock, price, createdAt, slug }) => (
+              ({
+                id,
+                images,
+                title,
+                inStock,
+                inDiscount,
+                price,
+                createdAt,
+                slug,
+              }) => (
                 <TableRow key={id}>
                   <TableCell>
                     <ProductImage
                       src={images[0]}
                       alt={title}
-                      width={100}
-                      height={100}
+                      width={80}
+                      height={80}
                       className="aspect-square h-full w-full rounded-md"
                     />
                   </TableCell>
@@ -105,6 +117,13 @@ export const ProductsTable = async ({
                     >
                       {inStock}
                     </Badge>
+                  </TableCell>
+                  <TableCell className="hidden md:table-cell">
+                    {inDiscount ? (
+                      <Badge variant="stock">Sí</Badge>
+                    ) : (
+                      <Badge variant="nostock">No</Badge>
+                    )}
                   </TableCell>
                   <TableCell className="hidden md:table-cell">
                     {currencyFormat(price)}
