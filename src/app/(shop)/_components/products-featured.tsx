@@ -1,6 +1,7 @@
 import { getProducts } from '@/actions/products/get-products';
 import { ProductCard } from '@/components/product/product-card';
 import { buttonVariants } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
 
 export const ProductsFeatured = async () => {
@@ -71,6 +72,7 @@ export const ProductsFeatured = async () => {
           Ver tienda online
         </Link>
       </div>
+      <Separator />
     </div>
   );
 };

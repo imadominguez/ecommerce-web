@@ -43,7 +43,7 @@ export const ProdcutsCart = () => {
     );
   }
   return (
-    <div className="lg:col-span-2 lg:max-h-[80dvh]">
+    <div className="scroll overflow-y-scroll lg:col-span-2 lg:max-h-[80dvh]">
       {productsInCart.map((item) => (
         <div
           key={item.id}
