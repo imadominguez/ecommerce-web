@@ -7,9 +7,9 @@ interface Props {
 export const Title = ({ title, subtitle, className }: Props) => {
   return (
     // Contenedor principal del título con posibilidad de aplicar una clase personalizada
-    <div className={`${className ? className : ''} my-3`}>
+    <div className={`${className ? className : ''}`}>
       {/* Título principal con estilos de fuente específicos */}
-      <h1 className={`mb-3 text-2xl font-semibold antialiased md:text-3xl`}>
+      <h1 className={`mb-3 text-xl font-semibold antialiased md:text-2xl`}>
         {title}
       </h1>
 

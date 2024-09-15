@@ -42,7 +42,7 @@ export const QuantitySelector = ({
       </Button>
 
       {/* Visualización de la cantidad actual */}
-      <span className="bg-dark-accent mx-3 w-12 rounded px-5 py-1 text-center">
+      <span className="bg-dark-accent mx-1 w-8 rounded px-2 py-1 text-center">
         {quantity}
       </span>
 
