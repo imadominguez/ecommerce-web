@@ -28,7 +28,7 @@ const storeApiCart: StateCreator<State> = (set, get) => ({
     {
       id: '1',
       title: 'Producto 1',
-      price: 100,
+      price: 40000,
       quantity: 1,
       image: '1473809-00-A_alt.jpg',
       color: 'black',
