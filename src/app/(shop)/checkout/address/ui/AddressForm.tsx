@@ -1,202 +1,180 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
-import { useForm } from 'react-hook-form';
-import clsx from 'clsx';
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Checkbox } from '@/components/ui/checkbox';
 
-// import { deleteUserAddress, setUserAddress } from '@/actions';
-import { Country } from '@/types/country';
-import { Address } from '@/types/address';
-import { useAddressStore } from '@/store/address/address-store';
-
-type FormInputs = {
-  firstName: string;
-  lastName: string;
-  address: string;
-  address2?: string;
-  postalCode: string;
-  city: string;
-  country: string;
-  phone: string;
-  rememberAddress: boolean;
-};
-
-interface Props {
-  countries: Country[];
-  userStoredAddress?: Partial<Address>;
-}
-
-export const AddressForm = ({ countries, userStoredAddress = {} }: Props) => {
-  const router = useRouter();
-  const {
-    handleSubmit,
-    register,
-    formState: { isValid },
-    reset,
-  } = useForm<FormInputs>({
-    defaultValues: {
-      ...(userStoredAddress as any),
-      rememberAddress: false,
-    },
-  });
-
-  const { data: session } = useSession({
-    required: true,
-  });
-
-  const setAddress = useAddressStore((state) => state.setAddress);
-  const address = useAddressStore((state) => state.address);
-
-  useEffect(() => {
-    if (address.firstName) {
-      reset(address);
-    }
-  }, [address, reset]);
-
-  const onSubmit = async (data: FormInputs) => {
-    const { rememberAddress, ...restAddress } = data;
-    setAddress(restAddress);
-
-    if (rememberAddress) {
-      // await setUserAddress(restAddress, session!.user.id);
-    } else {
-      // await deleteUserAddress(session!.user.id);
-    }
-
-    router.push('/checkout');
-  };
+export function AddressForm() {
+  const [billingType, setBillingType] = useState('consumidor_final');
+  const [isApartment, setIsApartment] = useState(false);
+  const [saveData, setSaveData] = useState(false);
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-5"
-    >
-      <div className="mb-2 flex flex-col">
-        <span>Nombres</span>
-        <input
-          type="text"
-          className="rounded-md border bg-gray-200 p-2 dark:border-neutral-900 dark:bg-neutral-900"
-          {...register('firstName', { required: true })}
-        />
-      </div>
-
-      <div className="mb-2 flex flex-col">
-        <span>Apellidos</span>
-        <input
-          type="text"
-          className="rounded-md border bg-gray-200 p-2 dark:border-neutral-900 dark:bg-neutral-900"
-          {...register('lastName', { required: true })}
-        />
-      </div>
-
-      <div className="mb-2 flex flex-col">
-        <span>Dirección</span>
-        <input
-          type="text"
-          className="rounded-md border bg-gray-200 p-2 dark:border-neutral-900 dark:bg-neutral-900"
-          {...register('address', { required: true })}
-        />
-      </div>
-
-      <div className="mb-2 flex flex-col">
-        <span>Dirección 2 (opcional)</span>
-        <input
-          type="text"
-          className="rounded-md border bg-gray-200 p-2 dark:border-neutral-900 dark:bg-neutral-900"
-          {...register('address2')}
-        />
-      </div>
-
-      <div className="mb-2 flex flex-col">
-        <span>Código postal</span>
-        <input
-          type="text"
-          className="rounded-md border bg-gray-200 p-2 dark:border-neutral-900 dark:bg-neutral-900"
-          {...register('postalCode', { required: true })}
-        />
-      </div>
-
-      <div className="mb-2 flex flex-col">
-        <span>Ciudad</span>
-        <input
-          type="text"
-          className="rounded-md border bg-gray-200 p-2 dark:border-neutral-900 dark:bg-neutral-900"
-          {...register('city', { required: true })}
-        />
-      </div>
-
-      <div className="mb-2 flex flex-col">
-        <span>País</span>
-        <select
-          className="rounded-md border bg-gray-200 p-2 dark:border-neutral-900 dark:bg-neutral-900"
-          {...register('country', { required: true })}
-        >
-          <option value="">[ Seleccione ]</option>
-          {countries.map((country) => (
-            <option key={country.name} value={country.id}>
-              {country.name}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <div className="mb-2 flex flex-col">
-        <span>Teléfono</span>
-        <input
-          type="text"
-          className="rounded-md border bg-gray-200 p-2 dark:border-neutral-900 dark:bg-neutral-900"
-          {...register('phone', { required: true })}
-        />
-      </div>
-
-      <div className="mb-2 flex flex-col sm:mt-1">
-        <div className="mb-10 inline-flex items-center">
-          <label
-            className="relative flex cursor-pointer items-center rounded-full p-3"
-            htmlFor="checkbox"
-          >
-            <input
-              type="checkbox"
-              className="before:content[''] border-blue-gray-200 before:bg-blue-gray-500 peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-gray-500 transition-all before:absolute before:left-2/4 before:top-2/4 before:block before:h-12 before:w-12 before:-translate-x-2/4 before:-translate-y-2/4 before:rounded-full before:opacity-0 before:transition-opacity checked:border-blue-500 checked:bg-blue-500 checked:before:bg-blue-500 hover:before:opacity-10"
-              id="checkbox"
-              {...register('rememberAddress')}
-            />
-            <div className="pointer-events-none absolute left-2/4 top-2/4 -translate-x-2/4 -translate-y-2/4 text-white opacity-0 transition-opacity peer-checked:opacity-100">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-3.5 w-3.5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                stroke="currentColor"
-                strokeWidth="1"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                  clipRule="evenodd"
-                ></path>
-              </svg>
+    <Card className="mx-auto w-full max-w-2xl bg-muted shadow-md">
+      <CardHeader>
+        <CardTitle>Formulario de Pedido</CardTitle>
+        <CardDescription>
+          Completa los datos de envío y facturación para finalizar tu pedido.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <form className="space-y-8">
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="country">País</Label>
+                <Select>
+                  <SelectTrigger id="country">
+                    <SelectValue placeholder="Selecciona un país" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="argentina">Argentina</SelectItem>
+                    <SelectItem value="chile">Chile</SelectItem>
+                    <SelectItem value="uruguay">Uruguay</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="postal-code">Código Postal</Label>
+                <Input
+                  id="postal-code"
+                  placeholder="Ingresa tu código postal"
+                />
+              </div>
             </div>
-          </label>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="street">Calle</Label>
+                <Input id="street" placeholder="Nombre de la calle" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="street-number">Número</Label>
+                <Input id="street-number" placeholder="Número de calle" />
+              </div>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="is-apartment"
+                checked={isApartment}
+                onCheckedChange={() => setIsApartment(!isApartment)}
+              />
+              <Label htmlFor="is-apartment">Es departamento</Label>
+            </div>
+            {isApartment && (
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="floor">Piso</Label>
+                  <Input id="floor" placeholder="Número de piso" />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="apartment">Departamento</Label>
+                  <Input
+                    id="apartment"
+                    placeholder="Número o letra de departamento"
+                  />
+                </div>
+              </div>
+            )}
+            <div className="space-y-2">
+              <Label htmlFor="phone">Teléfono</Label>
+              <Input
+                id="phone"
+                type="tel"
+                placeholder="Ingresa tu número de teléfono"
+              />
+            </div>
+          </div>
 
-          <span>¿Recordar dirección?</span>
-        </div>
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold">Datos de Facturación</h3>
+            <RadioGroup
+              defaultValue="consumidor_final"
+              onValueChange={setBillingType}
+            >
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem
+                  value="consumidor_final"
+                  id="consumidor_final"
+                />
+                <Label htmlFor="consumidor_final">Consumidor Final</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem
+                  value="responsable_inscripto"
+                  id="responsable_inscripto"
+                />
+                <Label htmlFor="responsable_inscripto">
+                  Responsable Inscripto
+                </Label>
+              </div>
+            </RadioGroup>
 
-        <button
-          disabled={!isValid}
-          // href="/checkout"
-          type="submit"
-          // className="btn-primary flex w-full sm:w-1/2 justify-center "
-          className={clsx({
-            'btn-primary': isValid,
-            'btn-disabled': !isValid,
-          })}
-        >
-          Siguiente
-        </button>
-      </div>
-    </form>
+            {billingType === 'responsable_inscripto' && (
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="cuit">CUIT/CUIL</Label>
+                  <Input id="cuit" placeholder="Ingresa tu CUIT/CUIL" />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="razon-social">Razón Social</Label>
+                  <Input
+                    id="razon-social"
+                    placeholder="Ingresa la razón social"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="condicion-iva">Condición frente al IVA</Label>
+                  <Select>
+                    <SelectTrigger id="condicion-iva">
+                      <SelectValue placeholder="Selecciona tu condición" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="responsable_inscripto">
+                        Responsable Inscripto
+                      </SelectItem>
+                      <SelectItem value="monotributista">
+                        Monotributista
+                      </SelectItem>
+                      <SelectItem value="exento">Exento</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            )}
+          </div>
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="save-data"
+              checked={saveData}
+              onCheckedChange={() => setSaveData(!saveData)}
+            />
+            <Label htmlFor="save-data">
+              Guardar mis datos para futuras compras
+            </Label>
+          </div>
+
+          <Button type="submit" className="w-full">
+            Enviar Pedido
+          </Button>
+        </form>
+      </CardContent>
+    </Card>
   );
-};
+}

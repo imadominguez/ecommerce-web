@@ -1,9 +1,13 @@
 // import { Title } from '@/components';
+import { db } from '@/lib/db';
 import { AddressForm } from './ui/AddressForm';
 
 // import { getCountries, getUserAddress } from '@/actions';
-// import { auth } from '@/auth.config';
+
 import { Metadata } from 'next';
+import { auth } from '@/auth';
+import { redirect } from 'next/navigation';
+import { PageContainer } from '@/components/layout/page-container';
 
 export const metadata: Metadata = {
   title: 'Dirección - Teslo | SHOP',
@@ -14,23 +18,20 @@ export const metadata: Metadata = {
 };
 
 export default async function AddressPage() {
-  // const countries = await getCountries();
+  const countries = await db.country.findMany();
 
-  // const session = await auth();
+  const session = await auth();
 
-  // if (!session?.user) {
-  //   return <h3 className="text-5xl">500 - No hay sesión de usuario</h3>;
-  // }
+  // Si no hay sesion redireccionar a login con un param de redireccion a esta pagina
+  if (!session?.user) {
+    redirect('/login?redirect=/checkout/address');
+  }
 
   // const userAddress = (await getUserAddress(session.user.id)) ?? undefined;
 
   return (
-    <div className="mb-72 flex flex-col px-10 sm:items-center sm:justify-center sm:px-0">
-      <div className="flex w-full flex-col justify-center text-left xl:w-[1000px]">
-        {/* <Title title="Dirección" subtitle="Dirección de entrega" /> */}
-        <h1 className="text-3xl font-bold">Dirección</h1>
-        {/* <AddressForm countries={countries} userStoredAddress={userAddress} /> */}
-      </div>
-    </div>
+    <PageContainer>
+      <AddressForm />
+    </PageContainer>
   );
 }
