@@ -27,7 +27,7 @@ export function AddressForm() {
   const [saveData, setSaveData] = useState(false);
 
   return (
-    <Card className="mx-auto w-full max-w-2xl bg-muted shadow-md">
+    <Card className="mx-auto w-full max-w-2xl">
       <CardHeader>
         <CardTitle>Formulario de Pedido</CardTitle>
         <CardDescription>
@@ -40,14 +40,12 @@ export function AddressForm() {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="country">País</Label>
-                <Select>
+                <Select value="argentina">
                   <SelectTrigger id="country">
                     <SelectValue placeholder="Selecciona un país" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="argentina">Argentina</SelectItem>
-                    <SelectItem value="chile">Chile</SelectItem>
-                    <SelectItem value="uruguay">Uruguay</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
