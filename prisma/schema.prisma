@@ -102,17 +102,28 @@ model Country {
 }
 
 model UserAddress {
-  id         String  @id @default(uuid())
-  firstName  String
-  lastName   String
-  address    String
-  address2   String?
+  id          String  @id @default(uuid())
+  firstName   String
+  lastName    String
+  address     String
+  address2    String?
+  isApartment Boolean
+  floor       String?
+  apartment   String?
+
   postalCode String
   phone      String
   city       String
+
+  // Información fiscal
+  taxType      String // 'Consumidor Final' o 'Responsable Inscripto'
+  cuitCuil     String? // Solo si es Responsable Inscripto
+  businessName String? // Razón social, solo si aplica
+  vatCondition String? // 'Responsable Inscripto', 'Monotributista', 'Exento', solo si aplica
+
   // Relaciones
-  country    Country @relation(fields: [countryId], references: [id])
-  countryId  String
+  country   Country @relation(fields: [countryId], references: [id])
+  countryId String
 
   user   User   @relation(fields: [userId], references: [id])
   userId String @unique

@@ -73,9 +73,16 @@ Table UserAddress {
   lastName String [not null]
   address String [not null]
   address2 String
+  isApartment Boolean [not null]
+  floor String
+  apartment String
   postalCode String [not null]
   phone String [not null]
   city String [not null]
+  taxType String [not null]
+  cuitCuil String
+  businessName String
+  vatCondition String
   country Country [not null]
   countryId String [not null]
   user User [not null]
