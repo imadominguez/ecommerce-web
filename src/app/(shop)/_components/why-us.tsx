@@ -43,7 +43,7 @@ export const WhyUs = () => {
           {servicios.slice(0, 3).map((servicio, index) => (
             <div
               key={index}
-              className="flex max-w-sm flex-col items-center rounded-lg bg-muted p-6 text-center"
+              className="flex max-w-sm flex-col items-center rounded-lg bg-muted p-6 text-center shadow-md"
             >
               <div className="mb-4">{servicio.icon}</div>
               <h3 className="mb-2 text-xl font-semibold">{servicio.title}</h3>
@@ -55,7 +55,7 @@ export const WhyUs = () => {
           {servicios.slice(3).map((servicio, index) => (
             <div
               key={index + 3}
-              className="flex max-w-sm flex-col items-center rounded-lg bg-muted p-6 text-center"
+              className="flex max-w-sm flex-col items-center rounded-lg bg-muted p-6 text-center shadow-md"
             >
               <div className="mb-4">{servicio.icon}</div>
               <h3 className="mb-2 text-xl font-semibold">{servicio.title}</h3>

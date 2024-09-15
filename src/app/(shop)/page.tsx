@@ -15,7 +15,7 @@ export default async function Home() {
       <Carrousel images={CARROUSEL_IMAGES_HOME} delay={1} loop />
       {/* <Carrousel /> */}
       {/* Section hero promo */}
-      <section className="my-10 rounded bg-muted px-4 py-8 sm:px-0 sm:py-12">
+      <section className="my-10 rounded bg-muted px-4 py-8 shadow-md sm:px-0 sm:py-12">
         <div className="mx-auto grid grid-cols-1 items-center justify-items-center gap-8 px-5 sm:px-16 md:grid-cols-2">
           <div className="mx-auto max-w-md space-y-4">
             <h2 className="text-balance text-2xl font-bold tracking-tight md:text-4xl">
@@ -45,7 +45,7 @@ export default async function Home() {
       </section>
       <Separator />
       {/* Section sobre nosotros */}
-      <section className="my-5 rounded-md bg-muted lg:py-16">
+      <section className="my-5 rounded-md bg-muted shadow-md lg:py-16">
         <div className="container mx-auto grid grid-cols-1 gap-8">
           <div className="flex flex-col items-center justify-center space-y-4">
             <h2 className="text-center text-xl uppercase text-primary md:text-4xl">
