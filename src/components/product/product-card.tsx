@@ -17,14 +17,14 @@ export const ProductCard = ({ product }: Props) => {
       key={id}
       className="group relative overflow-hidden rounded-md border bg-muted shadow-sm transition-shadow hover:shadow-md"
     >
-      <div className="relative">
+      <div className="relative overflow-hidden">
         <Link href={`/products/${slug}`}>
           <ProductImage
             alt={''}
             src={images[0]}
             width={300}
             height={300}
-            className="h-48 w-full object-cover"
+            className="h-48 w-full object-cover transition-transform group-hover:scale-110"
           />
         </Link>
         <Button
