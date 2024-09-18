@@ -51,8 +51,13 @@ export const FilterProduct = ({
   });
 
   const handleFilter = (key: string, value: string) => {
-    console.log(key, value);
     const params = new URLSearchParams(searchParams);
+    if (key === 'category' && value === 'null') {
+      params.delete('category');
+      replace(`${pathname}?${params.toString()}`);
+      setFilters((prev) => ({ ...prev, [key]: value }));
+      return;
+    }
     if (value) {
       params.set(key, value);
     } else {
@@ -155,7 +160,7 @@ const Filters = ({
             <SelectGroup>
               <SelectItem value="null">Todas las categorías</SelectItem>
               {categories.map((category) => (
-                <SelectItem key={category.id} value={category.id}>
+                <SelectItem key={category.id} value={category.name}>
                   {category.name}
                 </SelectItem>
               ))}
