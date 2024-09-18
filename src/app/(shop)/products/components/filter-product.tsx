@@ -207,7 +207,7 @@ const Filters = ({
       <Button
         size={'sm'}
         className="w-full uppercase"
-        variant={'default'}
+        variant={'outline'}
         onClick={clearFilters}
       >
         Limpiar filtros
