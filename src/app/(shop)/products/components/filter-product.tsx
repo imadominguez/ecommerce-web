@@ -58,6 +58,24 @@ export const FilterProduct = ({
       setFilters((prev) => ({ ...prev, [key]: value }));
       return;
     }
+    if (key === 'color' && value === 'null') {
+      params.delete('color');
+      replace(`${pathname}?${params.toString()}`);
+      setFilters((prev) => ({ ...prev, [key]: value }));
+      return;
+    }
+    if (key === 'pmin' && !value) {
+      params.delete('pmin');
+      replace(`${pathname}?${params.toString()}`);
+      setFilters((prev) => ({ ...prev, [key]: value }));
+      return;
+    }
+    if (key === 'pmax' && !value) {
+      params.delete('pmax');
+      replace(`${pathname}?${params.toString()}`);
+      setFilters((prev) => ({ ...prev, [key]: value }));
+      return;
+    }
     if (value) {
       params.set(key, value);
     } else {
@@ -203,7 +221,7 @@ const Filters = ({
               <SelectItem value="null">Todos</SelectItem>
               <SelectItem value="black">Negro</SelectItem>
               <SelectItem value="cyan">Cyan</SelectItem>
-              <SelectItem value="magenta">MAgenta</SelectItem>
+              <SelectItem value="magenta">Magenta</SelectItem>
               <SelectItem value="yellow">Amarillo</SelectItem>
             </SelectGroup>
           </SelectContent>
