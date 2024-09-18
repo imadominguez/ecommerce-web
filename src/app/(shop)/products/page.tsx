@@ -39,7 +39,7 @@ export default async function ProductsPage({ searchParams }: Props) {
   }
   return (
     <>
-      <div className="relative mx-auto grid max-w-7xl gap-0 px-4 pb-16 pt-5 sm:px-6 sm:pb-24 lg:max-w-7xl lg:grid-cols-4 lg:gap-8 lg:px-8">
+      <div className="relative mx-auto grid max-w-7xl gap-0 px-4 pt-5 sm:px-6 lg:max-w-7xl lg:grid-cols-4 lg:gap-8 lg:px-8">
         <div className="border-r lg:col-span-1">
           <FilterProduct {...searchParams} categories={categories.categories} />
         </div>
@@ -53,7 +53,7 @@ export default async function ProductsPage({ searchParams }: Props) {
 
           <ProductGrid
             className={
-              'mt-6 grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-3 2xl:gap-x-8'
+              'mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3'
             }
             products={products}
           />
