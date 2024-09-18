@@ -56,8 +56,9 @@ model Product {
   Comment      Comment[]
 
   // Fechas
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Favorite  Favorite[]
 }
 
 model ProductImage {
@@ -90,8 +91,9 @@ model User {
   Comment Comment[]
 
   // Fechas
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Favorite  Favorite[]
 }
 
 model Country {
@@ -102,18 +104,18 @@ model Country {
 }
 
 model UserAddress {
-  id          String  @id @default(uuid())
-  firstName   String
-  lastName    String
-  address     String
-  address2    String?
-  isApartment Boolean
-  floor       String?
-  apartment   String?
-
-  postalCode String
-  phone      String
-  city       String
+  id           String  @id @default(uuid())
+  firstName    String
+  lastName     String
+  street       String // Calle, ej. 'Republica del Libano'
+  streetNumber String // Número de la calle, ej. '4142'
+  address2     String? // Opcional, para detalles adicionales
+  isApartment  Boolean
+  floor        String? // Opcional
+  apartment    String? // Opcional
+  postalCode   String
+  phone        String
+  city         String
 
   // Información fiscal
   taxType      String // 'Consumidor Final' o 'Responsable Inscripto'
@@ -226,6 +228,24 @@ model Brand {
   id      String    @id @default(uuid())
   name    String
   product Product[]
+}
+
+// Productos favoritos
+
+model Favorite {
+  id        String @id @default(uuid())
+  userId    String
+  productId String
+
+  // Relaciones
+  user    User    @relation(fields: [userId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+
+  //  Fechas
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, productId])
 }
 
 generator dbml {
