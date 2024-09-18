@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { Product } from '@prisma/client';
-import Image from 'next/image';
 import { currencyFormat } from '@/utils/currencyFormat';
 import { ProductImage } from './product-image';
 import { Heart, Star } from 'lucide-react';
@@ -27,12 +26,13 @@ export const ProductCard = ({ product }: Props) => {
             className="h-48 w-full object-cover transition-transform group-hover:scale-110"
           />
         </Link>
-        <Button
+        {/* Button Favorite */}
+        {/* <Button
           size={'icon'}
           className="absolute right-2 top-2 rounded-full text-white shadow-md"
         >
           <Heart className="h-5 w-5" />
-        </Button>
+        </Button> */}
       </div>
       <div className="p-4">
         <div className="mb-2 flex items-start justify-between">
