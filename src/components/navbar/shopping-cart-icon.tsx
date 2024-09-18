@@ -19,11 +19,11 @@ export const ShoppingCart = () => {
   return (
     <Link href={`${totalItemsInCart === 0 && loaded ? '/empty' : '/cart'}`}>
       <div className="relative">
-        <ShoppingCartIcon className="h-6 w-6" />
+        <ShoppingCartIcon className="h-5 w-5" />
         {loaded && totalItemsInCart > 0 && (
           <Badge
             variant={'default'}
-            className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full text-xs"
+            className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full text-[10px]"
           >
             {totalItemsInCart}
           </Badge>
