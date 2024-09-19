@@ -6,11 +6,11 @@ import { loginSchema } from '@/lib/zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { EyeOffIcon, EyeIcon, RotateCcwIcon } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { toast } from 'sonner';
-
+import Link from 'next/link';
 // componentes
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
   Form,
@@ -27,6 +27,8 @@ import { TypeInputPassword } from '@/types/inputs';
 
 export const LoginForm = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams);
 
   const [isPending, startTransition] = useTransition();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -50,7 +52,10 @@ export const LoginForm = () => {
       if (success) {
         setIsSuccess(true);
         toast.success(`Bienvenido/a ${name_user}`);
-
+        if (params.get('redirect')) {
+          router.push(params.get('redirect') as string);
+          return;
+        }
         router.push('/');
       } else {
         toast.error(message);
@@ -138,6 +143,21 @@ export const LoginForm = () => {
           </div>
         </form>
       </Form>
+      <p className="mt-5 text-center text-sm">
+        No tenes una cuenta?
+        <Link
+          href={
+            params.get('redirect')
+              ? '/register?redirect=' + params.get('redirect')
+              : '/register'
+          }
+          className={buttonVariants({
+            variant: 'link',
+          })}
+        >
+          Crear cuenta
+        </Link>
+      </p>
     </div>
   );
 };

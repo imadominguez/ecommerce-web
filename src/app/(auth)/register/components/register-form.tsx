@@ -1,6 +1,6 @@
 'use client';
 import { useState, useTransition } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { registerSchema } from '@/lib/zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -27,7 +27,8 @@ import { TypeInputPassword } from '@/types/inputs';
 
 export const RegisterForm = () => {
   const router = useRouter();
-
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams);
   // Estado para manejar la transición y los errores
   const [isPending, startTransition] = useTransition();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -61,7 +62,13 @@ export const RegisterForm = () => {
         if (!isLoggin) {
           toast.error('No se pudo iniciar sesión. Intente nuevamente');
         } else {
-          router.push('/');
+          // Redirección después de iniciar sesión
+          if (params.get('redirect')) {
+            router.push(params.get('redirect') as string);
+            return;
+          } else {
+            router.push('/');
+          }
         }
       } else {
         toast.error(message);
