@@ -3,6 +3,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import './globals.css';
 import { roboto } from '@/config/fonts';
 import { Toaster } from 'sonner';
+import { Providers } from '@/components/layout/providers';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -17,10 +18,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={roboto.className}>
-        <ThemeProvider attribute="class" defaultTheme="system">
-          {children}
-          <Toaster richColors />
-        </ThemeProvider>
+        <Providers>
+          <ThemeProvider attribute="class" defaultTheme="system">
+            {children}
+            <Toaster richColors />
+          </ThemeProvider>
+        </Providers>
       </body>
     </html>
   );
