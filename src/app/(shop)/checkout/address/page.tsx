@@ -1,13 +1,10 @@
-// import { Title } from '@/components';
-import { db } from '@/lib/db';
 import { AddressForm } from './ui/AddressForm';
-
-// import { getCountries, getUserAddress } from '@/actions';
 
 import { Metadata } from 'next';
 import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
 import { PageContainer } from '@/components/layout/page-container';
+import { getUserAddress } from '@/actions/user/get-user-address';
 
 export const metadata: Metadata = {
   title: 'Dirección - Teslo | SHOP',
@@ -18,8 +15,6 @@ export const metadata: Metadata = {
 };
 
 export default async function AddressPage() {
-  const countries = await db.country.findMany();
-
   const session = await auth();
 
   // Si no hay sesion redireccionar a login con un param de redireccion a esta pagina
@@ -27,11 +22,11 @@ export default async function AddressPage() {
     redirect('/login?redirect=/checkout/address');
   }
 
-  // const userAddress = (await getUserAddress(session.user.id)) ?? undefined;
+  const userAddress = await getUserAddress(session?.user.id ?? '');
 
   return (
     <PageContainer>
-      <AddressForm />
+      <AddressForm session={session} userStoredAddress={userAddress} />
     </PageContainer>
   );
 }
