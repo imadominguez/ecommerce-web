@@ -3,6 +3,7 @@ import type { Country } from './country';
 export interface UserAddress {
   firstName: string;
   lastName: string;
+  country: string;
   street: string;
   streetNumber: string;
   address2?: string;
