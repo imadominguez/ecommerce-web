@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -21,9 +21,9 @@ import {
 } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 
-import { z } from 'zod';
+import { date, z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import {
   Form,
   FormControl,
@@ -39,27 +39,83 @@ import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { deleteUserAddress } from '@/actions/address/delete-user-address';
 import { Session } from 'next-auth';
+import { useAddressStore } from '@/store/address/address-store';
 
-const formSchema = z.object({
-  firstName: z.string(),
-  lastName: z.string(),
-  country: z.string(),
-  city: z.string(),
-  postalCode: z.string(),
-  phone: z.string(),
-  street: z.string(), // Calle
-  streetNumber: z.string(), // Número de la calle
-  address2: z.string().optional(), // Cambié "streetNumber" por "address2"
-  isApartment: z.boolean(),
-  floor: z.string().optional(), // Opcional
-  apartment: z.string().optional(), // Opcional
-  taxType: z.enum(['consumidor_final', 'responsable_inscripto']), // Cambié "billingType" por "taxType"
-  cuitCuil: z.string().optional(), // Cambié "cuit" por "cuitCuil"
-  businessName: z.string().optional(),
-  vatCondition: z
-    .enum(['responsable_inscripto', 'monotributista', 'exento'])
-    .optional(),
-});
+const formSchema = z
+  .object({
+    firstName: z.string().min(4, {
+      message: 'El nombre debe contener como minimo 4  caracteres',
+    }),
+    lastName: z.string().min(3, { message: 'El apellido es requerido' }),
+    country: z.string().min(3, { message: 'El país es requerido' }),
+    city: z.string().min(3, { message: 'La ciudad es requerida' }),
+    postalCode: z.string().min(4, { message: 'El código postal es requerido' }),
+    phone: z.string().min(8, { message: 'El teléfono es requerido' }),
+    street: z.string().min(4, { message: 'La calle es requerida' }), // Calle
+    streetNumber: z
+      .string()
+      .min(2, { message: 'El numero de calle es requerido' }), // Número de la calle
+    address2: z.string().optional(), // Cambié "streetNumber" por "address2"
+    isApartment: z.boolean(),
+    floor: z.string().optional(), // Opcional
+    apartment: z.string().optional(), // Opcional
+    taxType: z.enum(['consumidor_final', 'responsable_inscripto']), // Cambié "billingType" por "taxType"
+    cuitCuil: z.string().optional(), // Cambié "cuit" por "cuitCuil"
+    businessName: z.string().optional(),
+    vatCondition: z
+      .enum(['responsable_inscripto', 'monotributista', 'exento'])
+      .optional(),
+  })
+  .refine(
+    (data) => {
+      if (data.taxType === 'responsable_inscripto') {
+        return data.cuitCuil && data.businessName && data.vatCondition;
+      }
+      return true;
+    },
+    {
+      message:
+        'CUIT/CUIL, Razón Social y Condición frente al IVA son requeridos para Responsable Inscripto',
+      path: ['cuitCuil', 'businessName', 'vatCondition'], // Puedes especificar el campo que causa el error
+    }
+  )
+  .refine(
+    (data) => {
+      if (data.taxType === 'responsable_inscripto' && !data.cuitCuil) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: 'CUIT/CUIL es requerido para Responsable Inscripto',
+      path: ['cuitCuil'],
+    }
+  )
+  .refine(
+    (data) => {
+      if (data.taxType === 'responsable_inscripto' && !data.businessName) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: 'Razón Social es requerido para Responsable Inscripto',
+      path: ['businessName'],
+    }
+  )
+  .refine(
+    (data) => {
+      if (data.taxType === 'responsable_inscripto' && !data.vatCondition) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message:
+        'Condición frente al IVA es requerido para Responsable Inscripto',
+      path: ['vatCondition'],
+    }
+  );
 
 interface Props {
   userStoredAddress: Partial<UserAddress>;
@@ -67,13 +123,18 @@ interface Props {
 }
 
 export function AddressForm({ userStoredAddress, session }: Props) {
-  const [billingType, setBillingType] = useState<string | undefined>(undefined);
-  const [isApartment, setIsApartment] = useState(false);
-  const [saveData, setSaveData] = useState(false);
   const router = useRouter();
 
+  const setAddress = useAddressStore((state) => state.setAddress);
+
+  const [billingType, setBillingType] = useState<string | undefined>(undefined);
+  const [isApartment, setIsApartment] = useState(false);
+  const [saveData, setSaveData] = useState(
+    userStoredAddress.firstName ? true : false
+  );
+
   const form = useForm<z.infer<typeof formSchema>>({
-    // resolver: zodResolver(formSchema),
+    resolver: zodResolver(formSchema),
     defaultValues: {
       ...userStoredAddress,
       taxType: userStoredAddress.taxType as
@@ -88,12 +149,26 @@ export function AddressForm({ userStoredAddress, session }: Props) {
     },
   });
 
+  useEffect(() => {
+    if (!isApartment) {
+      form.unregister('floor');
+      form.unregister('apartment');
+    }
+  }, [isApartment, form]);
+
+  useEffect(() => {
+    if (billingType !== 'responsable_inscripto') {
+      form.unregister('cuitCuil');
+      form.unregister('businessName');
+      form.unregister('vatCondition');
+    }
+  }, [billingType, form]);
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const rememberAddress = saveData;
-    console.log({ values });
+    setAddress(values);
     if (rememberAddress) {
-      //?? Guardar datos en la base de datos
-
+      //   // Guardar datos en la base de datos
       const { ok, message } = await setUserAddress(
         session?.user.id as string,
         values
@@ -102,7 +177,7 @@ export function AddressForm({ userStoredAddress, session }: Props) {
         toast.success(message);
       }
     } else {
-      //?? Eliminar datos de la base de datos
+      // Eliminar datos de la base de datos
       await deleteUserAddress(session?.user.id as string);
     }
     router.push('/checkout');
@@ -166,14 +241,26 @@ export function AddressForm({ userStoredAddress, session }: Props) {
                     <FormItem>
                       <FormLabel>País</FormLabel>
                       <FormControl>
-                        <Select {...field}>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Selecciona un país" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="argentina">Argentina</SelectItem>
-                          </SelectContent>
-                        </Select>
+                        <Controller
+                          control={form.control}
+                          name="country"
+                          render={({ field }) => (
+                            <Select
+                              onValueChange={field.onChange}
+                              value={field.value}
+                              // defaultValue="argentina"
+                            >
+                              <SelectTrigger>
+                                <SelectValue placeholder="Selecciona un país" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="argentina">
+                                  Argentina
+                                </SelectItem>
+                              </SelectContent>
+                            </Select>
+                          )}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -339,6 +426,8 @@ export function AddressForm({ userStoredAddress, session }: Props) {
                           );
                           setBillingType(value);
                         }}
+                        value={field.value}
+                        defaultValue={field.value}
                       >
                         <SelectTrigger>
                           <SelectValue placeholder="Selecciona el tipo" />
@@ -360,36 +449,67 @@ export function AddressForm({ userStoredAddress, session }: Props) {
 
               {billingType === 'responsable_inscripto' && (
                 <div className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="cuit">CUIT/CUIL</Label>
-                    <Input id="cuit" placeholder="Ingresa tu CUIT/CUIL" />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="razon-social">Razón Social</Label>
-                    <Input
-                      id="razon-social"
-                      placeholder="Ingresa la razón social"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="condicion-iva">
-                      Condición frente al IVA
-                    </Label>
-                    <Select>
-                      <SelectTrigger id="condicion-iva">
-                        <SelectValue placeholder="Selecciona tu condición" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="responsable_inscripto">
-                          Responsable Inscripto
-                        </SelectItem>
-                        <SelectItem value="monotributista">
-                          Monotributista
-                        </SelectItem>
-                        <SelectItem value="exento">Exento</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
+                  <FormField
+                    control={form.control}
+                    name="cuitCuil"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>CUIT/CUIL</FormLabel>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            placeholder="Ingresa tu CUIT/CUIL"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="businessName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Razón Social</FormLabel>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            placeholder="Ingresa la razón social"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="vatCondition"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Condición frente al IVA</FormLabel>
+                        <FormControl>
+                          <Select
+                            onValueChange={field.onChange}
+                            value={field.value}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Selecciona tu condición" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="responsable_inscripto">
+                                Responsable Inscripto
+                              </SelectItem>
+                              <SelectItem value="monotributista">
+                                Monotributista
+                              </SelectItem>
+                              <SelectItem value="exento">Exento</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
               )}
             </div>
