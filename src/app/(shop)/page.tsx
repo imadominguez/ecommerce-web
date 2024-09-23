@@ -45,13 +45,13 @@ export default async function Home() {
       </section>
       <Separator />
       {/* Section sobre nosotros */}
-      <section className="my-5 rounded-md bg-muted shadow-md lg:py-16">
+      <section className="my-5 rounded-md bg-muted py-16 shadow-md">
         <div className="container mx-auto grid grid-cols-1 gap-8">
           <div className="flex flex-col items-center justify-center space-y-4">
-            <h2 className="text-center text-xl uppercase text-primary md:text-4xl">
+            <h2 className="text-center text-xl uppercase text-primary md:text-2xl">
               <strong>Sobre nosotros</strong>
             </h2>
-            <p className="max-w-3xl text-balance text-center text-sm sm:text-sm md:text-base lg:text-lg">
+            <p className="max-w-3xl text-balance text-center text-sm sm:text-sm md:text-base">
               Descubre nuestra <strong>plataforma integral</strong>
               ,especializada en{' '}
               <strong>servicios de calefacción, seguridad y computación</strong>
