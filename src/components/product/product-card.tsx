@@ -47,10 +47,10 @@ export const ProductCard = ({ product }: Props) => {
             <p className="text-sm opacity-50">BLACK</p>
           </div>
           {/* Stars */}
-          <div className="flex items-center">
+          {/* <div className="flex items-center">
             <Star className="h-4 w-4 fill-current text-yellow-400" />
             <span className="ml-1 text-sm opacity-50">4.5</span>
-          </div>
+          </div> */}
         </div>
         {/* <div className="flex items-center justify-between text-xs">
           <p className="mt-1 font-semibold uppercase opacity-80">{color}</p>
@@ -62,9 +62,9 @@ export const ProductCard = ({ product }: Props) => {
           {currencyFormat(product.price)}
         </p>
 
-        <p className="mb-4 text-sm font-semibold text-green-600">
+        {/* <p className="mb-4 text-sm font-semibold text-green-600">
           Envío gratis
-        </p>
+        </p> */}
         <Button className="w-full">Agregar al carrito</Button>
       </div>
     </div>
