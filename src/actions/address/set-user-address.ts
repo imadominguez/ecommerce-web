@@ -42,11 +42,11 @@ export const setUserAddress = async (userId: string, address: UserAddress) => {
 
     address.vatCondition =
       address.taxType === 'consumidor_final' ? undefined : address.taxType;
-
+    const { country, ...addressData } = address;
     if (!userAddress) {
       await db.userAddress.create({
         data: {
-          ...address,
+          ...addressData,
           userId,
           countryId: 'AR',
         },
@@ -54,7 +54,7 @@ export const setUserAddress = async (userId: string, address: UserAddress) => {
     } else {
       await db.userAddress.update({
         where: { userId },
-        data: address,
+        data: { ...addressData },
       });
     }
 
