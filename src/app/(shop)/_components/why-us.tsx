@@ -36,10 +36,10 @@ export const WhyUs = () => {
   return (
     <div id="services" className="px-4 py-12 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <h2 className="mb-12 text-center text-xl font-bold uppercase text-primary md:text-4xl">
+        <h2 className="mb-12 text-center text-xl font-bold uppercase text-primary md:text-2xl">
           ¿Por qué Servicios Integrados?
         </h2>
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+        <div className="grid grid-cols-1 justify-items-center gap-8 md:grid-cols-3">
           {servicios.slice(0, 3).map((servicio, index) => (
             <div
               key={index}
