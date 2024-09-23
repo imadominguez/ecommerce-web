@@ -1,16 +1,24 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { devtools, persist } from 'zustand/middleware';
 
 interface State {
   address: {
     firstName: string;
     lastName: string;
-    address: string;
-    address2?: string;
-    postalCode: string;
-    city: string;
     country: string;
+    street: string;
+    streetNumber: string;
+    address2?: string;
+    isApartment: boolean;
+    floor?: string;
+    apartment?: string;
+    postalCode: string;
     phone: string;
+    city: string;
+    taxType: string;
+    cuitCuil?: string;
+    businessName?: string;
+    vatCondition?: string;
   };
 
   // Methods
@@ -18,25 +26,35 @@ interface State {
 }
 
 export const useAddressStore = create<State>()(
-  persist(
-    (set, get) => ({
-      address: {
-        firstName: '',
-        lastName: '',
-        address: '',
-        address2: '',
-        postalCode: '',
-        city: '',
-        country: '',
-        phone: '',
-      },
+  devtools(
+    persist(
+      (set, get) => ({
+        address: {
+          firstName: '',
+          lastName: '',
+          country: '',
+          street: '',
+          streetNumber: '',
+          address2: undefined,
+          isApartment: false,
+          floor: undefined,
+          apartment: undefined,
+          postalCode: '',
+          phone: '',
+          city: '',
+          taxType: '',
+          cuitCuil: undefined,
+          businessName: undefined,
+          vatCondition: undefined,
+        },
 
-      setAddress: (address) => {
-        set({ address });
-      },
-    }),
-    {
-      name: 'address-storage',
-    }
+        setAddress: (address) => {
+          set({ address });
+        },
+      }),
+      {
+        name: 'address-storage',
+      }
+    )
   )
 );
