@@ -14,7 +14,7 @@ export const ProductCard = ({ product }: Props) => {
   return (
     <div
       key={id}
-      className="group relative overflow-hidden rounded-md border bg-muted shadow-sm transition-shadow hover:shadow-md"
+      className="group relative overflow-hidden rounded-md border shadow-sm transition-shadow hover:shadow-md"
     >
       <div className="relative overflow-hidden">
         <Link href={`/products/${slug}`}>
