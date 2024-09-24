@@ -15,7 +15,7 @@ export const DashboardLink = async () => {
       <Link
         href={'/dashboard'}
         className={buttonVariants({
-          variant: 'outline',
+          variant: 'standard',
           size: 'sm',
           className: 'w-full',
         })}
