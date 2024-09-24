@@ -1,6 +1,6 @@
-import { auth, signOut } from "@/auth";
-import Link from "next/link";
-import { Button, buttonVariants } from "../ui/button";
+import { auth, signOut } from '@/auth';
+import Link from 'next/link';
+import { Button, buttonVariants } from '../ui/button';
 
 export const UserButton = async () => {
   const session = await auth();
@@ -9,11 +9,11 @@ export const UserButton = async () => {
     return (
       <form
         action={async () => {
-          "use server";
+          'use server';
           await signOut();
         }}
       >
-        <Button type="submit" size={"sm"} variant={"secondary"} className="w-full">
+        <Button type="submit" variant={'outline'} className="w-full">
           Cerrar sesion
         </Button>
       </form>
@@ -21,7 +21,7 @@ export const UserButton = async () => {
   }
 
   return (
-    <Link href={"/login"} className={buttonVariants({ size: "sm", variant: "secondary" })}>
+    <Link href={'/login'} className={buttonVariants({ variant: 'outline' })}>
       Ingresar
     </Link>
   );
