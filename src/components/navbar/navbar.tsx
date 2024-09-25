@@ -42,7 +42,7 @@ function NavbarLinks({
 }
 export const Navbar = () => {
   return (
-    <header className="mx-auto flex items-center justify-between border-b px-4 py-4 shadow-md">
+    <header className="sticky top-0 z-50 mx-auto flex items-center justify-between border-b bg-background px-4 py-4 shadow-md">
       {/* mobile */}
       <Sheet>
         <SheetTrigger className="lg:hidden" asChild>
