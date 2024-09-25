@@ -112,14 +112,8 @@ export const getProductBySlug = async ({ slug }: { slug: string }) => {
       },
     });
 
-    return {
-      ok: true,
-      product: product,
-    };
+    return product;
   } catch (error) {
-    return {
-      ok: false,
-      product: null,
-    };
+    return null;
   }
 };
