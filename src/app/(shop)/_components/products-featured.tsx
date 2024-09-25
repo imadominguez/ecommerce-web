@@ -35,10 +35,10 @@ export const ProductsFeatured = async () => {
 
     return (
       <div className="mx-auto grid w-full gap-3 py-16 sm:py-16 lg:max-w-none">
-        <h2 className="mb-4 text-3xl font-bold md:text-4xl">
+        <h2 className="mb-4 text-2xl font-bold md:text-2xl">
           Productos destacados
         </h2>
-        <div className="grid grid-cols-2 gap-4 xl:grid-cols-4">
+        <div>
           {/* Aquí se mostrarán los productos destacados */}
 
           <FeaturedCarousel productsFeatured={productsAll} />
