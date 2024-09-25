@@ -3,7 +3,7 @@ import { Product } from '@prisma/client';
 import { currencyFormat } from '@/utils/currencyFormat';
 import { ProductImage } from './product-image';
 import { Heart, Star } from 'lucide-react';
-import { Button } from '../ui/button';
+import { Button, buttonVariants } from '../ui/button';
 
 interface Props {
   product: Product;
@@ -65,7 +65,16 @@ export const ProductCard = ({ product }: Props) => {
         {/* <p className="mb-4 text-sm font-semibold text-green-600">
           Envío gratis
         </p> */}
-        <Button className="w-full">Agregar al carrito</Button>
+        <Link
+          href={`/products/${slug}`}
+          className={buttonVariants({
+            size: 'sm',
+            variant: 'secondary',
+            className: 'w-full',
+          })}
+        >
+          Agregar al carrito
+        </Link>
       </div>
     </div>
   );
