@@ -18,6 +18,7 @@ export const getUserAddress = async (userId: string): Promise<UserAddress> => {
         postalCode: '',
         phone: '',
         street: '',
+        country: 'argentina',
         streetNumber: '',
         address2: '',
 
@@ -32,6 +33,7 @@ export const getUserAddress = async (userId: string): Promise<UserAddress> => {
 
     return {
       ...address,
+      country: 'argentina',
       address2: address.address2 || '',
       floor: address.floor || '',
       apartment: address.apartment || '',
@@ -47,6 +49,7 @@ export const getUserAddress = async (userId: string): Promise<UserAddress> => {
       city: '',
       postalCode: '',
       phone: '',
+      country: 'argentina',
       street: '',
       streetNumber: '',
       address2: '',

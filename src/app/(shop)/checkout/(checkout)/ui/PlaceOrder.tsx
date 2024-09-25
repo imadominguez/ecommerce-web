@@ -68,7 +68,8 @@ export const PlaceOrder = () => {
         <p className="">
           {address.firstName} {address.lastName}
         </p>
-        <span>{address.address}</span>
+        <span>{address.street}</span>
+        <span>{address.streetNumber}</span>
         <span>{address.address2}</span>
         <span>{address.country}</span>
         <span>CP: {address.postalCode}</span>
