@@ -7,6 +7,7 @@ type SeedRole = 'user' | 'admin';
 interface SeedProduct {
   title: string;
   description: string;
+  fullDescription: string;
   price: number;
   color: ValidColors;
   inStock: number;
@@ -45,6 +46,8 @@ export const initialData: SeedData = {
       slug: 'cartucho-de-tinta-hp-63',
       tags: ['HP', '63', 'Tinta'],
       images: ['placeholder.jpg', 'starman_750x750.jpg'],
+      fullDescription:
+        'Cartucho de tinta original HP 63. Imprima documentos de texto nítidos y gráficos en color que resisten el agua y se mantienen durante décadas.',
       productImage: ['1740176-00-A_0_2000.jpg', '1740176-00-A_1.jpg'],
       brand: 'gneiss',
     },
@@ -57,6 +60,8 @@ export const initialData: SeedData = {
         price: 75,
         inStock: 7,
         color: colors[i % 4],
+        fullDescription:
+          'Cartucho de tinta original HP 63. Imprima documentos de texto nítidos y gráficos en color que resisten el agua y se mantienen durante décadas.',
         images: ['1473814-00-A_alt.jpg', '1473809-00-A_alt.jpg'],
         productImage: ['1740176-00-A_0_2000.jpg', '1740176-00-A_1.jpg'],
         slug: `Cartucho GNEISS ${colors[i % 4].toUpperCase()}`

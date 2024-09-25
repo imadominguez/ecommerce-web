@@ -55,6 +55,7 @@ async function main() {
         tags: ['tag1', 'tag2'],
         images: [...(products[i].images ?? [])] || [],
         brandId: brandDB[Math.floor(Math.random() * brandDB.length)].id,
+        fullDescription: `Descripción completa del producto ${i + 1}`,
       },
     });
   }
