@@ -5,6 +5,7 @@ export interface Product {
   title: string;
   slug: string;
   description: string;
+  fullDescription: string;
   price: number;
   color: Color | null;
   inStock: number;
