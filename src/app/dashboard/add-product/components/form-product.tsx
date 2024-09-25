@@ -55,7 +55,11 @@ const formSchema = z.object({
     .refine((value) => value.trim() !== '', 'El nombre no puede estar vacío'),
   description: z
     .string()
-    .min(10, 'La descripción debe tener al menos 10 caracteres'),
+    .min(10, 'La descripción debe tener al menos 10 caracteres')
+    .max(50),
+  fullDescription: z
+    .string()
+    .min(50, 'La descripción debe tener al menos 50 caracteres'),
   price: z.string().refine((value) => parseFloat(value) > 0, {
     message: 'El precio debe ser mayor a 0',
   }),
@@ -112,6 +116,7 @@ export const FormProduct = ({ categories, brands }: Props) => {
       brandId: '',
       price: '',
       tags: '',
+      fullDescription: '',
       inDiscount: false,
       discountPercentage: '',
     },
@@ -134,6 +139,7 @@ export const FormProduct = ({ categories, brands }: Props) => {
     const formData = new FormData();
     formData.append('title', values.title);
     formData.append('description', values.description);
+    formData.append('fullDescription', values.fullDescription);
     formData.append('price', values.price);
     formData.append('inStock', values.inStock);
     formData.append('categoryId', values.categoryId);
@@ -210,6 +216,25 @@ export const FormProduct = ({ categories, brands }: Props) => {
                         <FormControl>
                           <Textarea
                             placeholder="Ingresa la descripción..."
+                            {...field}
+                          />
+                        </FormControl>
+
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="grid gap-2">
+                  <FormField
+                    control={form.control}
+                    name="fullDescription"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Descripción completa:</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="Ingresa la descripción completa..."
                             {...field}
                           />
                         </FormControl>

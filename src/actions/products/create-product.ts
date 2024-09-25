@@ -16,6 +16,7 @@ cloudinary.config({
 const productSchema = z.object({
   title: z.string(),
   description: z.string(),
+  fullDescription: z.string(),
   price: z.string(),
   inStock: z.string(),
   color: z.string(),
