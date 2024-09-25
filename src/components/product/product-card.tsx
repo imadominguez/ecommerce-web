@@ -4,17 +4,22 @@ import { currencyFormat } from '@/utils/currencyFormat';
 import { ProductImage } from './product-image';
 import { Heart, Star } from 'lucide-react';
 import { Button, buttonVariants } from '../ui/button';
+import { cn } from '@/lib/utils';
 
 interface Props {
   product: Product;
+  className?: string;
 }
 
-export const ProductCard = ({ product }: Props) => {
+export const ProductCard = ({ product, className }: Props) => {
   const { id, slug, images, title, price, color } = product;
   return (
     <div
       key={id}
-      className="group relative overflow-hidden rounded-md border shadow-sm transition-shadow hover:shadow-md"
+      className={cn(
+        'group relative overflow-hidden rounded-md border shadow-sm transition-shadow hover:shadow-md',
+        className
+      )}
     >
       <div className="relative overflow-hidden">
         <Link href={`/products/${slug}`}>
