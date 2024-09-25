@@ -78,7 +78,7 @@ export const ProductCard = ({ product, className }: Props) => {
             className: 'w-full',
           })}
         >
-          Agregar al carrito
+          Comprar
         </Link>
       </div>
     </div>
