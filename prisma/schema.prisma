@@ -31,19 +31,20 @@ model Category {
 }
 
 model Product {
-  id          String   @id @default(uuid())
-  title       String
-  description String
-  price       Float
-  color       Color?
-  inStock     Int      @default(0)
-  slug        String   @unique
-  tags        String[] @default([])
-  images      String[]
-  inDiscount  Boolean  @default(false)
-  discount    Int?
-  isActive    Boolean  @default(true)
-  isFeatured  Boolean  @default(false)
+  id              String   @id @default(uuid())
+  title           String
+  description     String
+  fullDescription String
+  price           Float
+  color           Color?
+  inStock         Int      @default(0)
+  slug            String   @unique
+  tags            String[] @default([])
+  images          String[]
+  inDiscount      Boolean  @default(false)
+  discount        Int?
+  isActive        Boolean  @default(true)
+  isFeatured      Boolean  @default(false)
 
   // Relaciones
   brand      Brand     @relation(fields: [brandId], references: [id])

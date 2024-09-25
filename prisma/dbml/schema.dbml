@@ -14,6 +14,7 @@ Table Product {
   id String [pk]
   title String [not null]
   description String [not null]
+  fullDescription String [not null]
   price Float [not null]
   color Color
   inStock Int [not null, default: 0]
