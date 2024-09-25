@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { PageContainer } from '@/components/layout/page-container';
 import { Button } from '@/components/ui/button';
 import { useEffect, useState } from 'react';
-import { LoaderCircle } from 'lucide-react';
+import { LoaderCircle, ShoppingBag } from 'lucide-react';
 
 export default function ProductosNoEncontrados() {
   const router = useRouter();
@@ -13,7 +13,8 @@ export default function ProductosNoEncontrados() {
     router.refresh();
   };
   // Add a message to inform the user about the error
-  const errorMessage = 'Oops! Something went wrong. Please try again later.';
+  const errorMessage =
+    'No se encontraron productos que coincidan con tu búsqueda.';
 
   // Add a state to track the loading state
   const [isLoading, setIsLoading] = useState(false);
@@ -34,20 +35,18 @@ export default function ProductosNoEncontrados() {
   if (isLoading) {
     return (
       <PageContainer className="flex items-center justify-center">
-        <LoaderCircle size={40} color="gray" />
+        <LoaderCircle size={40} color="gray" className="animate-spin" />
       </PageContainer>
     );
   }
 
   return (
     <PageContainer className="flex flex-col items-center justify-center text-center">
-      <h1 className="mb-4 text-4xl font-bold text-gray-900">
-        Productos no encontrados
-      </h1>
-      <p className="mb-8 text-xl text-gray-600">{errorMessage}</p>
-      <Button onClick={handleRetry} className="uppercase">
-        Intentar nuevamente
-      </Button>
+      <div className="space-y-5 text-center">
+        <ShoppingBag className="mx-auto h-12 w-12 text-primary" />
+        <h1 className="text-2xl font-bold">Algo salió mal</h1>
+        <p className="text-center text-base opacity-80">{errorMessage}</p>
+      </div>
     </PageContainer>
   );
 }
