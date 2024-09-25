@@ -61,7 +61,7 @@ export default function ReusableCarousel({
   return (
     <Carousel
       setApi={setApi}
-      className={cn('w-full', className)}
+      className={cn('mx-auto w-full max-w-5xl', className)}
       opts={{
         loop,
       }}
@@ -71,8 +71,8 @@ export default function ReusableCarousel({
       </CarouselContent>
       {showControls && (
         <>
-          <CarouselPrevious className="hidden md:flex" />
-          <CarouselNext className="hidden md:flex" />
+          <CarouselPrevious className="hidden lg:flex" />
+          <CarouselNext className="hidden lg:flex" />
         </>
       )}
     </Carousel>

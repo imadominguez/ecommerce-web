@@ -48,7 +48,7 @@ export default async function ProductsPage({ searchParams }: Props) {
         </div>
 
         <div className="relative lg:col-span-3">
-          <div className="sticky top-0 z-50 bg-background py-4">
+          <div className="sticky top-0 z-40 bg-background py-4">
             <Title title="Productos" />
 
             <Separator />
