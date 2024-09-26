@@ -6,6 +6,7 @@ import { PageContainer } from '@/components/layout/page-container';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ProductsTable } from './components/products-table';
 import { SkeletonTableProduct } from '@/components/product/skeleton/skeleton-table-product';
+import { CustomLinkButton } from '@/components/button/link-to-shop';
 
 export default function ProductsPage({
   searchParams,
@@ -33,17 +34,16 @@ export default function ProductsPage({
               Inactivos
             </TabsTrigger>
           </TabsList>
-          <Link
+          <CustomLinkButton
+            className="w-fit"
             href={'/dashboard/add-product'}
-            className={buttonVariants({
-              size: 'sm',
-            })}
+            size={'sm'}
           >
             <PlusCircle className="mr-2 h-4 w-4" />
             <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
               Agregar Producto
             </span>
-          </Link>
+          </CustomLinkButton>
         </div>
 
         {/* All Products */}

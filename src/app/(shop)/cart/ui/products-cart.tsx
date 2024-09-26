@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { redirect } from 'next/navigation';
-import Link from 'next/link';
 import { X } from 'lucide-react';
 import { ProductImage } from '@/components/product/product-image';
 import { QuantitySelector } from '@/components/product/quantity-selector.product';
@@ -10,6 +9,7 @@ import { ProductItemCartSkeleton } from '@/components/product/skeleton/product-i
 import { Button } from '@/components/ui/button';
 import { useCartStore } from '@/store/shopping-cart/shopping-cart.store';
 import { currencyFormat } from '@/utils/currencyFormat';
+import Link from 'next/link';
 
 export const ProdcutsCart = () => {
   const [loaded, setLoaded] = useState(false);

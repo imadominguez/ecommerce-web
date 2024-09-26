@@ -24,27 +24,6 @@ export const metadata: Metadata = {
 };
 
 export default function CheckoutPage() {
-  // return (
-  //   <div className="mb-72 flex items-center justify-center px-10 sm:px-0">
-  //     <div className="mx-auto flex max-w-4xl flex-col">
-  //       <h1 className="mb-5 text-3xl font-bold">Verificar Orden</h1>
-  //       <div className="grid grid-cols-1 gap-10 sm:grid-cols-2">
-  //         {/* Carrito */}
-  //         <div className="flex flex-col">
-  //           <Link href={'/cart'} className="btn-primary mb-5 w-fit text-xs">
-  //             Editar carrito
-  //           </Link>
-
-  //           {/* items del carrito */}
-  //           <ProductsInCart />
-  //         </div>
-  //         {/* Summary */}
-  //         <PlaceOrder />
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
-
   return (
     <PageContainer>
       <div className="grid gap-6 lg:grid-cols-2">

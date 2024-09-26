@@ -1,17 +1,7 @@
 import { getProducts } from '@/actions/products/get-products';
-import { ProductCard } from '@/components/product/product-card';
-import { buttonVariants } from '@/components/ui/button';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '@/components/ui/carousel';
 import { Separator } from '@/components/ui/separator';
-import Link from 'next/link';
-import Autoplay from 'embla-carousel-autoplay';
 import { FeaturedCarousel } from './featured-carousel';
+import { CustomLinkButton } from '@/components/button/link-to-shop';
 
 export const ProductsFeatured = async () => {
   const {
@@ -44,16 +34,9 @@ export const ProductsFeatured = async () => {
           <FeaturedCarousel productsFeatured={productsAll} />
         </div>
         <div className="mt-7 flex items-center justify-center">
-          <Link
-            className={buttonVariants({
-              variant: 'standard',
-              size: 'lg',
-              className: 'w-1/2',
-            })}
-            href="/products"
-          >
+          <CustomLinkButton size={'lg'} className={'w-1/2'} href="/products">
             Ver tienda online
-          </Link>
+          </CustomLinkButton>
         </div>
       </div>
     );
@@ -67,16 +50,9 @@ export const ProductsFeatured = async () => {
       <FeaturedCarousel productsFeatured={productsFeatured} />
 
       <div className="mt-10 flex items-center justify-center">
-        <Link
-          className={buttonVariants({
-            variant: 'standard',
-            size: 'lg',
-            className: 'w-1/2',
-          })}
-          href="/products"
-        >
+        <CustomLinkButton size={'lg'} className={'w-1/2'} href="/products">
           Ver tienda online
-        </Link>
+        </CustomLinkButton>
       </div>
       <Separator className="mt-16" />
     </div>

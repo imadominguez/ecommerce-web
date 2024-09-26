@@ -1,9 +1,9 @@
 'use client';
 
-import { Button, buttonVariants } from '@/components/ui/button';
+import { CustomLinkButton } from '@/components/button/link-to-shop';
+import { Button } from '@/components/ui/button';
 import { useCartStore } from '@/store/shopping-cart/shopping-cart.store';
 import { currencyFormat } from '@/utils/currencyFormat';
-import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
 export const OrderSummary = () => {
@@ -67,15 +67,13 @@ export const OrderSummary = () => {
           <span>Importe total</span>
           <span>{currencyFormat(subTotal)}</span>
         </div>
-        <Link
+        <CustomLinkButton
           href={'/checkout/address'}
-          className={buttonVariants({
-            className: 'mt-6 w-full',
-            size: 'lg',
-          })}
+          size={'lg'}
+          className="mt-6 w-full"
         >
           Proceder al pago
-        </Link>
+        </CustomLinkButton>
       </div>
     </div>
   );

@@ -1,9 +1,7 @@
-import Link from 'next/link';
-
 import { Metadata } from 'next';
 import { ShoppingCartIcon } from 'lucide-react';
-import { buttonVariants } from '@/components/ui/button';
 import { Title } from '@/components/title';
+import { CustomLinkButton } from '@/components/button/link-to-shop';
 
 export const metadata: Metadata = {
   title: 'Carrito Vacío - Teslo | SHOP',
@@ -20,15 +18,9 @@ export default function EmptyPage() {
         <Title title="Tu carrito está vacío" />
       </div>
 
-      <Link
-        href={'/products'}
-        className={buttonVariants({
-          variant: 'default',
-          className: 'mt-6 w-full',
-        })}
-      >
+      <CustomLinkButton href={'/products'} className={'mt-6'}>
         Regresar
-      </Link>
+      </CustomLinkButton>
     </div>
   );
 }

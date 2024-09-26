@@ -1,3 +1,4 @@
+import { CustomLinkButton } from '@/components/button/link-to-shop';
 import { PageContainer } from '@/components/layout/page-container';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -83,16 +84,14 @@ export default function DashboardPage() {
               </CardDescription>
             </div>
 
-            <Link
+            <CustomLinkButton
+              size={'sm'}
+              variant={'outline'}
               href="#"
-              className={buttonVariants({
-                size: 'sm',
-                className: 'w-max',
-                variant: 'outline',
-              })}
+              className="w-max"
             >
               Ver todo
-            </Link>
+            </CustomLinkButton>
           </CardHeader>
           <CardContent>
             <Table>

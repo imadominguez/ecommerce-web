@@ -1,11 +1,11 @@
-import Link from 'next/link';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Button, buttonVariants } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { Menu } from 'lucide-react';
 import { NavbarLinks } from './(components)/components/navbar-links';
 import { SearchInput } from '@/components/product/search-input';
 import { ModeToggle } from '@/components/button/toggle-mode-button';
 import Image from 'next/image';
+import { CustomLinkButton } from '@/components/button/link-to-shop';
 
 export default function DashboardLayout({
   children,
@@ -29,16 +29,7 @@ export default function DashboardLayout({
             <NavbarLinks className="grid items-start px-2 text-sm font-medium lg:px-4" />
           </div>
           <div className="mt-auto p-4">
-            <Link
-              href={'/'}
-              className={buttonVariants({
-                size: 'sm',
-                className: 'w-full',
-                variant: 'default',
-              })}
-            >
-              Ir a la tienda
-            </Link>
+            <CustomLinkButton href="/">Ir a la tienda</CustomLinkButton>
           </div>
         </div>
       </aside>
@@ -59,16 +50,7 @@ export default function DashboardLayout({
               <NavbarLinks className="grid gap-2 text-lg font-medium" />
 
               <div className="mt-auto">
-                <Link
-                  href={'/'}
-                  className={buttonVariants({
-                    size: 'sm',
-                    className: 'w-full',
-                    variant: 'default',
-                  })}
-                >
-                  Ir a la tienda
-                </Link>
+                <CustomLinkButton href="/">Ir a la tienda</CustomLinkButton>
               </div>
             </SheetContent>
           </Sheet>

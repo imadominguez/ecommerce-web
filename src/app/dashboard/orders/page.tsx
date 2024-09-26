@@ -7,10 +7,10 @@ import {
   Table,
 } from '@/components/ui/table';
 import { Package2Icon } from 'lucide-react';
-import Link from 'next/link';
 
 import { db } from '@/lib/db';
 import { OrdersEmpty } from './components/orders-empty';
+import { CustomLinkButton } from '@/components/button/link-to-shop';
 
 export default async function OrdersPage() {
   const orders = await db.order.findMany();
@@ -24,10 +24,10 @@ export default async function OrdersPage() {
   return (
     <div className="container flex flex-col">
       <header className="flex h-14 items-center gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40 lg:h-[60px]">
-        <Link className="lg:hidden" href="#">
+        <CustomLinkButton variant={'link'} className="lg:hidden" href="#">
           <Package2Icon className="h-6 w-6" />
           <span className="sr-only">Home</span>
-        </Link>
+        </CustomLinkButton>
         <h1 className="text-lg font-semibold md:text-2xl">Ordenes</h1>
       </header>
       <main className="flex-1 overflow-auto p-4 md:p-6">

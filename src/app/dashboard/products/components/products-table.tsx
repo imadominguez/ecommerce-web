@@ -32,6 +32,7 @@ import { getProducts } from '@/actions/products/get-products';
 import { ProductImage } from '@/components/product/product-image';
 import Link from 'next/link';
 import { ButtonDeleteProduct } from './button-delete-product';
+import { CustomLinkButton } from '@/components/button/link-to-shop';
 
 interface Props {
   query?: string;
@@ -143,16 +144,14 @@ export const ProductsTable = async ({
                       <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Acciones</DropdownMenuLabel>
                         <DropdownMenuItem className="p-0">
-                          <Link
+                          <CustomLinkButton
                             href={`/dashboard/products/${slug}`}
-                            className={buttonVariants({
-                              className: 'w-full !justify-start',
-                              variant: 'secondary',
-                            })}
+                            className={'w-full !justify-start'}
+                            variant={'secondary'}
                           >
                             <EditIcon className="mr-2 h-4 w-4" />
                             Editar
-                          </Link>
+                          </CustomLinkButton>
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem className="p-0">

@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
 import Image from 'next/image';
 import { Separator } from '@/components/ui/separator';
+import { CustomLinkButton } from '@/components/button/link-to-shop';
 
 export default async function Home() {
   return (
@@ -25,14 +26,9 @@ export default async function Home() {
               Explora nuestra exclusiva colección de cartuchos de tinta de alta
               calidad.
             </p>
-            <Link
-              href={'/products'}
-              className={buttonVariants({
-                className: 'w-full',
-              })}
-            >
+            <CustomLinkButton href={'/products'} variant="default">
               Comprar ahora
-            </Link>
+            </CustomLinkButton>
           </div>
           <Image
             src={'/products/1473809-00-A_alt.jpg'}
@@ -74,26 +70,7 @@ export default async function Home() {
       </section>
       <Separator />
 
-      <Suspense
-        fallback={
-          // <div className="mx-auto grid w-full max-w-2xl gap-3 py-16 sm:py-16 lg:max-w-none">
-          //   <h2 className="text-2xl font-bold text-gray-900">
-          //     <strong>Productos destacados</strong>
-          //   </h2>
-          //   <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          //     {/* Aquí se mostrarán los productos destacados */}
-          //     {/* Skeleton */}
-          //     {Array.from({ length: 4 }).map((_, index) => (
-          //       <div
-          //         key={index}
-          //         className="h-[400px] w-full animate-pulse rounded-md bg-muted-foreground/40"
-          //       />
-          //     ))}
-          //   </div>
-          // </div>
-          <div></div>
-        }
-      >
+      <Suspense fallback={<></>}>
         <ProductsFeatured />
       </Suspense>
 
