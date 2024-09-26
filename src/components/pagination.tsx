@@ -5,12 +5,20 @@ import clsx from 'clsx';
 
 import { generatePagination } from '@/utils/generated-pagination-numbers';
 import { ArrowLeftCircleIcon, ArrowRightCircleIcon } from 'lucide-react';
-
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination';
 interface Props {
   totalPages: number;
 }
 
-export const Pagination = ({ totalPages }: Props) => {
+export const Paginations = ({ totalPages }: Props) => {
   // Obtener la ruta actual y los parámetros de búsqueda
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -55,54 +63,90 @@ export const Pagination = ({ totalPages }: Props) => {
     return null;
   }
 
+  // return (
+  //   <div className="mb-10 mt-10 flex justify-center text-center">
+  //     <nav aria-label="Page navigation example">
+  //       <ul className="list-style-none flex items-center gap-x-1">
+  //         {/* Botón para ir a la página anterior */}
+  //         <li className="page-item">
+  //           <Link
+  //             // className="mr-8 "
+  //             href={createPageUrl(+currentPage - 1)}
+  //             aria-disabled="true"
+  //             // scroll={false}
+  //           >
+  //             <ArrowLeftCircleIcon size={20} />
+  //           </Link>
+  //         </li>
+
+  //         {/* Lista de páginas generadas */}
+  //         {allPages.map((page, index) => (
+  //           <li key={`${page} + ${index} + 1`} className="page-item">
+  //             <Link
+  //               className={clsx(
+  //                 'relative z-10 inline-flex items-center rounded px-4 py-2 text-sm font-semibold focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary',
+  //                 {
+  //                   'bg-primary text-white shadow-md hover:bg-primary/80':
+  //                     page === +currentPage,
+  //                   'hover:bg-muted': page !== +currentPage,
+  //                 }
+  //               )}
+  //               href={createPageUrl(page)}
+  //               // scroll={false}
+  //             >
+  //               {page}
+  //             </Link>
+  //           </li>
+  //         ))}
+
+  //         {/* Botón para ir a la página siguiente */}
+  //         <li className="page-item">
+  //           <Link
+  //             // className='ml-8'
+  //             href={createPageUrl(+currentPage + 1)}
+  //             // scroll={false}
+  //           >
+  //             <ArrowRightCircleIcon size={20} />
+  //           </Link>
+  //         </li>
+  //       </ul>
+  //     </nav>
+  //   </div>
+  // );
   return (
     <div className="mb-10 mt-10 flex justify-center text-center">
-      <nav aria-label="Page navigation example">
-        <ul className="list-style-none flex items-center gap-x-1">
-          {/* Botón para ir a la página anterior */}
-          <li className="page-item">
-            <Link
-              // className="mr-8 "
-              href={createPageUrl(+currentPage - 1)}
-              aria-disabled="true"
-              // scroll={false}
-            >
-              <ArrowLeftCircleIcon size={20} />
-            </Link>
-          </li>
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious
+              href={createPageUrl(currentPage - 1)}
+              aria-disabled={currentPage <= 1}
+            />
+          </PaginationItem>
 
-          {/* Lista de páginas generadas */}
           {allPages.map((page, index) => (
-            <li key={`${page} + ${index} + 1`} className="page-item">
-              <Link
-                className={clsx(
-                  'relative z-10 inline-flex items-center rounded px-4 py-2 text-sm font-semibold focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary',
-                  {
-                    'bg-primary text-white shadow-md hover:bg-primary/80':
-                      page === +currentPage,
-                    'hover:bg-muted': page !== +currentPage,
-                  }
-                )}
-                href={createPageUrl(page)}
-                // scroll={false}
-              >
-                {page}
-              </Link>
-            </li>
+            <PaginationItem key={`${page}-${index}`}>
+              {page === '...' ? (
+                <PaginationEllipsis />
+              ) : (
+                <PaginationLink
+                  href={createPageUrl(page)}
+                  isActive={page === currentPage}
+                >
+                  {page}
+                </PaginationLink>
+              )}
+            </PaginationItem>
           ))}
 
-          {/* Botón para ir a la página siguiente */}
-          <li className="page-item">
-            <Link
-              // className='ml-8'
-              href={createPageUrl(+currentPage + 1)}
-              // scroll={false}
-            >
-              <ArrowRightCircleIcon size={20} />
-            </Link>
-          </li>
-        </ul>
-      </nav>
+          <PaginationItem>
+            <PaginationNext
+              href={createPageUrl(currentPage + 1)}
+              aria-disabled={currentPage >= totalPages}
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
     </div>
   );
 };
