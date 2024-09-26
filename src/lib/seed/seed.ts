@@ -51,7 +51,7 @@ export const initialData: SeedData = {
       productImage: ['1740176-00-A_0_2000.jpg', '1740176-00-A_1.jpg'],
       brand: 'gneiss',
     },
-    ...Array.from({ length: 49 }).map((_, i) => {
+    ...Array.from({ length: 100 }).map((_, i) => {
       const colors: ValidColors[] = ['magenta', 'black', 'yellow', 'cyan'];
       return {
         title: `Cartucho GNEISS ${colors[i % 4].toUpperCase()}`,
