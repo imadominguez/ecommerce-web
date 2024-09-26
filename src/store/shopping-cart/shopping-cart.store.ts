@@ -1,6 +1,6 @@
 import { CartProduct } from '@/types/product';
 import { StateCreator, create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { createJSONStorage, devtools, persist } from 'zustand/middleware';
 
 interface State {
   cart: CartProduct[];
@@ -167,7 +167,10 @@ const storeApiCart: StateCreator<State> = (set, get) => ({
 });
 
 export const useCartStore = create<State>()(
-  persist(storeApiCart, {
-    name: 'shopping-cart',
-  })
+  devtools(
+    persist(storeApiCart, {
+      name: 'shopping-cart',
+      storage: createJSONStorage(() => localStorage),
+    })
+  )
 );

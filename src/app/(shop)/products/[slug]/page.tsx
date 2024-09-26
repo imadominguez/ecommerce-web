@@ -1,5 +1,7 @@
+import { getProductBySlug, getProducts } from '@/actions/products/get-products';
 import { PageContainer } from '@/components/layout/page-container';
 import { ProductImage } from '@/components/product/product-image';
+import { StockLabel } from '@/components/product/stock-label';
 import ReusableCarousel from '@/components/reusable-carousel';
 import { Title } from '@/components/title';
 import { Button } from '@/components/ui/button';
@@ -23,6 +25,8 @@ import { db } from '@/lib/db';
 import { currencyFormat } from '@/utils/currencyFormat';
 import { Heart, ShoppingCart, Star } from 'lucide-react';
 import Image from 'next/image';
+import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
 
 interface Props {
   params: {
@@ -40,14 +44,11 @@ const relatedProducts = [
 ];
 
 export default async function ProductDetailPage({ params: { slug } }: Props) {
-  const productDB = await db.product.findMany({
-    where: {
-      slug,
-    },
-  });
-  const product = productDB[0];
+  const product = await getProductBySlug({ slug });
 
-  console.log({ product });
+  if (!product) {
+    notFound();
+  }
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="grid gap-8 md:grid-cols-2">
@@ -104,42 +105,41 @@ export default async function ProductDetailPage({ params: { slug } }: Props) {
           <p className="mb-4 text-2xl font-bold">
             {currencyFormat(product.price)}
           </p>
+          <Suspense
+            fallback={
+              <div className="max-w-[60px] animate-pulse rounded-md bg-muted">
+                &nbsp;
+              </div>
+            }
+          >
+            <StockLabel slug={slug} />
+          </Suspense>
           <p className="mb-6 opacity-80">{product.description}</p>
-          <div className="mb-6">
-            <h3 className="mb-2 font-semibold">Color</h3>
-            <Select>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Selecciona un color" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="blanco">Blanco</SelectItem>
-                <SelectItem value="negro">Negro</SelectItem>
-                <SelectItem value="gris">Gris</SelectItem>
-                <SelectItem value="azul">Azul</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="mb-6">
-            <h3 className="mb-2 font-semibold">Talla</h3>
-            <Select>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Selecciona una talla" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="s">S</SelectItem>
-                <SelectItem value="m">M</SelectItem>
-                <SelectItem value="l">L</SelectItem>
-                <SelectItem value="xl">XL</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+          {/* Color */}
+          {product.color && (
+            <div className="mb-6">
+              <h3 className="mb-2 font-semibold">Color</h3>
+              <Select>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Selecciona un color" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="blanco">Blanco</SelectItem>
+                  <SelectItem value="negro">Negro</SelectItem>
+                  <SelectItem value="gris">Gris</SelectItem>
+                  <SelectItem value="azul">Azul</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          )}
           <div className="mb-8 flex space-x-4">
-            <Button className="flex-1">
-              <ShoppingCart className="mr-2 h-4 w-4" /> Añadir al carrito
+            <Button className="flex-1 uppercase">
+              <ShoppingCart className="mr-2 h-5 w-5" /> Añadir al carrito
             </Button>
-            <Button variant="outline">
+            {/* Product Favorite */}
+            {/* <Button variant="outline">
               <Heart className="h-4 w-4" />
-            </Button>
+            </Button> */}
           </div>
         </div>
       </div>
