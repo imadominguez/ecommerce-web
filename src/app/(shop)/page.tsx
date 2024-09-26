@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
 import Image from 'next/image';
 import { Separator } from '@/components/ui/separator';
-import { CustomLinkButton } from '@/components/button/link-to-shop';
+import { CustomLinkButton } from '@/components/button/custom-link-button';
 
 export default async function Home() {
   return (

@@ -15,7 +15,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { Button, buttonVariants } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,15 +24,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { EditIcon, MoreVerticalIcon, TrashIcon } from 'lucide-react';
+import { EditIcon, MoreVerticalIcon } from 'lucide-react';
 import { currencyFormat } from '@/utils/currencyFormat';
 
 import { PaginationProductsTable } from './pagination-products-table';
 import { getProducts } from '@/actions/products/get-products';
 import { ProductImage } from '@/components/product/product-image';
-import Link from 'next/link';
 import { ButtonDeleteProduct } from './button-delete-product';
-import { CustomLinkButton } from '@/components/button/link-to-shop';
+import { CustomLinkButton } from '@/components/button/custom-link-button';
 
 interface Props {
   query?: string;

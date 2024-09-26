@@ -1,7 +1,7 @@
 import { getProducts } from '@/actions/products/get-products';
 import { Separator } from '@/components/ui/separator';
 import { FeaturedCarousel } from './featured-carousel';
-import { CustomLinkButton } from '@/components/button/link-to-shop';
+import { CustomLinkButton } from '@/components/button/custom-link-button';
 
 export const ProductsFeatured = async () => {
   const {

@@ -6,7 +6,7 @@ import { PageContainer } from '@/components/layout/page-container';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ProductsTable } from './components/products-table';
 import { SkeletonTableProduct } from '@/components/product/skeleton/skeleton-table-product';
-import { CustomLinkButton } from '@/components/button/link-to-shop';
+import { CustomLinkButton } from '@/components/button/custom-link-button';
 
 export default function ProductsPage({
   searchParams,

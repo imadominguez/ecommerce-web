@@ -10,7 +10,7 @@ import { Package2Icon } from 'lucide-react';
 
 import { db } from '@/lib/db';
 import { OrdersEmpty } from './components/orders-empty';
-import { CustomLinkButton } from '@/components/button/link-to-shop';
+import { CustomLinkButton } from '@/components/button/custom-link-button';
 
 export default async function OrdersPage() {
   const orders = await db.order.findMany();

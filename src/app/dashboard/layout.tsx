@@ -5,7 +5,7 @@ import { NavbarLinks } from './(components)/components/navbar-links';
 import { SearchInput } from '@/components/product/search-input';
 import { ModeToggle } from '@/components/button/toggle-mode-button';
 import Image from 'next/image';
-import { CustomLinkButton } from '@/components/button/link-to-shop';
+import { CustomLinkButton } from '@/components/button/custom-link-button';
 
 export default function DashboardLayout({
   children,

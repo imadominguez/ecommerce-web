@@ -1,6 +1,6 @@
 'use client';
 
-import { CustomLinkButton } from '@/components/button/link-to-shop';
+import { CustomLinkButton } from '@/components/button/custom-link-button';
 import { Button } from '@/components/ui/button';
 import { useCartStore } from '@/store/shopping-cart/shopping-cart.store';
 import { currencyFormat } from '@/utils/currencyFormat';
