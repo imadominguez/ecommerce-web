@@ -1,4 +1,4 @@
-import { Pagination } from '@/components/pagination';
+import { Paginations } from '@/components/pagination';
 import { ProductGrid } from './components/product-grid';
 import { notFound } from 'next/navigation';
 import { getProducts } from '@/actions/products/get-products';
@@ -61,7 +61,7 @@ export default async function ProductsPage({ searchParams }: Props) {
             products={products}
           />
 
-          <Pagination totalPages={totalPages} />
+          <Paginations totalPages={totalPages} />
         </div>
       </div>
     </>

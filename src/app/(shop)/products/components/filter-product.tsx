@@ -133,7 +133,7 @@ export const FilterProduct = ({
           </SheetContent>
         </Sheet>
       </div>
-      <div className="0 sticky top-2 hidden p-4 lg:block">
+      <div className="sticky top-20 hidden p-4 lg:block">
         <Filters
           filters={filters}
           categories={categories}
