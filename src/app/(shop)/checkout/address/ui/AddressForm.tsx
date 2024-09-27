@@ -125,6 +125,7 @@ interface Props {
 export function AddressForm({ userStoredAddress, session }: Props) {
   const router = useRouter();
 
+  const userAdderss = useAddressStore((state) => state.address);
   const setAddress = useAddressStore((state) => state.setAddress);
 
   const [billingType, setBillingType] = useState<string | undefined>(undefined);
@@ -137,11 +138,13 @@ export function AddressForm({ userStoredAddress, session }: Props) {
     resolver: zodResolver(formSchema),
     defaultValues: {
       ...userStoredAddress,
-      taxType: userStoredAddress.taxType as
+      ...(!userStoredAddress.firstName && userAdderss),
+      taxType: (userStoredAddress.taxType || userAdderss.taxType) as
         | 'consumidor_final'
         | 'responsable_inscripto'
         | undefined,
-      vatCondition: userStoredAddress.vatCondition as
+      vatCondition: (userStoredAddress.vatCondition ||
+        userAdderss.vatCondition) as
         | 'responsable_inscripto'
         | 'monotributista'
         | 'exento'
