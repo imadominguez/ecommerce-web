@@ -3,10 +3,12 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 // import { placeOrder } from '@/actions';
-
-import clsx from 'clsx';
 import { useAddressStore } from '@/store/address/address-store';
 import { useCartStore } from '@/store/shopping-cart/shopping-cart.store';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { Copy, Flag, Mail, MapPin, Phone, User } from 'lucide-react';
 import { currencyFormat } from '@/utils/currencyFormat';
 
 export const PlaceOrder = () => {
@@ -56,81 +58,87 @@ export const PlaceOrder = () => {
   };
 
   if (loaded === false) {
-    return <span className="text-3xl font-bold">Cargando...</span>;
+    return (
+      <div>
+        <Card className="h-[220px] animate-pulse bg-muted">
+          <CardContent>&nbsp;</CardContent>
+        </Card>
+        <Card className="mt-6 h-[314px] animate-pulse bg-muted">
+          <CardContent>&nbsp;</CardContent>
+        </Card>
+      </div>
+    );
   }
 
   return (
-    <div className="dark:bg-dark-second dark:shadow-dark-second flex flex-col justify-between rounded-xl bg-gray-200 p-7 shadow-lg">
-      <h2 className="mb-2 text-lg font-semibold md:text-2xl">
-        Direccion de entrega
-      </h2>
-      <div className="mb-5 flex flex-col text-sm">
-        <p className="">
-          {address.firstName} {address.lastName}
-        </p>
-        <span>{address.street}</span>
-        <span>{address.streetNumber}</span>
-        <span>{address.address2}</span>
-        <span>{address.country}</span>
-        <span>CP: {address.postalCode}</span>
-        <span>{address.phone}</span>
-      </div>
+    <div>
+      <Card className="mx-auto max-w-md bg-card text-card-foreground">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-2xl font-bold">
+            Dirección de entrega
+          </CardTitle>
+          {/* <Button variant="ghost" size="icon" onClick={copyAddress}>
+            <Copy className="h-4 w-4" />
+            <span className="sr-only">Copy address</span>
+          </Button> */}
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div className="flex items-center space-x-2">
+              <User className="h-4 w-4 opacity-70" />
+              <span className="text-sm font-medium capitalize">
+                {address.firstName} {address.lastName}
+              </span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <MapPin className="h-4 w-4 opacity-70" />
+              <span className="text-sm capitalize">
+                {address.street} {address.streetNumber}
+              </span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Flag className="h-4 w-4 opacity-70" />
+              <span className="text-sm capitalize">{address.country}</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Mail className="h-4 w-4 opacity-70" />
+              <span className="text-sm">CP: {address.postalCode}</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Phone className="h-4 w-4 opacity-70" />
+              <span className="text-sm">{address.phone}</span>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+      <Card className="mx-auto mt-6 max-w-md">
+        <CardHeader>
+          <CardTitle>Resumen de orden</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-2">
+            <div className="flex justify-between">
+              <span>Cantidad de productos</span>
+              <span>{itemsInCart}</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Subtotal</span>
+              <span>{currencyFormat(subTotal)}</span>
+            </div>
 
-      {/* Divider */}
-
-      <div className="mb-5 h-0.5 w-full rounded bg-gray-200" />
-
-      <h2 className="mb-2 text-lg font-semibold">Resumen de orden</h2>
-
-      <div className="grid grid-cols-2 gap-2 text-sm">
-        <span>No Productos</span>
-        {/* Cantidad de productos en el carrito */}
-        <span className="text-right">
-          {itemsInCart === 1 ? '1 artículo' : `${itemsInCart} artículos`}
-        </span>
-
-        <span>Subtotal</span>
-        {/* Subtotal de la orden */}
-        <span className="text-right font-semibold">
-          {currencyFormat(subTotal)}
-        </span>
-
-        {/* <span>Impuestos {'15%'}</span> */}
-        {/* Impuestos aplicados a la orden */}
-        {/* <span className="text-right font-semibold">{currencyFormat(tax)}</span> */}
-
-        <span className="mt-5">Total: </span>
-        {/* Total de la orden */}
-        <span className="mt-5 text-right font-semibold">
-          {currencyFormat(total)}
-        </span>
-      </div>
-
-      <div className="mb-2 mt-5 w-full">
-        <p className="mb-5 mt-5 text-pretty text-xs">
-          {/* Disclaimer */}
-          Al hacer click en Colocar Orden, aceptas nuestros{' '}
-          <a href="" className="underline">
-            Terminos y Condiciones
-          </a>{' '}
-          y{' '}
-          <a href="" className="underline">
-            politica de privacidad
-          </a>
-        </p>
-        <p className="text-red-500">{errorMessage}</p>
-        <button
-          // href={'/orders/123'}
-          onClick={onPlaceOrder}
-          disabled={isPlacingOrder}
-          className={clsx('flex w-full justify-center', {
-            'btn-disable': isPlacingOrder,
-            'btn-primary': !isPlacingOrder,
-          })}
-        >
-          {isPlacingOrder ? 'Colocando orden' : 'Colocar orden'}
-        </button>
-      </div>
+            <Separator className="my-2" />
+            <div className="flex justify-between font-semibold">
+              <span>Total:</span>
+              <span>{currencyFormat(total)}</span>
+            </div>
+          </div>
+          <p className="mt-4 text-xs">
+            Al hacer click en &quot;Colocar Orden&quot;, aceptas nuestros
+            Términos y Condiciones y política de privacidad
+          </p>
+          <Button className="mt-4 w-full">Colocar orden</Button>
+        </CardContent>
+      </Card>
     </div>
   );
 };
