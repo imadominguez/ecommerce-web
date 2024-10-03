@@ -16,7 +16,7 @@ export function Links({ href, name }: LinksProps) {
     <Link
       href={href}
       className={buttonVariants({
-        variant: isActive ? 'standard' : 'outline',
+        variant: isActive ? 'outline' : 'ghost',
 
         className: 'w-full',
       })}
