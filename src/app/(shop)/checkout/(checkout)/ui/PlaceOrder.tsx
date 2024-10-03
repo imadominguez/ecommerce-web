@@ -8,8 +8,17 @@ import { useCartStore } from '@/store/shopping-cart/shopping-cart.store';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { Copy, Flag, Mail, MapPin, Phone, User } from 'lucide-react';
+import {
+  Copy,
+  Flag,
+  LoaderCircleIcon,
+  Mail,
+  MapPin,
+  Phone,
+  User,
+} from 'lucide-react';
 import { currencyFormat } from '@/utils/currencyFormat';
+import { placeOrder } from '@/actions/orders/set-order';
 
 export const PlaceOrder = () => {
   const router = useRouter();
@@ -36,25 +45,24 @@ export const PlaceOrder = () => {
       return {
         productId: product.id,
         quantity: product.quantity,
-        color: product.color,
       };
     });
 
     //! Server Action
-    // const res = await placeOrder(productsToOrder, address);
+    const { ok, message, order } = await placeOrder(productsToOrder, address);
 
-    // if (!res.ok) {
-    //   setIsPlacingOrder(false);
-    //   setErrorMessage(res.message);
-    //   return;
-    // }
+    if (!ok) {
+      setIsPlacingOrder(false);
+      setErrorMessage(message);
+      return;
+    }
 
     //* Todo salio bien
     setIsPlacingOrder(false);
 
     // Limpiamos el carrito y redireccionamos al usuario
     clearCart();
-    // router.replace('/orders/' + res.order?.id);
+    router.replace('/orders/' + order?.id);
   };
 
   if (loaded === false) {
@@ -136,7 +144,20 @@ export const PlaceOrder = () => {
             Al hacer click en &quot;Colocar Orden&quot;, aceptas nuestros
             Términos y Condiciones y política de privacidad
           </p>
-          <Button className="mt-4 w-full">Colocar orden</Button>
+          <Button
+            onClick={onPlaceOrder}
+            disabled={isPlacingOrder}
+            className="mt-4 w-full"
+          >
+            {isPlacingOrder ? (
+              <>
+                <LoaderCircleIcon className="mr-2 h-5 w-5 animate-spin" />
+                Procesando...
+              </>
+            ) : (
+              'Colocar Orden'
+            )}
+          </Button>
         </CardContent>
       </Card>
     </div>
