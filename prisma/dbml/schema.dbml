@@ -126,11 +126,15 @@ Table OrderAddress {
   id String [pk]
   firstName String [not null]
   lastName String [not null]
-  address String [not null]
+  street String [not null]
+  streetNumber String [not null]
   address2 String
+  isApartment Boolean [not null]
+  floor String
+  apartment String
   postalCode String [not null]
-  city String [not null]
   phone String [not null]
+  city String [not null]
   country Country [not null]
   countryId String [not null]
   Order Order [not null]

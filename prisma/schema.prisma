@@ -169,19 +169,23 @@ model OrderItem {
 }
 
 model OrderAddress {
-  id         String  @id @default(uuid())
-  firstName  String
-  lastName   String
-  address    String
-  address2   String?
-  postalCode String
-  city       String
-  phone      String
+  id           String  @id @default(uuid())
+  firstName    String
+  lastName     String
+  street       String // Calle, ej. 'Republica del Libano'
+  streetNumber String // Número de la calle, ej. '4142'
+  address2     String? // Opcional, para detalles adicionales
+  isApartment  Boolean
+  floor        String? // Opcional
+  apartment    String? // Opcional
+  postalCode   String
+  phone        String
+  city         String
   // Relaciones
-  country    Country @relation(fields: [countryId], references: [id])
-  countryId  String
-  Order      Order   @relation(fields: [orderId], references: [id])
-  orderId    String  @unique
+  country      Country @relation(fields: [countryId], references: [id])
+  countryId    String
+  Order        Order   @relation(fields: [orderId], references: [id])
+  orderId      String  @unique
 }
 
 model Comment {
