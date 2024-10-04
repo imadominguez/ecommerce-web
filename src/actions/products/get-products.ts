@@ -46,7 +46,7 @@ export const getProducts = async ({
         inStock,
         isFeatured,
         category: {
-          name: category === 'null' ? undefined : category,
+          id: category === 'null' ? undefined : category,
         },
         price: {
           gte: pmin || undefined, // Si pmin es 0 o undefined, no aplica el filtro.
