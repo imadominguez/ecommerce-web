@@ -21,7 +21,7 @@ export const OrderSummary = () => {
 
   if (!loaded) {
     return (
-      <div className="sticky top-0 lg:col-span-1">
+      <div className="sticky top-24 lg:col-span-1">
         <div className="rounded-lg bg-muted p-6">
           <h2 className="mb-4 text-lg font-medium">Resumen del pedido</h2>
           <div className="flex justify-between py-2">
@@ -49,7 +49,7 @@ export const OrderSummary = () => {
   }
   return (
     <div className="lg:col-span-1">
-      <div className="sticky top-10 rounded-lg bg-muted p-6">
+      <div className="sticky top-24 rounded-lg bg-muted p-6">
         <h2 className="mb-4 text-lg font-medium">Resumen del pedido</h2>
         <div className="flex justify-between py-2">
           <span className="opacity-80">Subtotal</span>
