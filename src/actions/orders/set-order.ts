@@ -96,7 +96,7 @@ export const placeOrder = async (
         data: {
           userId,
           subTotal,
-          envio: 0,
+          envio: Number(process.env.NEXT_PUBLIC_ENVIO || 0) || 0,
           total,
           itemsInOrder: itemsInOrder,
           isPaid: false,
