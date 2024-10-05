@@ -12,6 +12,7 @@ interface State {
     subTotal: number;
     total: number;
     itemsInCart: number;
+    envio: number;
     // ?? Agregar mas informacion que se necesite, por ejemplo
     // ?? costo de envio, impuestos, etc.
   }; // Obtiene informacion resumida del carrito
@@ -52,6 +53,7 @@ const storeApiCart: StateCreator<State> = (set, get) => ({
       subTotal,
       total: subTotal + envio,
       itemsInCart: itemsInCart,
+      envio,
     };
   },
   // ------------------- Metodos para modificar el carrito de compras -------------------
