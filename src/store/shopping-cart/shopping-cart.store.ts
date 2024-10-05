@@ -4,7 +4,7 @@ import { createJSONStorage, devtools, persist } from 'zustand/middleware';
 
 interface State {
   cart: CartProduct[];
-
+  envio: number;
   // Metodos para obtener informacion del carrito
   getTotalItemsById: (id: string) => number; // Obtiene la cantidad de un producto en el carrito
   getTotalItems: () => number; // Obtiene la cantidad total de productos en el carrito
@@ -24,35 +24,8 @@ interface State {
 }
 
 const storeApiCart: StateCreator<State> = (set, get) => ({
-  cart: [
-    {
-      id: '358da28d-bffa-4caa-889f-995a6e1efc67',
-      title: 'Cartucho de tinta HP 60 NEGRO',
-      price: 101,
-      quantity: 12,
-      image: '1473809-00-A_alt.jpg',
-      color: 'black',
-      slug: 'producto-1',
-    },
-    {
-      id: '358da28d-bffa-4caa-889f-995a6e1efc67',
-      title: 'Cartucho de tinta HP 60 NEGRO',
-      price: 101,
-      quantity: 12,
-      image: '1473809-00-A_alt.jpg',
-      color: 'black',
-      slug: 'producto-1',
-    },
-    {
-      id: '358da28d-bffa-4caa-889f-995a6e1efc67',
-      title: 'Cartucho de tinta HP 60 NEGRO',
-      price: 101,
-      quantity: 12,
-      image: '1473809-00-A_alt.jpg',
-      color: 'black',
-      slug: 'producto-1',
-    },
-  ],
+  cart: [],
+  envio: 2000,
   // ------------------- Metodos para obtener informacion del carrito -------------------
   getTotalItemsById: (id: string) => {
     const { cart } = get();
@@ -70,14 +43,14 @@ const storeApiCart: StateCreator<State> = (set, get) => ({
     return cart.reduce((sum, item) => sum + item.quantity, 0);
   },
   getSummaryInformation: () => {
-    const { cart } = get();
+    const { cart, envio } = get();
     const subTotal = cart.reduce((subTotal, product) => {
       return product.quantity * product.price + subTotal;
     }, 0);
     const itemsInCart = get().getTotalItems(); // Obtener el total de items en el carrito con un método personalizado
     return {
       subTotal,
-      total: subTotal,
+      total: subTotal + envio,
       itemsInCart: itemsInCart,
     };
   },
