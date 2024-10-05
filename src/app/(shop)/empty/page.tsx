@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { ShoppingCartIcon } from 'lucide-react';
 import { Title } from '@/components/title';
 import { CustomLinkButton } from '@/components/button/custom-link-button';
+import { PageContainer } from '@/components/layout/page-container';
 
 export const metadata: Metadata = {
   title: 'Carrito Vacío - Teslo | SHOP',
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function EmptyPage() {
   return (
-    <div className="mx-auto flex h-[80dvh] w-full max-w-xs flex-col items-center justify-center">
+    <PageContainer className=" flex max-w-sm  flex-col items-center justify-center">
       <ShoppingCartIcon size={40} className="mx-5" />
       <div className="mt-2 flex flex-col items-center">
         <Title title="Tu carrito está vacío" />
@@ -21,6 +22,6 @@ export default function EmptyPage() {
       <CustomLinkButton href={'/products'} className={'mt-6'}>
         Regresar
       </CustomLinkButton>
-    </div>
+    </PageContainer>
   );
 }

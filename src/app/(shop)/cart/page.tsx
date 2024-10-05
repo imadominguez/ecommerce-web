@@ -16,7 +16,7 @@ export default function CartPage() {
   return (
     <PageContainer>
       <Title title="Carrito de compras" />
-      <div className="relative grid grid-cols-1 gap-8 lg:grid-cols-3">
+      <div className="w-full max-w-lg mx-auto flex-1">
         {/* Products in cart */}
         <ProdcutsCart />
         {/* Order summary */}

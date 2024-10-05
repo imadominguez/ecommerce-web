@@ -1,6 +1,7 @@
 import { getProductBySlug, getProducts } from '@/actions/products/get-products';
 import { PageContainer } from '@/components/layout/page-container';
 import { ProductImage } from '@/components/product/product-image';
+import { QuantitySelector } from '@/components/product/quantity-selector.product';
 import { StockLabel } from '@/components/product/stock-label';
 import ReusableCarousel from '@/components/reusable-carousel';
 import { Title } from '@/components/title';
@@ -29,6 +30,7 @@ import { currencyFormat } from '@/utils/currencyFormat';
 import { Heart, ShoppingCart, Star, StarIcon } from 'lucide-react';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
+import { AddToCart } from './components/add-to-cart';
 
 interface Props {
   params: {
@@ -51,12 +53,15 @@ export default async function ProductDetailPage({ params: { slug } }: Props) {
     take: 6,
     category: product?.categoryId,
   });
-  console.log({ relatedProducts: relatedProducts.products });
+
   if (!product) {
     notFound();
   }
   return (
-    <section className="container mx-auto px-4 py-8 md:px-6">
+    <section
+      style={{ minHeight: 'calc(100dvh - 40px - 240px)' }}
+      className="container mx-auto px-4 py-8 md:px-6"
+    >
       <div className="grid items-start gap-6 lg:grid-cols-2">
         <div>
           <ReusableCarousel
@@ -83,6 +88,7 @@ export default async function ProductDetailPage({ params: { slug } }: Props) {
           <p className="mt-2 text-zinc-500 dark:text-zinc-400">
             {product.description}
           </p>
+          <StockLabel slug={product.slug} />
           <div className="mt-4 flex items-center gap-0.5">
             <StarIcon className="h-5 w-5 fill-primary" />
             <StarIcon className="h-5 w-5 fill-primary" />
@@ -90,52 +96,23 @@ export default async function ProductDetailPage({ params: { slug } }: Props) {
             <StarIcon className="h-5 w-5 fill-primary" />
             <StarIcon className="h-5 w-5 fill-muted stroke-muted-foreground" />
           </div>
-          <h2 className="mt-6 text-4xl font-bold">
-            {currencyFormat(product.price)}
-          </h2>
           {product.color && (
             <div className="mt-4">
-              <Label>Color</Label>
-              <Select>
-                <SelectTrigger>
-                  <SelectValue placeholder="Selecciona el color" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectItem value="cyan">Cyan</SelectItem>
-                    <SelectItem value="magenta">Magenta</SelectItem>
-                    <SelectItem value="yellow">Amarillo</SelectItem>
-                    <SelectItem value="red">Rojo</SelectItem>
-                    <SelectItem value="black">Negro</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
+              <span>
+                Color: {product.color === 'black' ? 'Negro' : product.color}
+              </span>
             </div>
           )}
-          {/* <div className="mt-8">
-            <Label>Color</Label>
-            <Select>
-              <SelectTrigger>
-                <SelectValue placeholder="Select a color" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="red">Red</SelectItem>
-                  <SelectItem value="blue">Blue</SelectItem>
-                  <SelectItem value="green">Green</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div> */}
-          <div className="mt-4">
-            <Label>Cantidad</Label>
-            <Input type="number" min="1" />
-          </div>
+          <h2 className="mt-4 text-4xl font-bold">
+            {currencyFormat(product.price)}
+          </h2>
 
-          <div className="my-8 flex space-x-4">
-            <Button className="flex-1 uppercase">
+          <div className="my-8 grid">
+            <AddToCart product={product} />
+
+            {/* <Button className="flex-1 uppercase">
               <ShoppingCart className="mr-2 h-5 w-5" /> Añadir al carrito
-            </Button>
+            </Button> */}
             {/* Product Favorite */}
             {/* <Button variant="outline">
               <Heart className="h-4 w-4" />
