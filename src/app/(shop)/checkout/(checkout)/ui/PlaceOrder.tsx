@@ -104,10 +104,19 @@ export const PlaceOrder = () => {
                 {address.street} {address.streetNumber}
               </span>
             </div>
+            {address.apartment && (
+              <div className="flex items-center space-x-2">
+                <MapPin className="h-4 w-4 opacity-70" />
+                <span className="text-sm capitalize">{address.apartment}</span>
+              </div>
+            )}
             <div className="flex items-center space-x-2">
-              <Flag className="h-4 w-4 opacity-70" />
-              <span className="text-sm capitalize">{address.country}</span>
+              <MapPin className="h-4 w-4 opacity-70" />
+              <span className="text-sm capitalize">
+                {address.city}, {address.country}
+              </span>
             </div>
+
             <div className="flex items-center space-x-2">
               <Mail className="h-4 w-4 opacity-70" />
               <span className="text-sm">CP: {address.postalCode}</span>
@@ -129,11 +138,16 @@ export const PlaceOrder = () => {
               <span>Cantidad de productos</span>
               <span>{itemsInCart}</span>
             </div>
+            <Separator className="my-2" />
+
             <div className="flex justify-between">
               <span>Subtotal</span>
               <span>{currencyFormat(subTotal)}</span>
             </div>
-
+            <div className="flex justify-between">
+              <span>Envio:</span>
+              <span>{currencyFormat(2000)}</span>
+            </div>
             <Separator className="my-2" />
             <div className="flex justify-between font-semibold">
               <span>Total:</span>
@@ -144,6 +158,11 @@ export const PlaceOrder = () => {
             Al hacer click en &quot;Colocar Orden&quot;, aceptas nuestros
             Términos y Condiciones y política de privacidad
           </p>
+          {errorMessage && (
+            <div className="mt-4 rounded-md bg-red-100 p-2 text-sm text-red-600 fade-in dark:bg-red-700 dark:text-red-100">
+              {errorMessage}
+            </div>
+          )}
           <Button
             onClick={onPlaceOrder}
             disabled={isPlacingOrder}
