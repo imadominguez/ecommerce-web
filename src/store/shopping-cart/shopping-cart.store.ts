@@ -1,7 +1,7 @@
 import { CartProduct } from '@/types/product';
 import { StateCreator, create } from 'zustand';
 import { createJSONStorage, devtools, persist } from 'zustand/middleware';
-
+import { toast } from 'sonner';
 interface State {
   cart: CartProduct[];
   envio: number;
@@ -19,7 +19,7 @@ interface State {
   // Metodos para modificar el carrito de compras
   addProductToCart: (product: CartProduct, stock: number) => void; // Agrega un producto al carrito
   updateProductQuantiity: (product: CartProduct, quantity: number) => void; // Actualiza la cantidad de un producto en el carrito
-  removeProductFromCart: (product: CartProduct) => void; // Elimina un producto del carrito
+  removeProductFromCart: (id: string) => void; // Elimina un producto del carrito
   clearCart: () => void; // Elimina todos los productos del carrito
 }
 
@@ -68,7 +68,9 @@ const storeApiCart: StateCreator<State> = (set, get) => ({
 
     // Verificamos si la cantidad total excede al stock
     if (totalNewQuantity > stock) {
-      alert('No hay suficiente stock para agregar este producto');
+      toast.error('No hay suficiente stock para agregar este producto', {
+        duration: 1300,
+      });
       return;
     }
 
@@ -102,9 +104,9 @@ const storeApiCart: StateCreator<State> = (set, get) => ({
     });
     set({ cart: updatedCartProducts });
   },
-  removeProductFromCart: (product: CartProduct) => {
+  removeProductFromCart: (id) => {
     const { cart } = get();
-    const newCart = cart.filter((item) => item.id !== product.id);
+    const newCart = cart.filter((item) => item.id !== id);
     set({ cart: newCart });
   },
   clearCart: () => {
