@@ -528,7 +528,7 @@ export function AddressForm({ userStoredAddress, session }: Props) {
               </Label>
             </div>
 
-            <Button type="submit" className="w-full">
+            <Button variant={'standard'} type="submit" className="w-full">
               Enviar Pedido
             </Button>
           </form>
