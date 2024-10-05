@@ -1,8 +1,5 @@
 import { Metadata } from 'next';
 import { ProductsInCart } from './ui/ProductsInCart';
-import { Separator } from '@/components/ui/separator';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { PageContainer } from '@/components/layout/page-container';
 import { Title } from '@/components/title';
 import { PlaceOrder } from './ui/PlaceOrder';
