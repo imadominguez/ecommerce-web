@@ -20,7 +20,6 @@ export const ProdcutsCart = () => {
 
   // ?? Si no hay productos en el carrito, redirigimos a la pagina de carrito vacio
 
-
   const clearCart = useCartStore((state) => state.clearCart);
   const removeProductFromCart = useCartStore(
     (state) => state.removeProductFromCart
@@ -33,27 +32,24 @@ export const ProdcutsCart = () => {
     setLoaded(true);
   }, []);
 
-
-  
-
   // Si el componente no ha cargado aún, mostrar esqueletos de carga
   if (!loaded) {
     return (
-      <div className="h-[46dvh] flex flex-col justify-start">
+      <div className="flex h-[46dvh] flex-col justify-start">
         {[...Array(3)].map((_, i) => (
-        <div key={i} className="flex items-center space-x-4 mb-6">
-          <Skeleton className="h-16 w-16 rounded-md bg-muted animate-pulse" />
-          <div className="space-y-2 flex-1">
-            <Skeleton className="h-4 w-1/4 bg-muted animate-pulse" />
-            <Skeleton className="h-4 w-1/6 bg-muted animate-pulse" />
-            <Skeleton className="h-4 w-1/6 bg-muted animate-pulse" />
+          <div key={i} className="mb-6 flex items-center space-x-4">
+            <Skeleton className="h-16 w-16 animate-pulse rounded-md bg-muted" />
+            <div className="flex-1 space-y-2">
+              <Skeleton className="h-4 w-1/4 animate-pulse bg-muted" />
+              <Skeleton className="h-4 w-1/6 animate-pulse bg-muted" />
+              <Skeleton className="h-4 w-1/6 animate-pulse bg-muted" />
             </div>
-            <div className='flex flex-col space-y-4'>
+            <div className="flex flex-col space-y-4">
               <Skeleton className="h-6 w-16 bg-muted" />
-              <Skeleton className="h-6 w-6 rounded-full bg-muted animate-pulse" />
+              <Skeleton className="h-6 w-6 animate-pulse rounded-full bg-muted" />
             </div>
-        </div>
-      ))}
+          </div>
+        ))}
       </div>
     );
   }
@@ -62,10 +58,12 @@ export const ProdcutsCart = () => {
     redirect('/empty');
   }
   return (
-    <ScrollArea className={cn("pr-4 ", {
-      'lg:h-[50dvh]': productsInCart.length > 3,
-      'h-full': productsInCart.length <= 3,
-    })}>
+    <ScrollArea
+      className={cn('px-4', {
+        'lg:h-[50dvh]': productsInCart.length > 3,
+        'h-full': productsInCart.length <= 3,
+      })}
+    >
       {productsInCart.map((item) => (
         <div key={item.id} className="flex border-b py-2 lg:py-6">
           <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
@@ -100,9 +98,7 @@ export const ProdcutsCart = () => {
               )}
             </div>
             <div className="flex flex-1 items-end justify-between text-sm">
-              <div className="flex items-center">
-               Cantidad: {item.quantity}
-              </div>
+              <div className="flex items-center">Cantidad: {item.quantity}</div>
 
               <p className="ml-4 text-lg">{currencyFormat(item.price)}</p>
             </div>

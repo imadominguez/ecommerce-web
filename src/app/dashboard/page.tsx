@@ -1,4 +1,4 @@
-import { CustomLinkButton } from '@/components/button/link-to-shop';
+import { CustomLinkButton } from '@/components/button/custom-link-button';
 import { PageContainer } from '@/components/layout/page-container';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
