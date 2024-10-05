@@ -26,6 +26,9 @@ export const ShoppingCart = () => {
   const totalItemsInCart = useCartStore((state) => state.getTotalItems());
   // Obtener los elementos del carrito utilizando el estado global
   const cartItems = useCartStore((state) => state.cart);
+  const removeProductFromCart = useCartStore(
+    (state) => state.removeProductFromCart
+  );
   const { subTotal } = useCartStore((state) => state.getSummaryInformation());
 
   // Estado para rastrear si la página ha cargado
@@ -77,6 +80,7 @@ export const ShoppingCart = () => {
                   <Button
                     variant="link"
                     className="h-auto p-0 text-sm text-foreground"
+                    onClick={() => removeProductFromCart(item.id)}
                   >
                     Remover
                   </Button>
