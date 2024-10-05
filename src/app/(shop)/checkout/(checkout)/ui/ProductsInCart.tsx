@@ -2,9 +2,11 @@
 import { useState, useEffect } from 'react';
 import { useCartStore } from '@/store/shopping-cart/shopping-cart.store';
 import { ProductItemCartSkeleton } from '@/components/product/skeleton/product-item-cart.skeleton';
-import { ProductImage } from '@/components/product/product-image';
+import { Card, CardContent } from '@/components/ui/card';
+import Image from 'next/image';
 import { currencyFormat } from '@/utils/currencyFormat';
-
+import { ProductImage } from '@/components/product/product-image';
+import { CustomLinkButton } from '@/components/button/custom-link-button';
 // Componente para mostrar los productos en el carrito
 export const ProductsInCart = () => {
   const [loaded, setLoaded] = useState(false);
@@ -16,9 +18,13 @@ export const ProductsInCart = () => {
 
   // Si el componente no ha cargado aún, mostrar esqueletos de carga
   if (!loaded) {
-    return Array.from({ length: 3 }, (_, i) => (
-      <ProductItemCartSkeleton key={i} />
-    ));
+    return (
+      <div className="grid">
+        <ProductItemCartSkeleton />
+        <ProductItemCartSkeleton />
+        <ProductItemCartSkeleton />
+      </div>
+    );
   }
 
   // Si no hay productos en el carrito, redirigir a la página vacía
@@ -27,39 +33,33 @@ export const ProductsInCart = () => {
   // }
 
   return (
-    <>
-      {/* Iterar sobre los productos en el carrito */}
+    <div className="space-y-2">
+      <CustomLinkButton href={'/cart'}>Editar carrito</CustomLinkButton>
       {productsInCart.map((product) => (
-        <div key={`${product.slug}`} className="mb-5 flex">
-          {/* Imagen del producto */}
-          <ProductImage
-            src={product.image}
-            alt={product.title}
-            width={100}
-            height={100}
-            style={{ width: '100px', height: '100px' }}
-            className="mr-5 rounded"
-            priority
-          />
-
-          <div className="flex flex-1 flex-col justify-between">
-            <span className="text-sm font-bold tracking-tighter">
-              {product.title}
-            </span>
-            {/* Precio por unidad */}
-            <p className="text-xs font-semibold">
-              Cantidad: {product.quantity}
-            </p>
-            {/* Precio por unidad */}
-            <p className="text-xs font-semibold">Color: {product.color}</p>
-
-            {/* Precio total */}
-            <p className="text-right text-xs font-bold">
-              {currencyFormat(product.price * product.quantity)}
-            </p>
-          </div>
-        </div>
+        <Card key={product.id} className="mb-4">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between space-x-4">
+              <ProductImage
+                src={product.image}
+                alt={product.title}
+                width={80}
+                height={80}
+                className="rounded-md"
+              />
+              <div className="flex-1">
+                <h3 className="font-semibold">{product.title}</h3>
+                <p className="text-sm">Cantidad: {product.quantity}</p>
+                {product.color && (
+                  <p className="text-sm">Color: {product.color}</p>
+                )}
+              </div>
+              <div className="ml-auto">
+                <p className="font-semibold">{currencyFormat(product.price)}</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       ))}
-    </>
+    </div>
   );
 };

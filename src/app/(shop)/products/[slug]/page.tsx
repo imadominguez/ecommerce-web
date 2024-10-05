@@ -13,9 +13,12 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
@@ -23,10 +26,9 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { db } from '@/lib/db';
 import { currencyFormat } from '@/utils/currencyFormat';
-import { Heart, ShoppingCart, Star } from 'lucide-react';
+import { Heart, ShoppingCart, Star, StarIcon } from 'lucide-react';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { Suspense } from 'react';
 
 interface Props {
   params: {
@@ -45,94 +47,92 @@ const relatedProducts = [
 
 export default async function ProductDetailPage({ params: { slug } }: Props) {
   const product = await getProductBySlug({ slug });
-
+  const relatedProducts = await getProducts({
+    take: 6,
+    category: product?.categoryId,
+  });
+  console.log({ relatedProducts: relatedProducts.products });
   if (!product) {
     notFound();
   }
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="grid gap-8 md:grid-cols-2">
-        {/* Product Images Carousel */}
-        <div className="relative">
+    <section className="container mx-auto px-4 py-8 md:px-6">
+      <div className="grid items-start gap-6 lg:grid-cols-2">
+        <div>
           <ReusableCarousel
-            className="mx-auto max-w-lg"
             autoplay
             loop
-            autoplayInterval={4000}
+            autoplayInterval={2500}
+            className="aspect-square mx-auto max-w-sm rounded-lg object-cover"
           >
             {product.images.map((img, index) => (
-              <CarouselItem key={index} className="basis-full">
+              <CarouselItem key={index}>
                 <ProductImage
-                  width={500}
-                  height={500}
                   src={img}
-                  alt={`Thumbnail ${index + 1}`}
-                  className="h-96 w-full object-cover"
+                  alt="Product Image"
+                  width={600}
+                  height={600}
+                  className="aspect-square w-full rounded-lg object-cover"
                 />
               </CarouselItem>
             ))}
           </ReusableCarousel>
-          <div className="mt-4 flex justify-center space-x-4">
-            {product.images.map((img, index) => (
-              <button key={index}>
-                <ProductImage
-                  width={500}
-                  height={500}
-                  src={img}
-                  alt={`Thumbnail ${index + 1}`}
-                  className="h-28 w-28 object-cover md:h-44 md:w-44"
-                />
-              </button>
-            ))}
-          </div>
         </div>
-
-        {/* Product Info */}
         <div>
-          <Title title={product.title} />
-          {/* Valoracion estrellas */}
-          {/* <div className="mb-4 flex items-center">
-            <div className="flex">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  className="h-5 w-5 fill-current text-yellow-400"
-                />
-              ))}
-            </div>
-            <span className="ml-2 opacity-80">(150 reseñas)</span>
-          </div> */}
-          <p className="mb-4 text-2xl font-bold">
-            {currencyFormat(product.price)}
+          <h1 className="text-3xl font-bold">{product.title}</h1>
+          <p className="mt-2 text-zinc-500 dark:text-zinc-400">
+            {product.description}
           </p>
-          <Suspense
-            fallback={
-              <div className="max-w-[60px] animate-pulse rounded-md bg-muted">
-                &nbsp;
-              </div>
-            }
-          >
-            <StockLabel slug={slug} />
-          </Suspense>
-          <p className="mb-6 opacity-80">{product.description}</p>
-          {/* Color */}
+          <div className="mt-4 flex items-center gap-0.5">
+            <StarIcon className="h-5 w-5 fill-primary" />
+            <StarIcon className="h-5 w-5 fill-primary" />
+            <StarIcon className="h-5 w-5 fill-primary" />
+            <StarIcon className="h-5 w-5 fill-primary" />
+            <StarIcon className="h-5 w-5 fill-muted stroke-muted-foreground" />
+          </div>
+          <h2 className="mt-6 text-4xl font-bold">
+            {currencyFormat(product.price)}
+          </h2>
           {product.color && (
-            <div className="mb-6">
-              <h3 className="mb-2 font-semibold">Color</h3>
+            <div className="mt-4">
+              <Label>Color</Label>
               <Select>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Selecciona un color" />
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecciona el color" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="blanco">Blanco</SelectItem>
-                  <SelectItem value="negro">Negro</SelectItem>
-                  <SelectItem value="gris">Gris</SelectItem>
-                  <SelectItem value="azul">Azul</SelectItem>
+                  <SelectGroup>
+                    <SelectItem value="cyan">Cyan</SelectItem>
+                    <SelectItem value="magenta">Magenta</SelectItem>
+                    <SelectItem value="yellow">Amarillo</SelectItem>
+                    <SelectItem value="red">Rojo</SelectItem>
+                    <SelectItem value="black">Negro</SelectItem>
+                  </SelectGroup>
                 </SelectContent>
               </Select>
             </div>
           )}
-          <div className="mb-8 flex space-x-4">
+          {/* <div className="mt-8">
+            <Label>Color</Label>
+            <Select>
+              <SelectTrigger>
+                <SelectValue placeholder="Select a color" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="red">Red</SelectItem>
+                  <SelectItem value="blue">Blue</SelectItem>
+                  <SelectItem value="green">Green</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div> */}
+          <div className="mt-4">
+            <Label>Cantidad</Label>
+            <Input type="number" min="1" />
+          </div>
+
+          <div className="my-8 flex space-x-4">
             <Button className="flex-1 uppercase">
               <ShoppingCart className="mr-2 h-5 w-5" /> Añadir al carrito
             </Button>
@@ -143,117 +143,25 @@ export default async function ProductDetailPage({ params: { slug } }: Props) {
           </div>
         </div>
       </div>
-
-      {/* Product Details */}
-      <div className="mt-12">
-        <Tabs defaultValue="description">
-          <TabsList>
-            <TabsTrigger value="description">Descripción</TabsTrigger>
-            <TabsTrigger value="specifications">Especificaciones</TabsTrigger>
-            <TabsTrigger value="reviews">Reseñas</TabsTrigger>
-          </TabsList>
-          <TabsContent value="description">
-            <p className="opacity-80">{product.fullDescription}</p>
-          </TabsContent>
-          <TabsContent value="specifications">
-            <ul className="list-disc pl-5 opacity-80">
-              <li>Material: 100% Algodón</li>
-              <li>Peso: 180g/m²</li>
-              <li>Cuello: Redondo reforzado</li>
-              <li>Costuras: Dobles en mangas y dobladillo</li>
-              <li>Cuidado: Lavado a máquina, secado en tendedero</li>
-              <li>Origen: Fabricado en España</li>
-            </ul>
-          </TabsContent>
-          <TabsContent value="reviews">
-            <div className="space-y-4">
-              <div className="border-b pb-4">
-                <div className="mb-2 flex items-center">
-                  <div className="flex">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className="h-4 w-4 fill-current text-yellow-400"
-                      />
-                    ))}
-                  </div>
-                  <span className="ml-2 text-sm opacity-80">Juan P.</span>
-                </div>
-                <p className="opacity-80">
-                  Excelente calidad, muy cómoda y el color es exactamente como
-                  se muestra en la imagen. Definitivamente compraré más.
-                </p>
-              </div>
-              <div className="border-b pb-4">
-                <div className="mb-2 flex items-center">
-                  <div className="flex">
-                    {[...Array(4)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className="h-4 w-4 fill-current text-yellow-400"
-                      />
-                    ))}
-                    {[...Array(1)].map((_, i) => (
-                      <Star key={i} className="h-4 w-4 text-gray-300" />
-                    ))}
-                  </div>
-                  <span className="ml-2 text-sm opacity-80">María L.</span>
-                </div>
-                <p className="opacity-80">
-                  Buena camiseta, aunque esperaba que fuera un poco más gruesa.
-                  Aun así, la calidad es buena y el ajuste es perfecto.
-                </p>
-              </div>
-            </div>
-          </TabsContent>
-        </Tabs>
-      </div>
-
       {/* Related Products Carousel */}
       <div className="mt-12">
         <h2 className="mb-6 text-2xl font-bold">Productos relacionados</h2>
-        {/* <Carousel className="mx-auto w-full max-w-sm sm:max-w-xl md:max-w-2xl lg:max-w-4xl xl:max-w-6xl">
-          <CarouselContent>
-            {relatedProducts.map((product, index) => (
-              <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-                <div className="p-1">
-                  <Card>
-                    <CardContent className="flex flex-col items-center p-6">
-                      <Image
-                        src={`/placeholder.svg?height=200&width=200&text=Related+Product+${index + 1}`}
-                        alt={product.name}
-                        width={200}
-                        height={200}
-                        className="mb-4 h-48 w-full rounded-md object-cover"
-                      />
-                      <h3 className="mb-2 text-lg font-semibold">
-                        {product.name}
-                      </h3>
-                      <p className="opacity-80">{product.price}</p>
-                      <Button className="mt-4 w-full">Ver detalles</Button>
-                    </CardContent>
-                  </Card>
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious className="hidden md:flex" />
-          <CarouselNext className="hidden md:flex" />
-        </Carousel> */}
-        <ReusableCarousel autoplay loop autoplayInterval={2000}>
-          {relatedProducts.map((product, index) => (
+        <ReusableCarousel autoplay loop autoplayInterval={5000}>
+          {relatedProducts.products.map((product, index) => (
             <CarouselItem key={index} className="basis-full pl-4 md:basis-1/4">
               <Card key={index}>
-                <CardContent className="flex flex-col items-center p-6">
-                  <Image
-                    src={`/placeholder.svg?height=200&width=200&text=Related+Product+${index + 1}`}
-                    alt={product.name}
+                <CardContent className="flex flex-col items-center p-0">
+                  <ProductImage
+                    src={product.images[0]}
+                    alt={product.title}
                     width={200}
                     height={200}
                     className="mb-4 h-48 w-full rounded-md object-cover"
                   />
-                  <h3 className="mb-2 text-lg font-semibold">{product.name}</h3>
-                  <p className="opacity-80">{product.price}</p>
+                  <h3 className="mb-2 text-lg font-semibold">
+                    {product.title}
+                  </h3>
+                  <p className="opacity-80">{currencyFormat(product.price)}</p>
                   <Button className="mt-4 w-full">Ver detalles</Button>
                 </CardContent>
               </Card>
@@ -261,6 +169,6 @@ export default async function ProductDetailPage({ params: { slug } }: Props) {
           ))}
         </ReusableCarousel>
       </div>
-    </div>
+    </section>
   );
 }

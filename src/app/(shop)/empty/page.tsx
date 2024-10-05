@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { ShoppingCartIcon } from 'lucide-react';
 import { Title } from '@/components/title';
-import { CustomLinkButton } from '@/components/button/link-to-shop';
+import { CustomLinkButton } from '@/components/button/custom-link-button';
 
 export const metadata: Metadata = {
   title: 'Carrito Vacío - Teslo | SHOP',
