@@ -26,7 +26,7 @@ export interface CartProduct {
   title: string;
   slug: string;
   price: number;
-  color: string;
+  color?: string;
   image: string;
   quantity: number;
 }
