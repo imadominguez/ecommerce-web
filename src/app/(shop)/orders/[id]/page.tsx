@@ -23,6 +23,7 @@ import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { db } from '@/lib/db';
+import { currencyFormat } from '@/utils/currencyFormat';
 import {
   CreditCard,
   MapPin,
@@ -85,7 +86,7 @@ export default async function OrderConfirmation({ params: { id } }: Props) {
                   </AccordionTrigger>
                   <AccordionContent>
                     <Card className="">
-                      <ScrollArea className="h-[300px] md:h-[400px]">
+                      <ScrollArea className="">
                         <CardContent className="space-y-4 p-4">
                           {order?.OrderItem.map((product, index) => (
                             <div
@@ -108,7 +109,9 @@ export default async function OrderConfirmation({ params: { id } }: Props) {
                                 </p>
                               </div>
                               <p className="font-semibold text-blue-600 dark:text-blue-400">
-                                ${(product.price * product.quantity).toFixed(2)}
+                                {currencyFormat(
+                                  product.price * product.quantity
+                                )}
                               </p>
                             </div>
                           ))}
@@ -169,17 +172,17 @@ export default async function OrderConfirmation({ params: { id } }: Props) {
                 <span className="text-gray-600 dark:text-gray-400">
                   Subtotal
                 </span>
-                <span>${order?.subTotal.toFixed(2)}</span>
+                <span>{currencyFormat(order!.subTotal)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600 dark:text-gray-400">Envío</span>
-                <span>${order?.envio.toFixed(2)}</span>
+                <span>{currencyFormat(order!.envio)}</span>
               </div>
               <Separator className="my-2" />
               <div className="flex justify-between text-lg font-semibold">
                 <span>Total</span>
                 <span className="text-blue-600 dark:text-blue-400">
-                  ${order?.total.toFixed(2)}
+                  {currencyFormat(order!.total)}
                 </span>
               </div>
             </div>
