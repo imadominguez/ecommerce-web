@@ -88,9 +88,6 @@ export const Navbar = () => {
         <div className="ml-1 hidden lg:block">
           <UserButton />
         </div>
-        <Suspense fallback={<div className="animate-pulse bg-slate-600"></div>}>
-          <DashboardLink />
-        </Suspense>
         <div>
           <ModeToggle />
         </div>
