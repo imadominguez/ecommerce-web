@@ -36,25 +36,27 @@ export const placeOrder = async (
   );
 
   // Los totales de tax, subtotal, y total
-  const { subTotal, tax, total } = products.reduce(
-    (totals, item) => {
-      const productQuantity = item.quantity;
-      const product = productsDB.find((prod) => prod.id === item.productId);
-      if (!product) {
-        throw new Error('Product not found');
-      }
-      const subTotal = product.price * productQuantity;
-
-      totals.subTotal += subTotal;
-      totals.tax += subTotal * 0.15;
-      totals.total += subTotal * 1.15;
-
-      return totals;
-    },
-    { subTotal: 0, tax: 0, total: 0 }
-  );
-
   try {
+    const { subTotal, tax, total } = products.reduce(
+      (totals, item) => {
+        const productQuantity = item.quantity;
+        const product = productsDB.find((prod) => prod.id === item.productId);
+        if (!product) {
+          throw new Error(
+            `No se pudo encontrar el producto con id ${item.productId}, por favor contacta a soporte`
+          );
+        }
+        const subTotal = product.price * productQuantity;
+
+        totals.subTotal += subTotal;
+        totals.tax += subTotal * 0.15;
+        totals.total += subTotal * 1.15;
+
+        return totals;
+      },
+      { subTotal: 0, tax: 0, total: 0 }
+    );
+
     const prismaTx = await db.$transaction(async (tx) => {
       //  1. Actualizar el stock de los productos en la base de datos
       const updatedProductsPromises = productsDB.map(async (product) => {
