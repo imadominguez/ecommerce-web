@@ -2,6 +2,7 @@
 
 import { CircleAlertIcon, CircleMinusIcon, CirclePlusIcon } from 'lucide-react';
 import { Button } from '../ui/button';
+import { toast } from 'sonner';
 
 // Propiedades esperadas para el componente QuantitySelector
 interface Props {
@@ -20,7 +21,12 @@ export const QuantitySelector = ({
   const onQuantityValue = (value: number) => {
     // Verificar que la cantidad no pase el total de stock del producto
     if (quantityTotal) {
-      if (quantity + value > quantityTotal) return;
+      if (quantity + value > quantityTotal) {
+        toast.error(`La cantidad supera el stock disponible del producto `, {
+          duration: 1500,
+        });
+        return;
+      }
     }
 
     // Verificar que la nueva cantidad no sea menor que 1
@@ -36,7 +42,8 @@ export const QuantitySelector = ({
       <Button
         onClick={() => onQuantityValue(-1)}
         size={'icon'}
-        className="leading-10 transition hover:opacity-75"
+        variant={'outline'}
+        className="rounded-full leading-10 transition hover:opacity-75"
       >
         <CircleMinusIcon className="h-5 w-5" />
       </Button>
@@ -50,7 +57,8 @@ export const QuantitySelector = ({
       <Button
         onClick={() => onQuantityValue(+1)}
         size={'icon'}
-        className="leading-10 transition hover:opacity-75"
+        variant={'outline'}
+        className="rounded-full leading-10 transition hover:opacity-75"
       >
         <CirclePlusIcon className="h-5 w-5" />
       </Button>
