@@ -16,6 +16,11 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "outDir": "dist",
+    "sourceMap": true,
+    // "module": "commonjs",
+    "target": "es6",
+    // "strict": true,
     "plugins": [
       {
         "name": "next"
