@@ -31,6 +31,7 @@ import { Heart, ShoppingCart, Star, StarIcon } from 'lucide-react';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { AddToCart } from './components/add-to-cart';
+import { Product } from '@/types/product';
 
 interface Props {
   params: {
@@ -70,7 +71,7 @@ export default async function ProductDetailPage({ params: { slug } }: Props) {
             autoplayInterval={2500}
             className="aspect-square mx-auto max-w-sm rounded-lg object-cover"
           >
-            {product.images.map((img, index) => (
+            {product.images.map((img: string, index: number) => (
               <CarouselItem key={index}>
                 <ProductImage
                   src={img}
@@ -124,7 +125,7 @@ export default async function ProductDetailPage({ params: { slug } }: Props) {
       <div className="mt-12">
         <h2 className="mb-6 text-2xl font-bold">Productos relacionados</h2>
         <ReusableCarousel autoplay loop autoplayInterval={5000}>
-          {relatedProducts.products.map((product, index) => (
+          {relatedProducts.products.map((product: Product, index: number) => (
             <CarouselItem key={index} className="basis-full pl-4 md:basis-1/4">
               <Card key={index}>
                 <CardContent className="flex flex-col items-center p-0">
