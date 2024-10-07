@@ -82,12 +82,15 @@ export const updateProduct = async (formData: FormData) => {
 
         // Eliminamos las imágenes de cloudinary
         for (const publicId of publicIds) {
-          await cloudinary.uploader.destroy(publicId, (error, result) => {
-            if (error) {
-              console.log('Error deleting image:', error);
-              throw new Error('Error deleting image');
+          await cloudinary.uploader.destroy(
+            publicId,
+            (error: any, result: any) => {
+              if (error) {
+                console.log('Error deleting image:', error);
+                throw new Error('Error deleting image');
+              }
             }
-          });
+          );
         }
 
         // Ahora eliminamos las imágenes de la base de datos
