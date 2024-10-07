@@ -5,7 +5,9 @@ import { db } from '@/lib/db';
 import { z } from 'zod';
 import { v2 as cloudinary } from 'cloudinary';
 import { revalidatePath } from 'next/cache';
-import { Color } from '@prisma/client';
+import { Color } from '@/types/product';
+
+// import { Color } from '@prisma/client';
 
 cloudinary.config({
   cloud_name: 'dqpj5d9d1',

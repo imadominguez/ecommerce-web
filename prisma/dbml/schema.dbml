@@ -209,7 +209,6 @@ Enum Role {
 
 Enum Color {
   cyan
-  red
   yellow
   black
   magenta

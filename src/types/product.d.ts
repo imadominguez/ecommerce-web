@@ -1,5 +1,3 @@
-import { Color } from '@prisma/client';
-
 export interface Product {
   id: string;
   title: string;
@@ -30,3 +28,5 @@ export interface CartProduct {
   image: string;
   quantity: number;
 }
+
+export type Color = 'cyan' | 'yellow' | 'black' | 'magenta';

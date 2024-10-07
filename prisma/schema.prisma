@@ -14,7 +14,7 @@ enum Role {
 
 enum Color {
   cyan
-  red
+  // red
   yellow
   black
   magenta
