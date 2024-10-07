@@ -88,33 +88,46 @@ export default async function OrderConfirmation({ params: { id } }: Props) {
                     <Card className="">
                       <ScrollArea className="">
                         <CardContent className="space-y-4 p-4">
-                          {order?.OrderItem.map((product, index) => (
-                            <div
-                              key={index}
-                              className="flex items-center space-x-4 border-b pb-4 last:border-b-0 dark:border-gray-600"
-                            >
-                              <ProductImage
-                                src={product.product.images[0]}
-                                alt={product.product.slug}
-                                width={60}
-                                height={60}
-                                className="rounded-md"
-                              />
-                              <div className="flex-grow">
-                                <h3 className="font-medium">
-                                  {product.product.title}
-                                </h3>
-                                <p className="text-sm text-gray-500 dark:text-gray-400">
-                                  Cantidad: {product.quantity}
+                          {order?.OrderItem.map(
+                            (
+                              product: {
+                                price: number;
+                                product: {
+                                  title: string;
+                                  slug: string;
+                                  images: string[];
+                                };
+                                quantity: number;
+                              },
+                              index: number
+                            ) => (
+                              <div
+                                key={index}
+                                className="flex items-center space-x-4 border-b pb-4 last:border-b-0 dark:border-gray-600"
+                              >
+                                <ProductImage
+                                  src={product.product.images[0]}
+                                  alt={product.product.slug}
+                                  width={60}
+                                  height={60}
+                                  className="rounded-md"
+                                />
+                                <div className="flex-grow">
+                                  <h3 className="font-medium">
+                                    {product.product.title}
+                                  </h3>
+                                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                                    Cantidad: {product.quantity}
+                                  </p>
+                                </div>
+                                <p className="font-semibold text-blue-600 dark:text-blue-400">
+                                  {currencyFormat(
+                                    product.price * product.quantity
+                                  )}
                                 </p>
                               </div>
-                              <p className="font-semibold text-blue-600 dark:text-blue-400">
-                                {currencyFormat(
-                                  product.price * product.quantity
-                                )}
-                              </p>
-                            </div>
-                          ))}
+                            )
+                          )}
                         </CardContent>
                       </ScrollArea>
                     </Card>
