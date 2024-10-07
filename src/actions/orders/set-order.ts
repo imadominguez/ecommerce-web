@@ -4,6 +4,8 @@ import { auth } from '@/auth';
 import { db } from '@/lib/db';
 import type { UserAddress } from '@/types/address';
 import type { Product } from '@/types/product';
+import { Prisma, PrismaClient } from '@prisma/client';
+import { DefaultArgs } from '@prisma/client/runtime/library';
 interface ProductToOrder {
   productId: string;
   quantity: number;
@@ -60,85 +62,97 @@ export const placeOrder = async (
       { subTotal: 0, tax: 0, total: 0 }
     );
 
-    const prismaTx = await db.$transaction(async (tx) => {
-      //  1. Actualizar el stock de los productos en la base de datos
-      const updatedProductsPromises = productsDB.map(async (product) => {
-        //  Acumular los valores
-        const productQuantity = products
-          .filter((p) => p.productId === product.id)
-          .reduce((count, prod) => count + prod.quantity, 0);
+    const prismaTx = await db.$transaction(
+      async (
+        tx: Omit<
+          PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>,
+          | '$connect'
+          | '$disconnect'
+          | '$on'
+          | '$transaction'
+          | '$use'
+          | '$extends'
+        >
+      ) => {
+        //  1. Actualizar el stock de los productos en la base de datos
+        const updatedProductsPromises = productsDB.map(async (product) => {
+          //  Acumular los valores
+          const productQuantity = products
+            .filter((p) => p.productId === product.id)
+            .reduce((count, prod) => count + prod.quantity, 0);
 
-        if (productQuantity === 0) {
-          throw new Error('No se puede ordenar un producto con cantidad 0');
-        }
+          if (productQuantity === 0) {
+            throw new Error('No se puede ordenar un producto con cantidad 0');
+          }
 
-        return tx.product.update({
-          where: {
-            id: product.id,
-          },
+          return tx.product.update({
+            where: {
+              id: product.id,
+            },
+            data: {
+              inStock: {
+                decrement: productQuantity,
+              },
+            },
+          });
+        });
+
+        const updatedProducts = await Promise.all(updatedProductsPromises);
+
+        updatedProducts.forEach((product) => {
+          if (product.inStock < 0) {
+            throw new Error(
+              'No hay suficiente stock para el producto ' + product.title
+            );
+          }
+        });
+
+        //  2. Crear la orden en la base de datos
+        const order = await tx.order.create({
           data: {
-            inStock: {
-              decrement: productQuantity,
+            userId,
+            subTotal,
+            envio: Number(process.env.NEXT_PUBLIC_ENVIO || 0) || 0,
+            total,
+            itemsInOrder: itemsInOrder,
+            isPaid: false,
+            OrderItem: {
+              createMany: {
+                data: products.map((product) => {
+                  return {
+                    quantity: product.quantity,
+                    price:
+                      productsDB.find((prod) => prod.id === product.productId)
+                        ?.price ?? 0,
+                    productId: product.productId,
+                  };
+                }),
+              },
             },
           },
         });
-      });
 
-      const updatedProducts = await Promise.all(updatedProductsPromises);
+        // 3. Crear la dirección de entrega
+        const {
+          country,
+          taxType,
+          vatCondition,
+          businessName,
+          cuitCuil,
+          ...restAddres
+        } = address;
 
-      updatedProducts.forEach((product) => {
-        if (product.inStock < 0) {
-          throw new Error(
-            'No hay suficiente stock para el producto ' + product.title
-          );
-        }
-      });
-
-      //  2. Crear la orden en la base de datos
-      const order = await tx.order.create({
-        data: {
-          userId,
-          subTotal,
-          envio: Number(process.env.NEXT_PUBLIC_ENVIO || 0) || 0,
-          total,
-          itemsInOrder: itemsInOrder,
-          isPaid: false,
-          OrderItem: {
-            createMany: {
-              data: products.map((product) => {
-                return {
-                  quantity: product.quantity,
-                  price:
-                    productsDB.find((prod) => prod.id === product.productId)
-                      ?.price ?? 0,
-                  productId: product.productId,
-                };
-              }),
-            },
+        const orderAddress = await tx.orderAddress.create({
+          data: {
+            ...restAddres,
+            countryId: 'AR',
+            orderId: order.id,
           },
-        },
-      });
+        });
 
-      // 3. Crear la dirección de entrega
-      const {
-        country,
-        taxType,
-        vatCondition,
-        businessName,
-        cuitCuil,
-        ...restAddres
-      } = address;
-
-      const orderAddress = await tx.orderAddress.create({
-        data: {
-          ...restAddres,
-          countryId: 'AR',
-          orderId: order.id,
-        },
-      });
-
-      return { order, orderAddress, updatedProducts };
-    });
+        return { order, orderAddress, updatedProducts };
+      }
+    );
 
     return {
       ok: true,
