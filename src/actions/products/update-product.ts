@@ -2,7 +2,7 @@
 
 import { db } from '@/lib/db';
 import { z } from 'zod';
-import { v2 as cloudinary } from 'cloudinary';
+import { v2 as cloudinary, UploadApiResponse } from 'cloudinary';
 import { revalidatePath } from 'next/cache';
 
 cloudinary.config({
@@ -43,7 +43,7 @@ export const updateProduct = async (formData: FormData) => {
     await db.$transaction(async () => {
       const tagsArray = product.tags
         .split(',')
-        .map((tag) => tag.trim().toLowerCase());
+        .map((tag: string) => tag.trim().toLowerCase());
 
       const updatedProduct = await db.product.update({
         where: {
@@ -73,7 +73,7 @@ export const updateProduct = async (formData: FormData) => {
         //
 
         // const images = formData.getAll('file');
-        const publicIds = updatedProduct.images.map((image) => {
+        const publicIds = updatedProduct.images.map((image: string) => {
           const urlParts = image.split('/');
           const publicIdWithExtension = urlParts.slice(7).join('/');
           const publicId = publicIdWithExtension.replace(/\.[^/.]+$/, '');
@@ -98,14 +98,16 @@ export const updateProduct = async (formData: FormData) => {
         });
 
         // Ahora subimos las nuevas imágenes
-        const imageFiles = formData.getAll('file').map((file) => {
-          // Verifica si es un archivo y realiza la conversión si es necesario
-          if (file instanceof File) {
-            return file;
-          }
-          // Manejo de error si no es un archivo válido
-          throw new Error('El archivo no es válido');
-        });
+        const imageFiles = formData
+          .getAll('file')
+          .map((file: FormDataEntryValue) => {
+            // Verifica si es un archivo y realiza la conversión si es necesario
+            if (file instanceof File) {
+              return file;
+            }
+            // Manejo de error si no es un archivo válido
+            throw new Error('El archivo no es válido');
+          });
         try {
           const uploadedImages = await uploadImages(imageFiles);
           // Asegúrate de que se haya subido al menos una imagen
@@ -114,7 +116,7 @@ export const updateProduct = async (formData: FormData) => {
           }
           // Guardamos las nuevas imágenes en la base de datos
           await db.productImage.createMany({
-            data: uploadedImages.map((url) => ({
+            data: uploadedImages.map((url: string | null) => ({
               url: url!,
               productId: updatedProduct.id,
             })),
@@ -139,7 +141,15 @@ export const updateProduct = async (formData: FormData) => {
             },
             data: {
               images: {
-                set: productImages.map((image) => image.url),
+                set: productImages.map(
+                  (image: {
+                    id: string;
+                    url: string;
+                    productId: string;
+                    createdAt: Date;
+                    updatedAt: Date;
+                  }) => image.url
+                ),
               },
             },
           });
@@ -172,7 +182,7 @@ export const updateProduct = async (formData: FormData) => {
 async function uploadImages(images: File[]) {
   // Upload images to cloudinary
   try {
-    const uploadPromises = images.map(async (image) => {
+    const uploadPromises = images.map(async (image: File) => {
       try {
         const buffer = await image.arrayBuffer();
         const base64Image = Buffer.from(buffer).toString('base64');
@@ -180,7 +190,7 @@ async function uploadImages(images: File[]) {
           .upload(`data:image/png;base64,${base64Image}`, {
             folder: 'ecommerce-web/products',
           })
-          .then((res) => {
+          .then((res: UploadApiResponse) => {
             return res.secure_url;
           });
       } catch (error) {

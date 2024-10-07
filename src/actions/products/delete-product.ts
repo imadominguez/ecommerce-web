@@ -23,7 +23,7 @@ export const deleteProduct = async (slug: string) => {
       throw new Error('Producto no encontrado');
     }
     // Luego comprobamos si en images hay urls de cloudinary
-    const cloudinaryImages = product.images.filter((image) =>
+    const cloudinaryImages = product.images.filter((image: string) =>
       image.includes('res.cloudinary.com')
     );
 
@@ -37,7 +37,7 @@ export const deleteProduct = async (slug: string) => {
         // por lo que necesitamos extraer el publicId para eliminar la imagen
         // que seria 'teslo-shop/fcnwxgrsyjq27ppizaal'
         try {
-          const publicIds = cloudinaryImages.map((image) => {
+          const publicIds = cloudinaryImages.map((image: string) => {
             const urlParts = image.split('/');
             const publicIdWithExtension = urlParts.slice(7).join('/');
             const publicId = publicIdWithExtension.replace(/\.[^/.]+$/, '');
