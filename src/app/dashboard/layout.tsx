@@ -6,6 +6,7 @@ import { SearchInput } from '@/components/product/search-input';
 import { ModeToggle } from '@/components/button/toggle-mode-button';
 import Image from 'next/image';
 import { CustomLinkButton } from '@/components/button/custom-link-button';
+import { Suspense } from 'react';
 
 export default function DashboardLayout({
   children,
@@ -55,7 +56,9 @@ export default function DashboardLayout({
             </SheetContent>
           </Sheet>
           <div className="w-full flex-1">
-            <SearchInput />
+            <Suspense fallback={<div>Loading...</div>}>
+              <SearchInput />
+            </Suspense>
           </div>
           <ModeToggle />
         </header>

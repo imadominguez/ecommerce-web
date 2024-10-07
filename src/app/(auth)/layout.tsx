@@ -1,4 +1,5 @@
 import { Navbar } from '@/components/navbar/navbar';
+import { Suspense } from 'react';
 
 export default async function AuthLayout({
   children,
@@ -7,7 +8,9 @@ export default async function AuthLayout({
 }) {
   return (
     <div className="mx-auto max-w-[2500px]">
-      <Navbar />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Navbar />
+      </Suspense>
       {children}
     </div>
   );

@@ -26,9 +26,9 @@ export default async function ProductDetailPage({ params: { slug } }: Props) {
     redirect('/dashboard/products');
   }
 
-  const { ok, product } = await getProductBySlug({ slug });
+  const product = await getProductBySlug({ slug });
 
-  if (!ok || !product) {
+  if (!product) {
     redirect('/dashboard/products');
   }
 
