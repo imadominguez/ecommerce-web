@@ -4,8 +4,8 @@ import { auth } from '@/auth';
 import { db } from '@/lib/db';
 import type { UserAddress } from '@/types/address';
 import type { Product } from '@/types/product';
-import { Prisma, PrismaClient } from '@prisma/client';
-import { DefaultArgs } from '@prisma/client/runtime/library';
+import { Prisma } from '@prisma/client';
+
 interface ProductToOrder {
   productId: string;
   quantity: number;
@@ -65,27 +65,29 @@ export const placeOrder = async (
     const prismaTx = await db.$transaction(
       async (tx: Prisma.TransactionClient) => {
         //  1. Actualizar el stock de los productos en la base de datos
-        const updatedProductsPromises = productsDB.map(async (product) => {
-          //  Acumular los valores
-          const productQuantity = products
-            .filter((p) => p.productId === product.id)
-            .reduce((count, prod) => count + prod.quantity, 0);
+        const updatedProductsPromises = productsDB.map(
+          async (product: Product) => {
+            //  Acumular los valores
+            const productQuantity = products
+              .filter((p) => p.productId === product.id)
+              .reduce((count, prod) => count + prod.quantity, 0);
 
-          if (productQuantity === 0) {
-            throw new Error('No se puede ordenar un producto con cantidad 0');
-          }
+            if (productQuantity === 0) {
+              throw new Error('No se puede ordenar un producto con cantidad 0');
+            }
 
-          return tx.product.update({
-            where: {
-              id: product.id,
-            },
-            data: {
-              inStock: {
-                decrement: productQuantity,
+            return tx.product.update({
+              where: {
+                id: product.id,
               },
-            },
-          });
-        });
+              data: {
+                inStock: {
+                  decrement: productQuantity,
+                },
+              },
+            });
+          }
+        );
 
         const updatedProducts = await Promise.all(updatedProductsPromises);
 
