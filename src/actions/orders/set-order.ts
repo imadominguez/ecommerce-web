@@ -3,7 +3,7 @@
 import { auth } from '@/auth';
 import { db } from '@/lib/db';
 import type { UserAddress } from '@/types/address';
-import { Product } from '@/types/product';
+import type { Product } from '@/types/product';
 interface ProductToOrder {
   productId: string;
   quantity: number;
