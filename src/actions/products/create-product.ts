@@ -152,7 +152,15 @@ export const createProduct = async (productData: FormData) => {
             },
             data: {
               images: {
-                set: productImages.map((image) => image.url),
+                set: productImages.map(
+                  (image: {
+                    id: string;
+                    url: string;
+                    productId: string;
+                    createdAt: Date;
+                    updatedAt: Date;
+                  }) => image.url
+                ),
               },
             },
           });
