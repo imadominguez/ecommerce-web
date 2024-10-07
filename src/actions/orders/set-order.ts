@@ -3,6 +3,7 @@
 import { auth } from '@/auth';
 import { db } from '@/lib/db';
 import type { UserAddress } from '@/types/address';
+import { Product } from '@prisma/client';
 interface ProductToOrder {
   productId: string;
   quantity: number;
@@ -40,7 +41,9 @@ export const placeOrder = async (
     const { subTotal, tax, total } = products.reduce(
       (totals, item) => {
         const productQuantity = item.quantity;
-        const product = productsDB.find((prod) => prod.id === item.productId);
+        const product = productsDB.find(
+          (prod: Product) => prod.id === item.productId
+        );
         if (!product) {
           throw new Error(
             `No se pudo encontrar el producto con id ${item.productId}, por favor contacta a soporte`
