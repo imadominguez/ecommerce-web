@@ -114,8 +114,9 @@ export const placeOrder = async (
                   return {
                     quantity: product.quantity,
                     price:
-                      productsDB.find((prod) => prod.id === product.productId)
-                        ?.price ?? 0,
+                      productsDB.find(
+                        (prod: Product) => prod.id === product.productId
+                      )?.price ?? 0,
                     productId: product.productId,
                   };
                 }),
