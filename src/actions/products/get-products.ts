@@ -1,7 +1,7 @@
 'use server';
 
 import { db } from '@/lib/db';
-import { Color } from '@prisma/client';
+import { Color } from '@/types/product';
 
 interface PaginationOptions {
   page?: number;
