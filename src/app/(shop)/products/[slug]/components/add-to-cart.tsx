@@ -31,12 +31,13 @@ export const AddToCart = ({ product }: Props) => {
         onQuantityChange={setQuantity}
       />
       <Button
+        variant={'shop'}
         onClick={() => {
           addProductToCart(productToCart, product.inStock);
           setQuantity(1);
         }}
         disabled={productToCart.quantity > product.inStock}
-        className="mt-4 w-full flex-1 uppercase"
+        className="mt-4 uppercase"
       >
         <ShoppingCart className="mr-2 h-5 w-5" /> Añadir al carrito
       </Button>
