@@ -1,3 +1,4 @@
+import { getOrderById } from '@/actions/orders/get-order-by-id';
 import { PageContainer } from '@/components/layout/page-container';
 import { ProductImage } from '@/components/product/product-image';
 import {
@@ -8,7 +9,14 @@ import {
 } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
   Dialog,
@@ -24,7 +32,9 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { db } from '@/lib/db';
 import { currencyFormat } from '@/utils/currencyFormat';
+import { dateFormat } from '@/utils/dateFormat';
 import {
+  Copy,
   CreditCard,
   MapPin,
   Phone,
@@ -34,6 +44,7 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 
 interface Props {
   params: {
@@ -42,234 +53,121 @@ interface Props {
 }
 
 export default async function OrderConfirmation({ params: { id } }: Props) {
-  const order = await db.order.findUnique({
-    where: {
-      id,
-    },
-    include: {
-      OrderAddress: true,
-      OrderItem: {
-        select: {
-          price: true,
-          quantity: true,
-          product: {
-            select: {
-              title: true,
-              slug: true,
+  const { user, OrderAddress, OrderItem, order } = await getOrderById(id);
 
-              images: true,
-            },
-          },
-        },
-      },
-    },
-  });
-
+  if (!order) {
+    notFound();
+  }
   return (
     <PageContainer
       className={`flex min-h-screen w-full max-w-none items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4 transition-colors duration-300 dark:from-gray-900 dark:to-gray-800`}
     >
-      <Card className="w-full max-w-3xl overflow-hidden shadow-xl dark:bg-gray-800 dark:text-white">
-        <CardHeader className="flex w-full items-center justify-center bg-gradient-to-r from-blue-600 to-indigo-600 p-6 text-white dark:from-blue-800 dark:to-indigo-800 md:flex-row">
-          <Badge variant="warning">Pendiente de pago</Badge>
+      <Card className="overflow-hidden">
+        <CardHeader className="flex flex-row items-start bg-muted/80">
+          <div className="grid gap-0.5">
+            <CardTitle className="group flex items-center gap-2 text-lg">
+              Orden #{id.slice(0, 8)}
+              <Button size="icon" variant="outline" className="h-6 w-6">
+                <Copy className="h-3 w-3" />
+                <span className="sr-only">Copy Order ID</span>
+              </Button>
+            </CardTitle>
+            <CardDescription>
+              {dateFormat(new Date(order.createdAt || ''))}
+            </CardDescription>
+          </div>
+          <div className="ml-auto flex items-center gap-1">
+            <Badge variant={order.isPaid ? 'default' : 'warning'}>
+              {order.isPaid ? 'Pago' : 'Pendiente de pago'}
+            </Badge>
+          </div>
         </CardHeader>
-        <CardContent className="p-6">
-          <div className="grid gap-6 md:grid-cols-2">
-            <div>
-              <Accordion type="single" collapsible className="w-full">
-                <AccordionItem value="products">
-                  <AccordionTrigger>
-                    <h2 className="flex items-center text-lg font-semibold">
-                      <ShoppingBag className="mr-2 h-5 w-5 text-blue-600 dark:text-blue-400" />
-                      Detalles de los {order?.itemsInOrder} productos
-                    </h2>
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <Card className="">
-                      <ScrollArea className="">
-                        <CardContent className="space-y-4 p-4">
-                          {order?.OrderItem.map(
-                            (
-                              product: {
-                                price: number;
-                                product: {
-                                  title: string;
-                                  slug: string;
-                                  images: string[];
-                                };
-                                quantity: number;
-                              },
-                              index: number
-                            ) => (
-                              <div
-                                key={index}
-                                className="flex items-center space-x-4 border-b pb-4 last:border-b-0 dark:border-gray-600"
-                              >
-                                <ProductImage
-                                  src={product.product.images[0]}
-                                  alt={product.product.slug}
-                                  width={60}
-                                  height={60}
-                                  className="rounded-md"
-                                />
-                                <div className="flex-grow">
-                                  <h3 className="font-medium">
-                                    {product.product.title}
-                                  </h3>
-                                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                                    Cantidad: {product.quantity}
-                                  </p>
-                                </div>
-                                <p className="font-semibold text-blue-600 dark:text-blue-400">
-                                  {currencyFormat(
-                                    product.price * product.quantity
-                                  )}
-                                </p>
-                              </div>
-                            )
-                          )}
-                        </CardContent>
-                      </ScrollArea>
-                    </Card>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </div>
-            <div>
-              <h2 className="mb-4 flex items-center text-lg font-semibold">
-                <Truck className="mr-2 h-5 w-5 text-blue-600 dark:text-blue-400" />
-                Dirección de entrega
-              </h2>
-              <Card className="">
-                <CardContent className="p-4">
-                  <div className="flex items-start">
-                    <MapPin className="mr-2 mt-1 h-5 w-5 text-blue-600 dark:text-blue-400" />
-                    <div>
-                      <p className="font-medium capitalize">
-                        {order?.OrderAddress?.firstName}{' '}
-                        {order?.OrderAddress?.lastName}
-                      </p>
-                      <p className="text-sm">
-                        {order?.OrderAddress?.street}{' '}
-                        {order?.OrderAddress?.streetNumber}
-                      </p>
-                      <p className="text-sm">
-                        AR, CP: {order?.OrderAddress?.postalCode}
-                      </p>
-                      <p className="text-sm">{order?.OrderAddress?.phone}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <h2 className="mb-4 mt-6 text-lg font-semibold">
-                Cupón de descuento
-              </h2>
-              <form className="flex space-x-2">
-                <Input
-                  type="text"
-                  placeholder="Ingresa tu código"
-                  className="flex-grow"
-                />
-                <Button type="submit">Aplicar</Button>
-              </form>
-            </div>
-          </div>
-
-          <Separator className="my-6" />
-
-          <div className="mb-6 rounded-lg bg-gray-50 p-4 dark:bg-gray-700">
-            <h2 className="mb-4 text-lg font-semibold">Resumen de la orden</h2>
-            <div className="space-y-2">
-              <div className="flex justify-between">
-                <span className="text-gray-600 dark:text-gray-400">
-                  Subtotal
-                </span>
-                <span>{currencyFormat(order!.subTotal)}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600 dark:text-gray-400">Envío</span>
-                <span>{currencyFormat(order!.envio)}</span>
-              </div>
-              <Separator className="my-2" />
-              <div className="flex justify-between text-lg font-semibold">
-                <span>Total</span>
-                <span className="text-blue-600 dark:text-blue-400">
-                  {currencyFormat(order!.total)}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button className="w-full bg-[#009ee3] py-6 text-lg text-white hover:bg-[#007eb5]">
-                  <ShoppingBag className="mr-2 h-5 w-5" /> Pagar con Mercado
-                  Pago
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>Confirmar pago</DialogTitle>
-                  <DialogDescription>
-                    ¿Estás seguro de que deseas proceder con el pago de $
-                    {order?.total.toFixed(2)} a través de Mercado Pago?
-                  </DialogDescription>
-                </DialogHeader>
-                <DialogFooter>
-                  {/* <Button variant="outline" onClick={() => setIsDialogOpen(false)}>Cancelar</Button> */}
-                  {/* <Button onClick={() => {
-                    setIsDialogOpen(false)
-                    toast({
-                      title: "Pago iniciado",
-                      description: "Serás redirigido a Mercado Pago para completar tu pago.",
-                    })
-                  }}>Confirmar pago</Button> */}
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-          </div>
-
-          {/* <div className="mt-6">
-            <h2 className="text-lg font-semibold mb-4">Productos relacionados</h2>
-            <div className="grid grid-cols-2 gap-4">
-              {relatedProducts.map((product, index) => (
-                <Card key={index} className="dark:bg-gray-700">
-                  <CardContent className="p-4">
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      width={80}
-                      height={80}
-                      className="rounded-md mb-2"
-                    />
-                    <h3 className="font-medium">{product.name}</h3>
-                    <p className="text-sm text-blue-600 dark:text-blue-400">${product.price.toFixed(2)}</p>
-                    <Button variant="outline" size="sm" className="mt-2 w-full">
-                      Agregar al carrito
-                    </Button>
-                  </CardContent>
-                </Card>
+        <CardContent className="p-6 text-sm">
+          <div className="grid gap-3">
+            <span className="font-semibold">Detalles de la orden</span>
+            <ul className="grid gap-3">
+              {OrderItem.map((product, index) => (
+                <li key={index} className="flex items-center justify-between">
+                  <span className="text-muted-foreground">
+                    <strong>{product.product.title}</strong> x{' '}
+                    <span>{product.quantity}</span>
+                  </span>
+                  <span className="flex-1 text-end">
+                    {currencyFormat(product.price)}
+                  </span>
+                  <Separator orientation="vertical" className="mx-3" />
+                  <span>
+                    {currencyFormat(product.price * product.quantity)}
+                  </span>
+                </li>
               ))}
+            </ul>
+            <Separator className="my-2" />
+            <ul className="grid gap-3">
+              <li className="flex items-center justify-between">
+                <span className="text-muted-foreground">Subtotal</span>
+                <span>{currencyFormat(order.subTotal || 0)}</span>
+              </li>
+              <li className="flex items-center justify-between">
+                <span className="text-muted-foreground">Envio</span>
+                <span>{currencyFormat(order.envio || 0)}</span>
+              </li>
+              <li className="flex items-center justify-between">
+                <span className="text-muted-foreground">Tax</span>
+                <span>$25.00</span>
+              </li>
+              <li className="flex items-center justify-between font-semibold">
+                <span className="text-muted-foreground">Total</span>
+                <span>{currencyFormat(order.total || 0)}</span>
+              </li>
+            </ul>
+          </div>
+          <Separator className="my-4" />
+          <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-3">
+              <div className="font-semibold">Información de Envío</div>
+              <address className="grid gap-0.5 not-italic text-muted-foreground">
+                <span>
+                  {OrderAddress?.firstName} {OrderAddress?.lastName}
+                </span>
+                <span>
+                  {OrderAddress?.street} {OrderAddress?.streetNumber}
+                </span>
+                <span>Argentina, CP {OrderAddress?.postalCode}</span>
+              </address>
             </div>
-          </div> */}
-
-          <div className="mt-6 space-y-2 text-sm text-gray-500 dark:text-gray-400">
-            <p>
-              <Link
-                href="#"
-                className="underline hover:text-blue-600 dark:hover:text-blue-400"
-              >
-                Ver políticas de devolución y garantía
-              </Link>
-            </p>
-            <p className="flex items-center">
-              <Phone className="mr-2 h-4 w-4" />
-              Contacto del vendedor: +54 11 1234-5678
-            </p>
+          </div>
+          <Separator className="my-4" />
+          <div className="grid gap-3">
+            <div className="font-semibold">Información del Cliente</div>
+            <dl className="grid gap-3">
+              <div className="flex items-center justify-between">
+                <dt className="text-muted-foreground">Cliente</dt>
+                <dd>{user.name}</dd>
+              </div>
+              <div className="flex items-center justify-between">
+                <dt className="text-muted-foreground">Email</dt>
+                <dd>
+                  <a href="mailto:">{user.email}</a>
+                </dd>
+              </div>
+              <div className="flex items-center justify-between">
+                <dt className="text-muted-foreground">Phone</dt>
+                <dd>
+                  <a href="tel:">{OrderAddress?.phone}</a>
+                </dd>
+              </div>
+            </dl>
           </div>
         </CardContent>
+        <CardFooter className="flex flex-row items-center border-t bg-muted/80 px-6 py-3">
+          <div className="text-xs text-muted-foreground">
+            Actualizado{' '}
+            <time dateTime="2023-11-23">
+              {dateFormat(new Date(order.updatedAt || ''))}
+            </time>
+          </div>
+        </CardFooter>
       </Card>
     </PageContainer>
   );
