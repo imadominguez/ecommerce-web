@@ -46,7 +46,7 @@ export const ProductGrid = ({ className, products }: Props) => {
         return (
           <div
             key={product.id}
-            className={`group overflow-hidden rounded-lg bg-white shadow-lg transition-transform hover:scale-105 dark:border dark:border-gray-800 dark:bg-[#1a1d21]`}
+            className={`group overflow-hidden rounded-lg bg-white shadow-xl transition-transform hover:scale-105 dark:border dark:border-gray-800 dark:bg-[#1a1d21]`}
           >
             <div className="relative w-full">
               <ProductImage
