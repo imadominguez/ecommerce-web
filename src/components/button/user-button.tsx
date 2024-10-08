@@ -28,7 +28,7 @@ export const UserButton = async () => {
           <DropdownMenuSeparator />
           {session.user.role === 'admin' ? (
             <DropdownMenuItem>
-              <CustomLinkButton variant={'standard'} href={'/admin'}>
+              <CustomLinkButton variant={'standard'} href={'/dashboard'}>
                 Dashboard
               </CustomLinkButton>
             </DropdownMenuItem>
