@@ -4,6 +4,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce';
 import { Input } from '../ui/input';
 import { Search } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const DEBOUNCE_DELAY = 500; // Tiempo de demora para el debounce
 
@@ -27,7 +28,15 @@ export const SearchInput = () => {
   }, DEBOUNCE_DELAY);
 
   return (
-    <div className="relative ml-auto flex-1 sm:flex-1">
+    <div
+      className={cn('relative ml-auto flex-1 sm:flex-1', {
+        hidden:
+          // Ocultar el input de búsqueda en las rutas de la tienda que no sean las de /dashboard, /products
+          !['/dashboard/products', '/dashboard/orders', '/products'].includes(
+            pathname
+          ),
+      })}
+    >
       <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
       <Input
         type="search"
