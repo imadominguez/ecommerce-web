@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { DashboardLink } from './dashboard-link';
 import { ModeToggle } from '../button/toggle-mode-button';
 import { ShoppingCart } from './shopping-cart-icon';
+import { SearchInput } from '../product/search-input';
 const LINKS_NAVBAR = [
   {
     name: 'Nuestra empresa',
@@ -83,7 +84,9 @@ export const Navbar = () => {
       </nav>
 
       <div className="flex flex-1 items-center justify-end gap-x-2">
-        {/* <SearchInput /> */}
+        <div className="ml-5 w-full">
+          <SearchInput />
+        </div>
         <ShoppingCart />
         <div className="ml-1 hidden lg:block">
           <UserButton />
