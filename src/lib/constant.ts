@@ -20,3 +20,16 @@ export const CARROUSEL_IMAGES_HOME: Images[] = [
     height: 900,
   },
 ] as const;
+
+export const LINKS_NAVBAR = [
+  {
+    name: 'Nuestra empresa',
+    href: '/',
+    isDisable: false,
+  },
+  {
+    name: 'Tienda online',
+    href: '/products',
+    isDisable: false,
+  },
+];
