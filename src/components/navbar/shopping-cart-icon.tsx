@@ -41,7 +41,7 @@ export const ShoppingCart = () => {
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
-        <Button variant="outline" size={'icon'} className="relative">
+        <Button variant="outline" size={'sm'} className="relative">
           <ShoppingCartIcon className="h-5 w-5" />
           {loaded && totalItemsInCart > 0 && (
             <Badge
