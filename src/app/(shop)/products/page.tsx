@@ -10,6 +10,7 @@ import { Title } from '@/components/title';
 interface Props {
   searchParams: {
     page?: string;
+    query?: string;
     category?: string;
     pmin?: string;
     pmax?: string;
@@ -23,6 +24,7 @@ export default async function ProductsPage({ searchParams }: Props) {
   const pmin = Number(searchParams.pmin) || 0;
   const pmax = Number(searchParams.pmax) || 0;
   const color = searchParams.color || undefined;
+  const title = searchParams.query || undefined;
 
   const { products, totalPages, ok, error } = await getProducts({
     page,
@@ -30,6 +32,7 @@ export default async function ProductsPage({ searchParams }: Props) {
     pmin,
     pmax,
     color,
+    title,
   });
 
   const categories = await getCategories();
@@ -41,23 +44,19 @@ export default async function ProductsPage({ searchParams }: Props) {
     <>
       <div
         style={{ minHeight: 'calc(100dvh - 40px - 240px)' }}
-        className="relative mx-auto grid max-w-7xl gap-0 px-4 pt-5 sm:px-6 lg:max-w-7xl lg:grid-cols-4 lg:gap-8 lg:px-8"
+        className="relative mx-auto grid max-w-7xl gap-0 bg-background px-4 pt-5 sm:px-6 lg:max-w-7xl lg:grid-cols-4 lg:gap-8 lg:px-8"
       >
-        <div className="border-r lg:col-span-1">
+        <div className="lg:col-span-1">
           <FilterProduct {...searchParams} categories={categories.categories} />
         </div>
 
         <div className="relative lg:col-span-3">
-          <div className="sticky top-16 z-40 bg-background py-4">
-            <Title title="Productos" />
+          <Title title="Productos" />
 
-            <Separator />
-          </div>
+          <Separator className="my-2 mb-5" />
 
           <ProductGrid
-            className={
-              'mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3'
-            }
+            className={'grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3'}
             products={products}
           />
 
