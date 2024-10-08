@@ -1,10 +1,12 @@
+'use client';
+
 import Link from 'next/link';
 import React from 'react';
 import { buttonVariants } from '@/components/ui/button';
-import { auth } from '@/auth';
+import { useSession } from 'next-auth/react';
 
-export const DashboardLink = async () => {
-  const session = await auth();
+export const DashboardLink = () => {
+  const { data: session } = useSession();
 
   if (!session) return null;
 
