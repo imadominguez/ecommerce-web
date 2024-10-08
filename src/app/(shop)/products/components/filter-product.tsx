@@ -121,9 +121,6 @@ export const FilterProduct = ({
             </Button>
           </SheetTrigger>
           <SheetContent>
-            <SheetHeader>
-              <SheetTitle>Filtros</SheetTitle>
-            </SheetHeader>
             <Filters
               categories={categories}
               filters={filters}
@@ -133,7 +130,10 @@ export const FilterProduct = ({
           </SheetContent>
         </Sheet>
       </div>
-      <div className="sticky top-20 hidden p-4 lg:block">
+      <div
+        style={{ maxHeight: 'calc(100dvh - 40px - 240px)' }}
+        className="hidden h-full bg-background text-accent-foreground lg:sticky lg:top-24 lg:flex"
+      >
         <Filters
           filters={filters}
           categories={categories}
@@ -164,7 +164,7 @@ const Filters = ({
   categories,
 }: PropsFilters) => {
   return (
-    <div className="space-y-4">
+    <div className="mt-4 h-fit space-y-4 border p-4 lg:mt-0">
       <div>
         <h4 className="mb-2 text-sm font-medium">Categoría</h4>
         <Select
@@ -230,7 +230,7 @@ const Filters = ({
       <Button
         size={'sm'}
         className="w-full uppercase"
-        variant={'outline'}
+        variant={'standard'}
         onClick={clearFilters}
       >
         Limpiar filtros
