@@ -11,6 +11,7 @@ import {
 } from '../ui/dropdown-menu';
 import { LogIn, LogOut, Settings, ShoppingBag, User } from 'lucide-react';
 import { CustomLinkButton } from './custom-link-button';
+import { logOut } from '@/actions/auth/sesion';
 
 export const UserButton = async () => {
   const session = await auth();
@@ -48,12 +49,7 @@ export const UserButton = async () => {
           <DropdownMenuSeparator />
           <DropdownMenuItem>
             <LogOut className="mr-2 h-4 w-4" />
-            <form
-              action={async () => {
-                'use server';
-                await signOut();
-              }}
-            >
+            <form action={logOut}>
               <button type="submit" className="w-full">
                 Cerrar sesion
               </button>

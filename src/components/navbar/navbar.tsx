@@ -10,62 +10,14 @@ import { DashboardLink } from './dashboard-link';
 import { ModeToggle } from '../button/toggle-mode-button';
 import { ShoppingCart } from './shopping-cart-icon';
 import { SearchInput } from '../product/search-input';
-const LINKS_NAVBAR = [
-  {
-    name: 'Nuestra empresa',
-    href: '/',
-    isDisable: false,
-  },
-  {
-    name: 'Tienda online',
-    href: '/products',
-    isDisable: false,
-  },
-];
-function NavbarLinks({
-  links,
-}: {
-  links: {
-    name: string;
-    href: string;
-    isDisable: boolean;
-  }[];
-}) {
-  return (
-    <>
-      {links.map((link, i) => (
-        <li key={i} className="w-full">
-          <Links {...link} />
-        </li>
-      ))}
-    </>
-  );
-}
+import { LINKS_NAVBAR } from '@/lib/constant';
+import { NavbarMobile } from './navbar-mobile';
+
 export const Navbar = () => {
   return (
     <header className="sticky left-0 right-0 top-0 z-50 flex w-full items-center justify-between border-b bg-background px-4 py-4 shadow-md">
       {/* mobile */}
-      <Sheet>
-        <SheetTrigger className="lg:hidden" asChild>
-          <Button variant="outline" size={'icon'}>
-            <MenuIcon className="h-6 w-6" />
-          </Button>
-        </SheetTrigger>
-        <SheetContent side={'left'} className="flex flex-col justify-between">
-          <nav className="flex list-none flex-col items-start gap-y-5 pt-5">
-            <NavbarLinks links={LINKS_NAVBAR} />
-          </nav>
-          <div>
-            <UserButton />
-
-            <Suspense
-              fallback={<div className="animate-pulse bg-slate-600"></div>}
-            >
-              <DashboardLink />
-            </Suspense>
-          </div>
-        </SheetContent>
-      </Sheet>
+      <NavbarMobile />
       <Link href="/" className="hidden flex-1 items-center gap-x-2 lg:flex">
         <Image
           src="/imgs/logo-si.png"
@@ -88,7 +40,7 @@ export const Navbar = () => {
           <SearchInput />
         </div>
         <ShoppingCart />
-        <div className="ml-1 hidden lg:block">
+        <div className="ml-1">
           <UserButton />
         </div>
         <div>
@@ -98,3 +50,23 @@ export const Navbar = () => {
     </header>
   );
 };
+
+export function NavbarLinks({
+  links,
+}: {
+  links: {
+    name: string;
+    href: string;
+    isDisable: boolean;
+  }[];
+}) {
+  return (
+    <>
+      {links.map((link, i) => (
+        <li key={i} className="w-full">
+          <Links {...link} />
+        </li>
+      ))}
+    </>
+  );
+}
