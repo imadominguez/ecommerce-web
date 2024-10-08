@@ -46,7 +46,9 @@ export const SearchInput = () => {
             ? 'Busca un producto'
             : pathname === '/dashboard/orders'
               ? 'Busca una orden'
-              : 'Haz una búsqueda'
+              : pathname === '/products'
+                ? 'Busca un producto'
+                : 'Haz una búsqueda'
         }
         onChange={(event) => handleChange(event.target.value)}
         className="w-full appearance-none bg-background pl-8 shadow-none md:w-2/3 lg:w-1/3"
