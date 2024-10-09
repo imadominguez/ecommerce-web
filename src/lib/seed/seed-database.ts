@@ -79,7 +79,7 @@ export async function main() {
   console.log('✅ Seed ejecutado con éxito');
 }
 
-(() => {
-  if (process.env.NODE_ENV === 'production') return;
-  main();
-})();
+// (() => {
+//   if (process.env.NODE_ENV === 'production') return;
+//   main();
+// })();
