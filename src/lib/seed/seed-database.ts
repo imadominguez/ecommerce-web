@@ -1,7 +1,7 @@
 import { initialData } from './seed';
 import { db } from '../db';
 
-async function main() {
+export async function main() {
   await db.orderAddress.deleteMany();
   await db.orderItem.deleteMany();
   await db.order.deleteMany();
