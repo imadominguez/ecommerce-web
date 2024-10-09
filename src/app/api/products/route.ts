@@ -11,7 +11,7 @@ export async function GET() {
 }
 
 export async function POST(req: any) {
-  const secretName: string = req.body?.secretName ?? '';
+  const secretName: string = process.env.NEXT_PUBLIC_SECRET_NAME ?? '';
 
   if (!secretName) {
     return NextResponse.json(
