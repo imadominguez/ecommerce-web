@@ -12,7 +12,13 @@ import { db } from '@/lib/db';
 import { OrdersEmpty } from './components/orders-empty';
 import { CustomLinkButton } from '@/components/button/custom-link-button';
 
-export default async function OrdersPage() {
+interface Props {
+  searchParams: {
+    status?: string;
+  };
+}
+
+export default async function OrdersPage({ searchParams: { status } }: Props) {
   const orders = await db.order.findMany();
   if (orders.length === 0) {
     return (
@@ -22,7 +28,7 @@ export default async function OrdersPage() {
     );
   }
   return (
-    <div className="container flex flex-col">
+    <div className="flex flex-col">
       <header className="flex h-14 items-center gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40 lg:h-[60px]">
         <CustomLinkButton variant={'link'} className="lg:hidden" href="#">
           <Package2Icon className="h-6 w-6" />

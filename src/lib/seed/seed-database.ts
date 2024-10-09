@@ -53,7 +53,7 @@ async function main() {
         categoryId:
           categoriesDB[Math.floor(Math.random() * categoriesDB.length)].id,
         tags: ['tag1', 'tag2'],
-        images: [...(products[i].images ?? [])] || [],
+        images: [...(products[i].images ?? [])],
         brandId: brandDB[Math.floor(Math.random() * brandDB.length)].id,
         fullDescription: `Descripción completa del producto ${i + 1}`,
       },

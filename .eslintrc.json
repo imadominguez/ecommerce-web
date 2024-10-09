@@ -3,6 +3,6 @@
   "rules": {
     // Additional, per-project rules...
     // agregar regla de variables no usadas
-    "no-unused-vars": "warn"
+    // "no-unused-vars": "warn"
   }
 }
