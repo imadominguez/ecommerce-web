@@ -1,7 +1,7 @@
 import { initialData } from './seed';
 import { db } from '../db';
 
-export async function main() {
+async function main() {
   await db.orderAddress.deleteMany();
   await db.orderItem.deleteMany();
   await db.order.deleteMany();
@@ -79,7 +79,7 @@ export async function main() {
   console.log('✅ Seed ejecutado con éxito');
 }
 
-// (() => {
-//   if (process.env.NODE_ENV === 'production') return;
-//   main();
-// })();
+(() => {
+  if (process.env.NODE_ENV === 'production') return;
+  main();
+})();
