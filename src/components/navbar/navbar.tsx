@@ -7,6 +7,7 @@ import { ShoppingCart } from './shopping-cart-icon';
 import { SearchInput } from '../product/search-input';
 import { LINKS_NAVBAR } from '@/lib/constant';
 import { NavbarMobile } from './navbar-mobile';
+import { Suspense } from 'react';
 
 export const Navbar = () => {
   return (
@@ -32,11 +33,15 @@ export const Navbar = () => {
 
       <div className="flex flex-1 items-center justify-end gap-x-2">
         <div className="ml-5 w-full">
-          <SearchInput />
+          <Suspense fallback={<div>Loading...</div>}>
+            <SearchInput />
+          </Suspense>
         </div>
         <ShoppingCart />
         <div className="ml-1">
-          <UserButton />
+          <Suspense fallback={<div>Loading...</div>}>
+            <UserButton />
+          </Suspense>
         </div>
         <div>
           <ModeToggle />

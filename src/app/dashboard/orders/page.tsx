@@ -19,7 +19,7 @@ interface Props {
 }
 
 export default async function OrdersPage({ searchParams: { status } }: Props) {
-  const orders = await db.order.findMany();
+  const orders = await db.order.findMany({});
   if (orders.length === 0) {
     return (
       <div className="grid h-full flex-1 place-content-center">
