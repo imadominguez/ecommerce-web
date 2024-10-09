@@ -1,17 +1,10 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { PageContainer } from '@/components/layout/page-container';
-import { Button } from '@/components/ui/button';
 import { useEffect, useState } from 'react';
 import { LoaderCircle, ShoppingBag } from 'lucide-react';
 
 export default function ProductosNoEncontrados() {
-  const router = useRouter();
-
-  const handleRetry = () => {
-    router.refresh();
-  };
   // Add a message to inform the user about the error
   const errorMessage =
     'No se encontraron productos que coincidan con tu búsqueda.';

@@ -1,12 +1,7 @@
 import Link from 'next/link';
-import React, { Suspense } from 'react';
 import Image from 'next/image';
-import { MenuIcon, ShoppingCartIcon } from 'lucide-react';
 import { Links } from './navbar-link';
 import { UserButton } from '../button/user-button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Button } from '@/components/ui/button';
-import { DashboardLink } from './dashboard-link';
 import { ModeToggle } from '../button/toggle-mode-button';
 import { ShoppingCart } from './shopping-cart-icon';
 import { SearchInput } from '../product/search-input';

@@ -11,13 +11,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Category } from '@prisma/client';
 
 import { ListFilterIcon } from 'lucide-react';
@@ -153,6 +147,7 @@ interface PropsFilters {
     color: string;
   };
   categories: Category[];
+  // eslint-disable-next-line no-unused-vars
   handleFilter: (k: string, v: string) => void;
   clearFilters: () => void;
 }

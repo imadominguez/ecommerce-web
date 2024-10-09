@@ -2,15 +2,8 @@
 
 import { ProductCard } from '@/components/product/product-card';
 import ReusableCarousel from '@/components/reusable-carousel';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '@/components/ui/carousel';
+import { CarouselItem } from '@/components/ui/carousel';
 import type { Product } from '@/types/product';
-import Autoplay from 'embla-carousel-autoplay';
 import React from 'react';
 
 interface Props {

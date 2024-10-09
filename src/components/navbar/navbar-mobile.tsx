@@ -3,9 +3,6 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button, buttonVariants } from '../ui/button';
 import { MenuIcon } from 'lucide-react';
 import { LINKS_NAVBAR } from '@/lib/constant';
-
-import { DashboardLink } from './dashboard-link';
-import { NavbarLinks } from './navbar';
 import { useOpenSheet } from '@/hooks/useSheetOpen';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';

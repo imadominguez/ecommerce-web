@@ -1,12 +1,5 @@
 import { getOrderById } from '@/actions/orders/get-order-by-id';
 import { PageContainer } from '@/components/layout/page-container';
-import { ProductImage } from '@/components/product/product-image';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -17,33 +10,11 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Checkbox } from '@/components/ui/checkbox';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
-import { db } from '@/lib/db';
 import { currencyFormat } from '@/utils/currencyFormat';
 import { dateFormat } from '@/utils/dateFormat';
-import {
-  Copy,
-  CreditCard,
-  MapPin,
-  Phone,
-  ShoppingBag,
-  ShoppingCart,
-  Truck,
-} from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
+import { Copy } from 'lucide-react';
+
 import { notFound } from 'next/navigation';
 
 interface Props {

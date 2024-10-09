@@ -8,15 +8,7 @@ import { useCartStore } from '@/store/shopping-cart/shopping-cart.store';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import {
-  Copy,
-  Flag,
-  LoaderCircleIcon,
-  Mail,
-  MapPin,
-  Phone,
-  User,
-} from 'lucide-react';
+import { LoaderCircleIcon, Mail, MapPin, Phone, User } from 'lucide-react';
 import { currencyFormat } from '@/utils/currencyFormat';
 import { placeOrder } from '@/actions/orders/set-order';
 

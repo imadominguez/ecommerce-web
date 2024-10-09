@@ -1,6 +1,5 @@
 import { getStockProduct } from '@/actions/products/get-stock-product';
 import { cn } from '@/lib/utils';
-import { sleep } from '@/utils/sleep';
 import React from 'react';
 import { Badge } from '../ui/badge';
 

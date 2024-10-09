@@ -9,8 +9,6 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Images } from '@/types/carrousel-images';
-import { buttonVariants } from './ui/button';
-import Link from 'next/link';
 
 interface Props {
   images: Images[];
@@ -18,7 +16,7 @@ interface Props {
   delay: number;
 }
 
-export const Carrousel = ({ images, delay, loop }: Props) => {
+export const Carrousel = ({ images }: Props) => {
   // export const Carrousel = () => {
   return (
     <div>

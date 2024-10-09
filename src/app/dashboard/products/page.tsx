@@ -1,7 +1,5 @@
 import { Suspense } from 'react';
-import Link from 'next/link';
 import { Loader2, PlusCircle } from 'lucide-react';
-import { buttonVariants } from '@/components/ui/button';
 import { PageContainer } from '@/components/layout/page-container';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ProductsTable } from './components/products-table';

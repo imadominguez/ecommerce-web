@@ -1,8 +1,6 @@
 import { CustomLinkButton } from '@/components/button/custom-link-button';
-import { ProductCard } from '@/components/product/product-card';
 import { ProductImage } from '@/components/product/product-image';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { currencyFormat } from '@/utils/currencyFormat';
 import { Product } from '@prisma/client';

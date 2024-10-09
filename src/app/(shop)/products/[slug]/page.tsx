@@ -1,34 +1,12 @@
 import { getProductBySlug, getProducts } from '@/actions/products/get-products';
-import { PageContainer } from '@/components/layout/page-container';
 import { ProductImage } from '@/components/product/product-image';
-import { QuantitySelector } from '@/components/product/quantity-selector.product';
 import { StockLabel } from '@/components/product/stock-label';
 import ReusableCarousel from '@/components/reusable-carousel';
-import { Title } from '@/components/title';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '@/components/ui/carousel';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { db } from '@/lib/db';
+import { CarouselItem } from '@/components/ui/carousel';
 import { currencyFormat } from '@/utils/currencyFormat';
-import { Heart, ShoppingCart, Star, StarIcon } from 'lucide-react';
-import Image from 'next/image';
+import { StarIcon } from 'lucide-react';
 import { notFound } from 'next/navigation';
 import { AddToCart } from './components/add-to-cart';
 import { Product } from '@/types/product';
@@ -38,15 +16,6 @@ interface Props {
     slug: string;
   };
 }
-
-const relatedProducts = [
-  { name: 'Producto Relacionado 1', price: '$24.99' },
-  { name: 'Producto Relacionado 2', price: '$29.99' },
-  { name: 'Producto Relacionado 3', price: '$19.99' },
-  { name: 'Producto Relacionado 4', price: '$34.99' },
-  { name: 'Producto Relacionado 5', price: '$27.99' },
-  { name: 'Producto Relacionado 6', price: '$22.99' },
-];
 
 export default async function ProductDetailPage({ params: { slug } }: Props) {
   const product = await getProductBySlug({ slug });

@@ -2,7 +2,6 @@ import { CustomLinkButton } from '@/components/button/custom-link-button';
 import { PageContainer } from '@/components/layout/page-container';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { buttonVariants } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -19,7 +18,6 @@ import {
   Table,
 } from '@/components/ui/table';
 import { DollarSign, Users, CreditCard, Activity } from 'lucide-react';
-import Link from 'next/link';
 
 export default function DashboardPage() {
   return (

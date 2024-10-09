@@ -1,10 +1,8 @@
 'use client';
 import { redirect, usePathname, useSearchParams } from 'next/navigation';
-import Link from 'next/link';
-import clsx from 'clsx';
 
 import { generatePagination } from '@/utils/generated-pagination-numbers';
-import { ArrowLeftCircleIcon, ArrowRightCircleIcon } from 'lucide-react';
+
 import {
   Pagination,
   PaginationContent,

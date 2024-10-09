@@ -1,4 +1,4 @@
-import { auth, signOut } from '@/auth';
+import { auth } from '@/auth';
 import Link from 'next/link';
 import { Button, buttonVariants } from '../ui/button';
 import {

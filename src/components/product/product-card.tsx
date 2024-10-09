@@ -2,8 +2,8 @@ import Link from 'next/link';
 import { Product } from '@prisma/client';
 import { currencyFormat } from '@/utils/currencyFormat';
 import { ProductImage } from './product-image';
-import { Heart, Star } from 'lucide-react';
-import { Button, buttonVariants } from '../ui/button';
+
+import { buttonVariants } from '../ui/button';
 import { cn } from '@/lib/utils';
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const ProductCard = ({ product, className }: Props) => {
-  const { id, slug, images, title, price, color } = product;
+  const { id, slug, images, title } = product;
   return (
     <div
       key={id}

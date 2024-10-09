@@ -4,7 +4,6 @@ import { Heart } from 'lucide-react';
 import { Button } from '../ui/button';
 
 export const ButtonFavorite = ({
-  productId,
   userId,
 }: {
   productId: string;

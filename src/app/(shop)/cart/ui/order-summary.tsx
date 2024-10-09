@@ -1,7 +1,6 @@
 'use client';
 
 import { CustomLinkButton } from '@/components/button/custom-link-button';
-import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useCartStore } from '@/store/shopping-cart/shopping-cart.store';
@@ -12,7 +11,7 @@ export const OrderSummary = () => {
   const [loaded, setLoaded] = useState(false);
 
   // Obtenemos información del carrito de compras desde el store
-  const { itemsInCart, subTotal, total, envio } = useCartStore((state) =>
+  const { subTotal, envio } = useCartStore((state) =>
     state.getSummaryInformation()
   );
 

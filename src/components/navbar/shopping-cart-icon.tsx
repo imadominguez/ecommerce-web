@@ -1,6 +1,6 @@
 'use client';
 import { useCartStore } from '@/store/shopping-cart/shopping-cart.store';
-import { ShoppingCartIcon, X } from 'lucide-react';
+import { ShoppingCartIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Badge } from '../ui/badge';
 import {

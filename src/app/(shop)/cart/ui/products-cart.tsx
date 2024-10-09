@@ -4,8 +4,6 @@ import { useEffect, useState } from 'react';
 import { redirect } from 'next/navigation';
 import { X } from 'lucide-react';
 import { ProductImage } from '@/components/product/product-image';
-import { QuantitySelector } from '@/components/product/quantity-selector.product';
-import { ProductItemCartSkeleton } from '@/components/product/skeleton/product-item-cart.skeleton';
 import { Button } from '@/components/ui/button';
 import { useCartStore } from '@/store/shopping-cart/shopping-cart.store';
 import { currencyFormat } from '@/utils/currencyFormat';
@@ -19,13 +17,8 @@ export const ProdcutsCart = () => {
   const productsInCart = useCartStore((state) => state.cart);
 
   // ?? Si no hay productos en el carrito, redirigimos a la pagina de carrito vacio
-
-  const clearCart = useCartStore((state) => state.clearCart);
   const removeProductFromCart = useCartStore(
     (state) => state.removeProductFromCart
-  );
-  const updatedProductQuantity = useCartStore(
-    (state) => state.updateProductQuantiity
   );
 
   useEffect(() => {

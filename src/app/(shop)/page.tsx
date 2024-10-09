@@ -4,8 +4,6 @@ import { ProductsFeatured } from './_components/products-featured';
 import { Suspense } from 'react';
 import { WhyUs } from './_components/why-us';
 import { CARROUSEL_IMAGES_HOME } from '@/lib/constant';
-import Link from 'next/link';
-import { buttonVariants } from '@/components/ui/button';
 import Image from 'next/image';
 import { Separator } from '@/components/ui/separator';
 import { CustomLinkButton } from '@/components/button/custom-link-button';

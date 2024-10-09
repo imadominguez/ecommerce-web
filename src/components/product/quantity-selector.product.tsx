@@ -8,6 +8,7 @@ import { toast } from 'sonner';
 interface Props {
   quantity: number;
   quantityTotal?: number;
+  // eslint-disable-next-line no-unused-vars
   onQuantityChange: (value: number) => void;
 }
 
