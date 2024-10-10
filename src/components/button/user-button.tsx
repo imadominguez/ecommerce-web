@@ -9,7 +9,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
-import { LogIn, LogOut, Settings, ShoppingBag, User } from 'lucide-react';
+import {
+  HomeIcon,
+  LogIn,
+  LogOut,
+  Settings,
+  ShoppingBag,
+  ShoppingCart,
+  User,
+} from 'lucide-react';
 import { CustomLinkButton } from './custom-link-button';
 import { logOut } from '@/actions/auth/sesion';
 
@@ -28,11 +36,20 @@ export const UserButton = async () => {
           <DropdownMenuLabel>Mi Cuenta</DropdownMenuLabel>
           <DropdownMenuSeparator />
           {session.user.role === 'admin' ? (
-            <DropdownMenuItem>
-              <CustomLinkButton variant={'standard'} href={'/dashboard'}>
-                Dashboard
-              </CustomLinkButton>
-            </DropdownMenuItem>
+            <>
+              <DropdownMenuItem>
+                <Link href={'/dashboard'} className="flex items-center">
+                  <HomeIcon className="mr-2 h-4 w-4" />
+                  Dashboard
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link href={'/orders'} className="flex items-center">
+                  <ShoppingCart className="mr-2 h-4 w-4" />
+                  Mis ordenes
+                </Link>
+              </DropdownMenuItem>
+            </>
           ) : (
             <>
               <DropdownMenuItem>
@@ -51,7 +68,7 @@ export const UserButton = async () => {
             <LogOut className="mr-2 h-4 w-4" />
             <form action={logOut}>
               <button type="submit" className="w-full">
-                Cerrar sesion
+                <span className="hidden md:block">Cerrar sesion</span>
               </button>
             </form>
           </DropdownMenuItem>

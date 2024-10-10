@@ -8,6 +8,7 @@ interface Props extends ButtonProps {
   className?: string;
   href: string;
   children: React.ReactNode;
+  target?: boolean;
 }
 
 export const CustomLinkButton = ({
@@ -16,9 +17,11 @@ export const CustomLinkButton = ({
   href,
   variant,
   children,
+  target,
 }: Props) => {
   return (
     <Link
+      target={target ? '_blank' : undefined}
       href={href}
       className={buttonVariants({
         size,

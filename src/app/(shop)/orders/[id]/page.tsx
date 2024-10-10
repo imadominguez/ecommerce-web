@@ -16,6 +16,7 @@ import { dateFormat } from '@/utils/dateFormat';
 import { Copy } from 'lucide-react';
 
 import { notFound } from 'next/navigation';
+import { ButtonMp } from './component/button-mp';
 
 interface Props {
   params: {
@@ -131,12 +132,21 @@ export default async function OrderConfirmation({ params: { id } }: Props) {
             </dl>
           </div>
         </CardContent>
-        <CardFooter className="flex flex-row items-center border-t bg-muted/80 px-6 py-3">
+        <CardFooter className="flex flex-col-reverse items-center justify-between gap-4 border-t bg-muted/80 px-6 py-3">
           <div className="text-xs text-muted-foreground">
             Actualizado{' '}
             <time dateTime="2023-11-23">
               {dateFormat(new Date(order.updatedAt || ''))}
             </time>
+          </div>
+          <div>
+            <ButtonMp
+              products={OrderItem.map((product) => ({
+                title: product.product.title,
+                quantity: product.quantity,
+                unit_price: product.price,
+              }))}
+            />
           </div>
         </CardFooter>
       </Card>
