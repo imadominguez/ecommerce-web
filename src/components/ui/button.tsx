@@ -21,6 +21,8 @@ const buttonVariants = cva(
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
         shop: 'bg-green-800 text-white hover:bg-green-700 dark:bg-green-600 dark:hover:bg-green-700',
+        payment:
+          'bg-blue-500 text-white hover:bg-blue-400 dark:bg-blue-600 dark:hover:bg-blue-500',
       },
       size: {
         default: 'h-10 px-4 py-2',
