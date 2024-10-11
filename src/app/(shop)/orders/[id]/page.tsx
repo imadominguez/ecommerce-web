@@ -49,8 +49,8 @@ export default async function OrderConfirmation({ params: { id } }: Props) {
             </CardDescription>
           </div>
           <div className="ml-auto flex items-center gap-1">
-            <Badge variant={order.isPaid ? 'default' : 'warning'}>
-              {order.isPaid ? 'Pago' : 'Pendiente de pago'}
+            <Badge variant={order.isPaid ? 'stock' : 'warning'}>
+              {order.isPaid ? 'Pago realizado' : 'Pendiente de pago'}
             </Badge>
           </div>
         </CardHeader>
@@ -139,7 +139,11 @@ export default async function OrderConfirmation({ params: { id } }: Props) {
               {dateFormat(new Date(order.updatedAt || ''))}
             </time>
           </div>
-          <div>
+          {order.isPaid ? (
+            <div className="w-full rounded-md bg-green-700 p-2 text-center text-white">
+              <span>Pago realizado</span>
+            </div>
+          ) : (
             <ButtonMp
               products={OrderItem.map((product) => ({
                 title: product.product.title,
@@ -147,7 +151,7 @@ export default async function OrderConfirmation({ params: { id } }: Props) {
                 unit_price: product.price,
               }))}
             />
-          </div>
+          )}
         </CardFooter>
       </Card>
     </PageContainer>
