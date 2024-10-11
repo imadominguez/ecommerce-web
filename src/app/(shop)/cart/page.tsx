@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import { ProdcutsCart } from './ui/products-cart';
 import { OrderSummary } from './ui/order-summary';
 import { Title } from '@/components/title';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export const metadata: Metadata = {
   title: 'Carrito de compra',
@@ -16,8 +16,11 @@ export const metadata: Metadata = {
 export default function CartPage() {
   return (
     <PageContainer>
-      <Title title="Carrito de compras" />
       <Card className="mx-auto w-full max-w-lg flex-1">
+        <CardHeader>
+          <CardTitle>Carrito de compras</CardTitle>
+        </CardHeader>
+
         {/* Products in cart */}
         <ProdcutsCart />
         <CardContent>

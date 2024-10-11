@@ -37,21 +37,18 @@ export const OrderSummary = () => {
   }
   return (
     <div className="rounded-lg">
-      <h2 className="mb-4 text-lg font-medium">Resumen del pedido</h2>
-      <div className="flex justify-between py-2">
+      <h2 className="my-2 text-lg font-medium">Resumen del pedido</h2>
+      <div className="flex justify-between pt-2">
         <span className="opacity-80">Subtotal</span>
         <span className="font-medium">{currencyFormat(subTotal)}</span>
       </div>
-      <div className="flex justify-between py-2">
+      <div className="flex justify-between pb-2">
         <span className="opacity-80">Envio</span>
         <span className="font-medium">
           {currencyFormat(Number(process.env.NEXT_PUBLIC_ENVIO || 0))}
         </span>
       </div>
-      <div className="flex justify-between py-2">
-        <span className="opacity-80">Descuento</span>
-        <span className="font-medium">{currencyFormat(0)}</span>
-      </div>
+
       <Separator />
       <div className="flex justify-between py-2 font-bold">
         <span>Importe total</span>
