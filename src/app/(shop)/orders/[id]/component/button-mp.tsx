@@ -36,13 +36,18 @@ export const ButtonMp = ({ products }: Props) => {
     generateLink();
   }, [products]);
   return (
-    <div>
+    <div className="w-full">
       {loading ? (
-        <Button variant={'payment'} disabled>
+        <Button variant={'payment'} disabled className="w-full">
           <LoaderCircleIcon className="h-5 w-5 animate-spin" />
         </Button>
       ) : (
-        <CustomLinkButton target variant={'payment'} href={url}>
+        <CustomLinkButton
+          target
+          variant={'payment'}
+          href={url}
+          className="w-full"
+        >
           <CreditCardIcon className="mr-2 h-5 w-5" />
           Pagar con Mercado Pago
         </CustomLinkButton>
