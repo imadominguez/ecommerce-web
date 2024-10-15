@@ -22,6 +22,7 @@ export const paymentMP = async ({ products }: Props) => {
       })),
       notification_url:
         'https://www.servicios-integrados.vercel.app/api/webhook',
+      external_reference: '',
     },
   });
 
