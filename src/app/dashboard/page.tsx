@@ -1,6 +1,5 @@
 import { CustomLinkButton } from '@/components/button/custom-link-button';
 import { PageContainer } from '@/components/layout/page-container';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import {
   Card,
@@ -17,24 +16,19 @@ import {
   TableCell,
   Table,
 } from '@/components/ui/table';
-import { DollarSign, Users, CreditCard, Activity } from 'lucide-react';
+import { Users, Activity } from 'lucide-react';
+import { Suspense } from 'react';
+import { RecentSales } from './(components)/components/recent-sales';
+import { SalesCard } from './(components)/components/sales-card';
+import { TotalRenueveCard } from './(components)/components/total-revenue-card';
 
 export default function DashboardPage() {
   return (
     <PageContainer className="w-full max-w-none">
       <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
-        <Card x-chunk="dashboard-01-chunk-0">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">$45,231.89</div>
-            <p className="text-xs text-muted-foreground">
-              +20.1% from last month
-            </p>
-          </CardContent>
-        </Card>
+        <Suspense fallback={null}>
+          <TotalRenueveCard />
+        </Suspense>
         <Card x-chunk="dashboard-01-chunk-1">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Subscriptions</CardTitle>
@@ -47,18 +41,15 @@ export default function DashboardPage() {
             </p>
           </CardContent>
         </Card>
-        <Card x-chunk="dashboard-01-chunk-2">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Sales</CardTitle>
-            <CreditCard className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">+12,234</div>
-            <p className="text-xs text-muted-foreground">
-              +19% from last month
-            </p>
-          </CardContent>
-        </Card>
+        <Suspense
+          fallback={
+            <div className="h-full w-full animate-pulse rounded-md bg-muted text-muted">
+              &nbsp;
+            </div>
+          }
+        >
+          <SalesCard />
+        </Suspense>
         <Card x-chunk="dashboard-01-chunk-3">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Active Now</CardTitle>
@@ -203,82 +194,15 @@ export default function DashboardPage() {
             </Table>
           </CardContent>
         </Card>
-        <Card x-chunk="dashboard-01-chunk-5">
-          <CardHeader>
-            <CardTitle>Recent Sales</CardTitle>
-          </CardHeader>
-          <CardContent className="grid gap-8">
-            <div className="flex items-center gap-4">
-              <Avatar className="hidden h-9 w-9 sm:flex">
-                <AvatarImage src="/avatars/01.png" alt="Avatar" />
-                <AvatarFallback>OM</AvatarFallback>
-              </Avatar>
-              <div className="grid gap-1">
-                <p className="text-sm font-medium leading-none">
-                  Olivia Martin
-                </p>
-                <p className="hidden text-sm text-muted-foreground 2xl:flex">
-                  olivia.martin@email.com
-                </p>
-              </div>
-              <div className="ml-auto font-medium">+$1,999.00</div>
+        <Suspense
+          fallback={
+            <div className="h-full w-full animate-pulse rounded-md bg-muted text-muted">
+              &nbsp;
             </div>
-            <div className="flex items-center gap-4">
-              <Avatar className="hidden h-9 w-9 sm:flex">
-                <AvatarImage src="/avatars/02.png" alt="Avatar" />
-                <AvatarFallback>JL</AvatarFallback>
-              </Avatar>
-              <div className="grid gap-1">
-                <p className="text-sm font-medium leading-none">Jackson Lee</p>
-                <p className="hidden text-sm text-muted-foreground 2xl:flex">
-                  jackson.lee@email.com
-                </p>
-              </div>
-              <div className="ml-auto font-medium">+$39.00</div>
-            </div>
-            <div className="flex items-center gap-4">
-              <Avatar className="hidden h-9 w-9 sm:flex">
-                <AvatarImage src="/avatars/03.png" alt="Avatar" />
-                <AvatarFallback>IN</AvatarFallback>
-              </Avatar>
-              <div className="grid gap-1">
-                <p className="text-sm font-medium leading-none">
-                  Isabella Nguyen
-                </p>
-                <p className="hidden text-sm text-muted-foreground 2xl:flex">
-                  isabella.nguyen@email.com
-                </p>
-              </div>
-              <div className="ml-auto font-medium">+$299.00</div>
-            </div>
-            <div className="flex items-center gap-4">
-              <Avatar className="hidden h-9 w-9 sm:flex">
-                <AvatarImage src="/avatars/04.png" alt="Avatar" />
-                <AvatarFallback>WK</AvatarFallback>
-              </Avatar>
-              <div className="grid gap-1">
-                <p className="text-sm font-medium leading-none">William Kim</p>
-                <p className="hidden text-sm text-muted-foreground 2xl:flex">
-                  will@email.com
-                </p>
-              </div>
-              <div className="ml-auto font-medium">+$99.00</div>
-            </div>
-            <div className="flex items-center gap-4">
-              <Avatar className="hidden h-9 w-9 sm:flex">
-                <AvatarImage src="/avatars/05.png" alt="Avatar" />
-                <AvatarFallback>SD</AvatarFallback>
-              </Avatar>
-              <div className="grid gap-1">
-                <p className="text-sm font-medium leading-none">Sofia Davis</p>
-                <p className="hidden text-sm text-muted-foreground 2xl:flex">
-                  sofia.davis@email.com
-                </p>
-              </div>
-              <div className="ml-auto font-medium">+$39.00</div>
-            </div>
-          </CardContent>
-        </Card>
+          }
+        >
+          <RecentSales />
+        </Suspense>
       </div>
     </PageContainer>
   );
