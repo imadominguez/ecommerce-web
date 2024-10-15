@@ -16,14 +16,14 @@ export const metadata: Metadata = {
 export default function CartPage() {
   return (
     <PageContainer>
-      <Card className="mx-auto w-full max-w-lg flex-1">
+      <Card className="mx-auto w-full max-w-lg">
         <CardHeader>
           <CardTitle>Carrito de compras</CardTitle>
         </CardHeader>
 
         {/* Products in cart */}
         <ProdcutsCart />
-        <CardContent>
+        <CardContent className="h-full flex-1">
           {/* Order summary */}
           <OrderSummary />
         </CardContent>
