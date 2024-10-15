@@ -8,6 +8,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from '@/components/ui/dialog';
 import {
   Select,
@@ -22,12 +23,22 @@ interface Props {
   order_id: string;
   status: string;
   name: string;
+  key: number;
 }
 
-export const DialogOrderStatus = ({ order_id, status, name }: Props) => {
+export const DialogOrderStatus = ({ order_id, status, name, key }: Props) => {
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   return (
-    <Dialog open={isUpdateModalOpen} onOpenChange={setIsUpdateModalOpen}>
+    <Dialog
+      open={isUpdateModalOpen}
+      onOpenChange={setIsUpdateModalOpen}
+      key={key}
+    >
+      <DialogTrigger>
+        <Button onClick={() => setIsUpdateModalOpen(true)}>
+          Actualizar estado
+        </Button>
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Actualizar Estado de la Orden</DialogTitle>
@@ -48,9 +59,7 @@ export const DialogOrderStatus = ({ order_id, status, name }: Props) => {
           </SelectContent>
         </Select>
         <DialogFooter>
-          <Button variant="outline" onClick={() => setIsUpdateModalOpen(false)}>
-            Cancelar
-          </Button>
+          <Button variant="outline">Cancelar</Button>
           <Button>Actualizar Estado</Button>
         </DialogFooter>
       </DialogContent>
