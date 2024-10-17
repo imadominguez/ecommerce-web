@@ -7,6 +7,7 @@ import { NextResponse } from 'next/server';
 export async function POST(req: Request) {
   const body = await req.json();
 
+
   const payment_id = body.data.id;
 
   // Obtenemos la orden a partir del external_reference
