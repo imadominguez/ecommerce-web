@@ -26,7 +26,7 @@ interface State {
 
 const storeApiCart: StateCreator<State> = (set, get) => ({
   cart: [],
-  envio: 2000,
+  envio: Number(process.env.NEXT_PUBLIC_ENVIO || 0),
   // ------------------- Metodos para obtener informacion del carrito -------------------
   getTotalItemsById: (id: string) => {
     const { cart } = get();
@@ -46,7 +46,7 @@ const storeApiCart: StateCreator<State> = (set, get) => ({
   getSummaryInformation: () => {
     const { cart, envio } = get();
     const subTotal = cart.reduce((subTotal, product) => {
-      return product.quantity * product.price + subTotal;
+      return subTotal + product.quantity * product.price;
     }, 0);
     const itemsInCart = get().getTotalItems(); // Obtener el total de items en el carrito con un método personalizado
     return {
@@ -87,6 +87,7 @@ const storeApiCart: StateCreator<State> = (set, get) => ({
         }
         return item;
       });
+      toast.success('Producto agregado al carrito', { duration: 1300 });
       set({ cart: newCart });
     } else {
       set({ cart: [...cart, product] });

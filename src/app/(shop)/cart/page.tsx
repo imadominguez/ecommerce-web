@@ -2,8 +2,8 @@ import { PageContainer } from '@/components/layout/page-container';
 import { Metadata } from 'next';
 import { ProdcutsCart } from './ui/products-cart';
 import { OrderSummary } from './ui/order-summary';
-import { Title } from '@/components/title';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+// import { ConsultaEnvio } from './ui/andreani';
 
 export const metadata: Metadata = {
   title: 'Carrito de compra',
@@ -16,15 +16,19 @@ export const metadata: Metadata = {
 export default function CartPage() {
   return (
     <PageContainer>
-      <Title title="Carrito de compras" />
-      <Card className="mx-auto w-full max-w-lg flex-1">
+      <Card className="mx-auto w-full max-w-lg">
+        <CardHeader>
+          <CardTitle>Carrito de compras</CardTitle>
+        </CardHeader>
+
         {/* Products in cart */}
         <ProdcutsCart />
-        <CardContent>
+        <CardContent className="h-full flex-1">
           {/* Order summary */}
           <OrderSummary />
         </CardContent>
       </Card>
+      {/* <ConsultaEnvio /> */}
     </PageContainer>
   );
 }

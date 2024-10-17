@@ -43,6 +43,7 @@ import { Label } from '@/components/ui/label';
 import { createProduct } from '@/actions/products/create-product';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { ProductImage } from '@/components/product/product-image';
 
 const PRODUCT_IMAGE_PLACEHOLDER = '/imgs/placeholder.jpg';
 
@@ -601,14 +602,14 @@ export const FormProduct = ({ product, categories, brands }: Props) => {
                           </DialogContent>
                         </Dialog>
                       </div>
-                      <Image
+                      <ProductImage
                         alt="Placeholder"
                         className="aspect-square w-full rounded-md object-cover"
                         height={300}
                         src={PRODUCT_IMAGE_PLACEHOLDER}
                         width={300}
                       />
-                      <Image
+                      <ProductImage
                         alt="Placeholder"
                         className="aspect-square w-full rounded-md object-cover"
                         height={300}
@@ -621,7 +622,7 @@ export const FormProduct = ({ product, categories, brands }: Props) => {
                       <div className="col-span-3">
                         <Dialog>
                           <DialogTrigger>
-                            <Image
+                            <ProductImage
                               alt="Product Image 1"
                               className="aspect-square w-full rounded-md object-cover"
                               height={300}
@@ -630,7 +631,7 @@ export const FormProduct = ({ product, categories, brands }: Props) => {
                             />
                           </DialogTrigger>
                           <DialogContent>
-                            <Image
+                            <ProductImage
                               alt="Product Image 1"
                               className="aspect-square w-full rounded-md object-cover"
                               height={300}
@@ -644,7 +645,7 @@ export const FormProduct = ({ product, categories, brands }: Props) => {
                       <div className="">
                         <Dialog>
                           <DialogTrigger>
-                            <Image
+                            <ProductImage
                               alt="Placeholder"
                               className="aspect-square w-full rounded-md object-cover"
                               height={300}
@@ -653,7 +654,7 @@ export const FormProduct = ({ product, categories, brands }: Props) => {
                             />
                           </DialogTrigger>
                           <DialogContent>
-                            <Image
+                            <ProductImage
                               alt="Placeholder"
                               className="aspect-square w-full rounded-md object-cover"
                               height={300}
@@ -666,7 +667,7 @@ export const FormProduct = ({ product, categories, brands }: Props) => {
                       <div className="">
                         <Dialog>
                           <DialogTrigger>
-                            <Image
+                            <ProductImage
                               alt="Placeholder"
                               className="aspect-square w-full rounded-md object-cover"
                               height={300}
@@ -675,7 +676,7 @@ export const FormProduct = ({ product, categories, brands }: Props) => {
                             />
                           </DialogTrigger>
                           <DialogContent>
-                            <Image
+                            <ProductImage
                               alt="Placeholder"
                               className="aspect-square w-full rounded-md object-cover"
                               height={300}
@@ -691,7 +692,7 @@ export const FormProduct = ({ product, categories, brands }: Props) => {
                       <div key={index} className="">
                         <Dialog>
                           <DialogTrigger>
-                            <Image
+                            <ProductImage
                               alt={`Product Image ${index + 1}`}
                               className="aspect-square w-full rounded-md object-cover"
                               height={300}
@@ -700,7 +701,7 @@ export const FormProduct = ({ product, categories, brands }: Props) => {
                             />
                           </DialogTrigger>
                           <DialogContent>
-                            <Image
+                            <ProductImage
                               alt={`Product Image ${index + 1}`}
                               className="aspect-square w-full rounded-md object-cover"
                               height={300}

@@ -1,6 +1,6 @@
 'use client';
 import { useCartStore } from '@/store/shopping-cart/shopping-cart.store';
-import { ShoppingCartIcon } from 'lucide-react';
+import { ShoppingCartIcon, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Badge } from '../ui/badge';
 import {
@@ -29,7 +29,9 @@ export const ShoppingCart = () => {
   const removeProductFromCart = useCartStore(
     (state) => state.removeProductFromCart
   );
-  const { subTotal } = useCartStore((state) => state.getSummaryInformation());
+  const { subTotal, envio, total } = useCartStore((state) =>
+    state.getSummaryInformation()
+  );
 
   // Estado para rastrear si la página ha cargado
   const [loaded, setLoaded] = useState<boolean>(false);
@@ -60,41 +62,56 @@ export const ShoppingCart = () => {
           </SheetTitle>
         </SheetHeader>
         <div className="mt-8 space-y-4">
-          {cartItems.map((item) => (
-            <div key={item.id} className="flex items-center space-x-4">
-              {/* <ProductImage
+          {cartItems.map((item, index) => (
+            <>
+              <div key={item.id} className="flex items-center space-x-4">
+                {/* <ProductImage
                 src={item.image}
                 alt={item.title}
                 width={80}
                 height={80}
                 className="rounded-md"
               /> */}
-              <div className="flex-1">
-                <h3 className="font-base">{item.title}</h3>
-                {item.color && (
-                  <p className="text-sm uppercase opacity-80">{item.color}</p>
-                )}
-
-                <div className="mt-1 flex items-center justify-between">
+                <div className="flex-1">
+                  <h3 className="font-base font-semibold">{item.title}</h3>
+                  {item.color && (
+                    <p className="text-sm uppercase opacity-80">
+                      {item.color === 'black' ? 'Negro' : item.color}
+                    </p>
+                  )}
                   <span className="text-xs">Cantidad {item.quantity}</span>
+                </div>
+                <div className="flex flex-col items-end justify-between gap-3">
                   <Button
-                    variant="link"
-                    className="h-auto p-0 text-sm text-foreground"
+                    variant="destructive"
+                    size={'icon'}
+                    className="h-auto w-auto p-1"
                     onClick={() => removeProductFromCart(item.id)}
                   >
-                    Remover
+                    <X className="!h-4 !w-4" />
                   </Button>
+
+                  <span className="font-medium">${item.price.toFixed(2)}</span>
                 </div>
               </div>
-              <span className="font-medium">${item.price.toFixed(2)}</span>
-            </div>
+              {cartItems.length + 1 !== index && <Separator />}
+            </>
           ))}
         </div>
-        <div className="mt-8 space-y-4">
-          <Separator />
+        <div className="mt-4 space-y-4">
+          {/* <Separator /> */}
           <div className="flex items-center justify-between">
             <span className="font-medium">Subtotal</span>
             <span className="font-medium">{currencyFormat(subTotal)}</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="font-medium">Envio</span>
+            <span className="font-medium">{currencyFormat(envio)}</span>
+          </div>
+          <Separator />
+          <div className="flex items-center justify-between">
+            <span className="font-medium">Total</span>
+            <span className="font-medium">{currencyFormat(total)}</span>
           </div>
 
           <Button

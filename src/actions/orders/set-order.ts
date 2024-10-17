@@ -40,7 +40,7 @@ export const placeOrder = async (
 
   // Los totales de tax, subtotal, y total
   try {
-    const { subTotal, tax, total } = products.reduce(
+    const { subTotal } = products.reduce(
       (totals, item) => {
         const productQuantity = item.quantity;
         const product = productsDB.find(
@@ -51,15 +51,16 @@ export const placeOrder = async (
             `No se pudo encontrar el producto con id ${item.productId}, por favor contacta a soporte`
           );
         }
-        const subTotal = product.price * productQuantity;
 
-        totals.subTotal += subTotal;
-        totals.tax += subTotal * 0.15;
-        totals.total += subTotal * 1.15;
+        // Calcula el subtotal de este producto
+        const productSubTotal = product.price * productQuantity;
+
+        // Suma el subtotal del producto actual al total acumulado
+        totals.subTotal += productSubTotal;
 
         return totals;
       },
-      { subTotal: 0, tax: 0, total: 0 }
+      { subTotal: 0 }
     );
 
     const prismaTx = await db.$transaction(
@@ -105,7 +106,7 @@ export const placeOrder = async (
             userId,
             subTotal,
             envio: Number(process.env.NEXT_PUBLIC_ENVIO || 0) || 0,
-            total,
+            total: subTotal + Number(process.env.NEXT_PUBLIC_ENVIO || 0) || 0,
             itemsInOrder: itemsInOrder,
             isPaid: false,
             OrderItem: {
@@ -157,7 +158,7 @@ export const placeOrder = async (
     console.log(error);
     return {
       ok: false,
-      message: error.message,
+      message: 'Ocurrió un error al crear la orden',
     };
   }
 };

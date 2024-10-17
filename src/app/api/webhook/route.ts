@@ -1,16 +1,42 @@
+// import { NextResponse } from 'next/server';
+
+import { db } from '@/lib/db';
+import { revalidatePath } from 'next/cache';
 import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
   const body = await req.json();
-  return NextResponse.json(
-    { message: 'Webhook received', body },
-    { status: 200 }
+
+
+  const payment_id = body.data.id;
+
+  // Obtenemos la orden a partir del external_reference
+  const response = await fetch(
+    `https://api.mercadopago.com/v1/payments/${payment_id}`,
+    {
+      method: 'GET',
+    }
   );
 
-  //?? Obtener payment_id del body que viene en body.data.id
+  const data = await response.json();
+  const order_id = data.external_reference;
 
-  // obtener cuerpo de la solicitud a mercado pago y obtener el id que recibo en external_reference
-  //?? url de la solicitud a mercado pago: https://api.mercadopago.com/v1/payments/:id
+  // Actualizamos el isPaid de la orden en la base de datos
+  await db.order.update({
+    where: {
+      id: order_id,
+    },
+    data: {
+      isPaid: true,
+      paidAt: new Date(),
+      updatedAt: new Date(),
+    },
+  });
 
-  //?? obtener el id de la orden que recibo en external_reference
+  revalidatePath(`/orders`);
+  revalidatePath(`/orders/${order_id}`);
+  revalidatePath(`/dashboard/orders`);
+  revalidatePath(`/dashboard/orders/${order_id}`);
+
+  return NextResponse.json({}, { status: 200 });
 }

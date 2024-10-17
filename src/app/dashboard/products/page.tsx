@@ -17,7 +17,7 @@ export default function ProductsPage({
   const query = searchParams?.query || undefined;
   const currentPage = Number(searchParams?.page) || 1;
   return (
-    <PageContainer>
+    <PageContainer className="!max-w-none">
       <Tabs defaultValue="all" className="h-full flex-1">
         {/* Tabs */}
         <div className="flex items-center justify-between">

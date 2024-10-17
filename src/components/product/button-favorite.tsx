@@ -9,7 +9,6 @@ export const ButtonFavorite = ({
   productId: string;
   userId?: string;
 }) => {
-  console.log({ userId });
   if (!userId) {
     return null;
   }

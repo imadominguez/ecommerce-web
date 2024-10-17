@@ -87,7 +87,9 @@ export const ProdcutsCart = () => {
                 </Button>
               </div>
               {item.color && (
-                <p className="text-sm uppercase opacity-90">{item.color}</p>
+                <p className="text-sm uppercase opacity-90">
+                  {item.color === 'black' ? 'Negro' : item.color}
+                </p>
               )}
             </div>
             <div className="flex flex-1 items-end justify-between text-sm">

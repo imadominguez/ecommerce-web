@@ -94,7 +94,18 @@ export const LoginForm = () => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Contraseña</FormLabel>
+                <div className="flex items-center justify-between">
+                  <FormLabel>Contraseña</FormLabel>
+                  <Link
+                    href="/forgot-password"
+                    className={buttonVariants({
+                      variant: 'link',
+                      className: '!p-0',
+                    })}
+                  >
+                    Olvidaste tu contraseña?
+                  </Link>
+                </div>
                 <FormControl>
                   <div className="relative">
                     <Input

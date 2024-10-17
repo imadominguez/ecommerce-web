@@ -1,11 +1,10 @@
 import { getOrderById } from '@/actions/orders/get-order-by-id';
 import { PageContainer } from '@/components/layout/page-container';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -13,10 +12,19 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { currencyFormat } from '@/utils/currencyFormat';
 import { dateFormat } from '@/utils/dateFormat';
-import { Copy } from 'lucide-react';
+import { Calendar, Mail, Package, Truck, User } from 'lucide-react';
 
-import { notFound } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import { ButtonMp } from './component/button-mp';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { cn } from '@/lib/utils';
 
 interface Props {
   params: {
@@ -28,118 +36,126 @@ export default async function OrderConfirmation({ params: { id } }: Props) {
   const { user, OrderAddress, OrderItem, order } = await getOrderById(id);
 
   if (!order) {
-    notFound();
+    redirect('/orders');
   }
+
+  const isPaid = order.isPaid;
   return (
     <PageContainer
       className={`flex min-h-screen w-full max-w-none items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4 transition-colors duration-300 dark:from-gray-900 dark:to-gray-800`}
     >
-      <Card className="overflow-hidden">
-        <CardHeader className="flex flex-row items-start bg-muted/80">
-          <div className="grid gap-0.5">
-            <CardTitle className="group flex items-center gap-2 text-lg">
-              Orden #{id.slice(0, 8)}
-              <Button size="icon" variant="outline" className="h-6 w-6">
-                <Copy className="h-3 w-3" />
-                <span className="sr-only">Copy Order ID</span>
-              </Button>
+      <Card className="w-full max-w-md overflow-hidden">
+        <CardHeader className="space-y-1 bg-muted/80">
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-2xl font-bold">
+              Orden #{order.id.slice(0, 8)}
             </CardTitle>
-            <CardDescription>
-              {dateFormat(new Date(order.createdAt || ''))}
-            </CardDescription>
-          </div>
-          <div className="ml-auto flex items-center gap-1">
-            <Badge variant={order.isPaid ? 'default' : 'warning'}>
-              {order.isPaid ? 'Pago' : 'Pendiente de pago'}
+            <Badge variant={isPaid ? 'stock' : 'warning'}>
+              {isPaid ? 'Pago realizado' : 'Pendiente de pago'}
             </Badge>
           </div>
+          <p className="flex items-center gap-1 text-sm text-muted-foreground">
+            <Calendar className="h-4 w-4" />
+            {dateFormat(order.createdAt)}
+          </p>
         </CardHeader>
-        <CardContent className="p-6 text-sm">
-          <div className="grid gap-3">
-            <span className="font-semibold">Detalles de la orden</span>
-            <ul className="grid gap-3">
-              {OrderItem.map((product, index) => (
-                <li key={index} className="flex items-center justify-between">
-                  <span className="text-muted-foreground">
-                    <strong>{product.product.title}</strong> x{' '}
-                    <span>{product.quantity}</span>
-                  </span>
-                  <span className="flex-1 text-end">
-                    {currencyFormat(product.price)}
-                  </span>
-                  <Separator orientation="vertical" className="mx-3" />
-                  <span>
-                    {currencyFormat(product.price * product.quantity)}
-                  </span>
-                </li>
-              ))}
-            </ul>
-            <Separator className="my-2" />
-            <ul className="grid gap-3">
-              <li className="flex items-center justify-between">
-                <span className="text-muted-foreground">Subtotal</span>
-                <span>{currencyFormat(order.subTotal || 0)}</span>
-              </li>
-              <li className="flex items-center justify-between">
-                <span className="text-muted-foreground">Envio</span>
-                <span>{currencyFormat(order.envio || 0)}</span>
-              </li>
-              <li className="flex items-center justify-between">
-                <span className="text-muted-foreground">Tax</span>
-                <span>$25.00</span>
-              </li>
-              <li className="flex items-center justify-between font-semibold">
-                <span className="text-muted-foreground">Total</span>
-                <span>{currencyFormat(order.total || 0)}</span>
-              </li>
-            </ul>
+        <CardContent className="space-y-4 p-4">
+          <div>
+            <h3 className="mb-2 flex items-center gap-2 font-semibold">
+              <Package className="h-5 w-5" />
+              Detalles de la orden
+            </h3>
+            <Table>
+              <TableHeader className="bg-muted">
+                <TableRow>
+                  <TableHead>Producto</TableHead>
+                  <TableHead>Cantidad</TableHead>
+                  <TableHead className="text-right">Precio</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {OrderItem.map((product, i) => (
+                  <TableRow
+                    className={cn('', {
+                      'bg-muted/80': i % 2 !== 0,
+                    })}
+                    key={product.product.slug}
+                  >
+                    <TableCell>{product.product.title}</TableCell>
+                    <TableCell>{product.quantity}</TableCell>
+                    <TableCell className="text-right">
+                      {currencyFormat(product.price)}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </div>
-          <Separator className="my-4" />
-          <div className="grid grid-cols-2 gap-4">
-            <div className="grid gap-3">
-              <div className="font-semibold">Información de Envío</div>
-              <address className="grid gap-0.5 not-italic text-muted-foreground">
-                <span>
-                  {OrderAddress?.firstName} {OrderAddress?.lastName}
-                </span>
-                <span>
-                  {OrderAddress?.street} {OrderAddress?.streetNumber}
-                </span>
-                <span>Argentina, CP {OrderAddress?.postalCode}</span>
-              </address>
+          <Separator />
+          <div className="space-y-1">
+            <div className="flex justify-between">
+              <span>Subtotal</span>
+              <span>{currencyFormat(order.subTotal)}</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Envío</span>
+              <span>{currencyFormat(order.envio)}</span>
             </div>
           </div>
-          <Separator className="my-4" />
-          <div className="grid gap-3">
-            <div className="font-semibold">Información del Cliente</div>
-            <dl className="grid gap-3">
+          <Separator />
+          <div className="flex justify-between font-bold">
+            <span>Total</span>
+            <span>{currencyFormat(order.total)}</span>
+          </div>
+          <div>
+            <h3 className="mb-2 flex items-center gap-2 font-semibold">
+              <Truck className="h-5 w-5" />
+              Información de Envío
+            </h3>
+            <p className="text-sm">
+              {OrderAddress!.firstName} {OrderAddress!.lastName}
+              <br />
+              {OrderAddress!.street} {OrderAddress!.streetNumber}
+              <br />
+              Argentina, CP {OrderAddress!.postalCode}
+            </p>
+          </div>
+          <div>
+            <h3 className="mb-2 flex items-center gap-2 font-semibold">
+              <User className="h-5 w-5" />
+              Información del Cliente
+            </h3>
+            <div className="space-y-1 text-sm">
               <div className="flex items-center justify-between">
-                <dt className="text-muted-foreground">Cliente</dt>
-                <dd>{user.name}</dd>
+                <span className="flex items-center gap-2">
+                  <User className="h-4 w-4" />
+                  Cliente:
+                </span>
+                <span>{user.name}</span>
               </div>
               <div className="flex items-center justify-between">
-                <dt className="text-muted-foreground">Email</dt>
-                <dd>
-                  <a href="mailto:">{user.email}</a>
-                </dd>
+                <span className="flex items-center gap-2">
+                  <Mail className="h-4 w-4" />
+                  Email:
+                </span>
+                <span>{user.email}</span>
               </div>
-              <div className="flex items-center justify-between">
-                <dt className="text-muted-foreground">Phone</dt>
-                <dd>
-                  <a href="tel:">{OrderAddress?.phone}</a>
-                </dd>
-              </div>
-            </dl>
+            </div>
           </div>
         </CardContent>
         <CardFooter className="flex flex-col-reverse items-center justify-between gap-4 border-t bg-muted/80 px-6 py-3">
-          <div className="text-xs text-muted-foreground">
+          <div className="flex items-center justify-center gap-1 pb-4 text-center text-xs text-muted-foreground">
+            <Calendar className="h-4 w-4" />
             Actualizado{' '}
             <time dateTime="2023-11-23">
               {dateFormat(new Date(order.updatedAt || ''))}
             </time>
           </div>
-          <div>
+          {order.isPaid ? (
+            <div className="w-full rounded-md bg-green-700 p-2 text-center text-white">
+              <span>Pago realizado</span>
+            </div>
+          ) : (
             <ButtonMp
               products={OrderItem.map((product) => ({
                 title: product.product.title,
@@ -147,7 +163,7 @@ export default async function OrderConfirmation({ params: { id } }: Props) {
                 unit_price: product.price,
               }))}
             />
-          </div>
+          )}
         </CardFooter>
       </Card>
     </PageContainer>
