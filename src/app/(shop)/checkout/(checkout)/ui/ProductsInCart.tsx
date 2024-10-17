@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { useCartStore } from '@/store/shopping-cart/shopping-cart.store';
 import { ProductItemCartSkeleton } from '@/components/product/skeleton/product-item-cart.skeleton';
 import { Card, CardContent } from '@/components/ui/card';
-import Image from 'next/image';
 import { currencyFormat } from '@/utils/currencyFormat';
 import { ProductImage } from '@/components/product/product-image';
 import { CustomLinkButton } from '@/components/button/custom-link-button';

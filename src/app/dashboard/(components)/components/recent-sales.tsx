@@ -1,7 +1,9 @@
+import { CustomLinkButton } from '@/components/button/custom-link-button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import {
   Card,
   CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -9,11 +11,9 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { db } from '@/lib/db';
 import { currencyFormat } from '@/utils/currencyFormat';
-import { sleep } from '@/utils/sleep';
 import React from 'react';
 
 export const RecentSales = async () => {
-  await sleep(2);
   const recentSales = await db.order.findMany({
     where: {
       isPaid: true,
@@ -27,8 +27,19 @@ export const RecentSales = async () => {
       x-chunk="dashboard-01-chunk-5"
       className="flex flex-col justify-between"
     >
-      <CardHeader>
-        <CardTitle>Ventas recientes</CardTitle>
+      <CardHeader className="flex flex-row items-center justify-between">
+        <div className="grid gap-2">
+          <CardTitle>Ventas recientes</CardTitle>
+          <CardDescription>Ventas recientes de tu tienda.</CardDescription>
+        </div>
+        <CustomLinkButton
+          size={'sm'}
+          variant={'outline'}
+          href="/dashboard/orders"
+          className="w-max"
+        >
+          Ver todo
+        </CustomLinkButton>
       </CardHeader>
       <CardContent className="grid flex-1 items-start gap-8">
         {recentSales.length > 0 &&

@@ -6,8 +6,6 @@ import {
   TableCell,
   Table,
 } from '@/components/ui/table';
-import { MoreHorizontal, Package2 } from 'lucide-react';
-
 import { db } from '@/lib/db';
 import {
   Card,
@@ -20,17 +18,19 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { currencyFormat } from '@/utils/currencyFormat';
 import { dateFormat } from '@/utils/dateFormat';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Button } from '@/components/ui/button';
-import { DialogOrderStatus } from './components/status-order-dialog';
 import { OrderStatus } from '@/types/order';
-import { StatusFilter } from './components/status-filter';
+import { StatusFilter } from './(components)/status-filter';
+import { CustomLinkButton } from '@/components/button/custom-link-button';
+import { PaginationOrders } from './(components)/pagination-orders';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { revalidatePath } from 'next/cache';
+import { ListCollapseIcon, Package2 } from 'lucide-react';
 
 interface Props {
   searchParams: {
@@ -85,7 +85,15 @@ export default async function OrdersPage({
   return (
     <div className="flex flex-col">
       <main className="flex-1 overflow-auto p-4 md:p-6">
-        <div className="mb-2 flex w-full items-center justify-end gap-2">
+        <div className="mb-2 flex w-full items-center justify-between gap-2">
+          <CustomLinkButton
+            className="w-fit"
+            size={'sm'}
+            variant={'secondary'}
+            href="/dashboard/orders/day"
+          >
+            Ver ordenes del dia
+          </CustomLinkButton>
           <StatusFilter />
         </div>
         <Card>
@@ -101,6 +109,9 @@ export default async function OrdersPage({
                 <TableRow>
                   <TableHead>Cliente</TableHead>
                   <TableHead>Estado</TableHead>
+                  <TableHead>
+                    <span className="sr-only">Cambiar estado</span>
+                  </TableHead>
                   <TableHead className="hidden md:table-cell">Total</TableHead>
                   <TableHead className="hidden md:table-cell">
                     Productos
@@ -117,6 +128,34 @@ export default async function OrdersPage({
                     <TableRow key={order.id}>
                       <TableCell>{order.user.name}</TableCell>
                       <TableCell>{getStatusBadge(order.status)}</TableCell>
+                      <TableCell>
+                        <Select
+                          value={order.status}
+                          onValueChange={async (value: OrderStatus) => {
+                            'use server';
+
+                            await db.order.update({
+                              where: {
+                                id: order.id,
+                              },
+                              data: {
+                                status: value,
+                              },
+                            });
+
+                            revalidatePath('/dashboard/orders');
+                          }}
+                        >
+                          <SelectTrigger className="max-w-40">
+                            <SelectValue placeholder="Cambiar estado" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="pending">Pendiente</SelectItem>
+                            <SelectItem value="delivered">Entregado</SelectItem>
+                            <SelectItem value="canceled">Cancelado</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </TableCell>
                       <TableCell className="hidden md:table-cell">
                         {currencyFormat(order.total)}
                       </TableCell>
@@ -131,29 +170,14 @@ export default async function OrdersPage({
                       </TableCell>
                       <TableCell>
                         {/* modal */}
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button
-                              aria-label="Abrir menú"
-                              size="icon"
-                              variant="ghost"
-                            >
-                              <MoreHorizontal className="h-4 w-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-                            <DropdownMenuItem>Ver detalles</DropdownMenuItem>
-                            <DropdownMenuItem>
-                              Actualizar estado
-                              <DialogOrderStatus
-                                order_id={order.id}
-                                status={'pending'}
-                                name={order?.user?.name || ''}
-                              />
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
+                        <CustomLinkButton
+                          variant={'outline'}
+                          size={'sm'}
+                          href={`/dashboard/orders/${order.id}`}
+                        >
+                          <ListCollapseIcon className="mr-2 h-4 w-4" />
+                          Detalles
+                        </CustomLinkButton>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -178,14 +202,7 @@ export default async function OrdersPage({
               <span>
                 Mostrando <strong>1-5</strong> de <strong>50</strong> órdenes
               </span>
-              <div className="flex items-center space-x-2">
-                <Button variant="outline" size="sm">
-                  Anterior
-                </Button>
-                <Button variant="outline" size="sm">
-                  Siguiente
-                </Button>
-              </div>
+              <PaginationOrders />
             </div>
           </CardFooter>
         </Card>

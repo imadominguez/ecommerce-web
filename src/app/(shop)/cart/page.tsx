@@ -2,8 +2,8 @@ import { PageContainer } from '@/components/layout/page-container';
 import { Metadata } from 'next';
 import { ProdcutsCart } from './ui/products-cart';
 import { OrderSummary } from './ui/order-summary';
-import { Title } from '@/components/title';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+// import { ConsultaEnvio } from './ui/andreani';
 
 export const metadata: Metadata = {
   title: 'Carrito de compra',
@@ -28,6 +28,7 @@ export default function CartPage() {
           <OrderSummary />
         </CardContent>
       </Card>
+      {/* <ConsultaEnvio /> */}
     </PageContainer>
   );
 }

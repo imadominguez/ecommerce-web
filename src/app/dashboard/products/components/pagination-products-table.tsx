@@ -32,7 +32,6 @@ export const PaginationProductsTable = ({
     return `${pathname}?${params.toString()}`;
   };
 
-  console.log({ totalPages });
   return (
     <Pagination className="w-fit">
       <PaginationContent>
