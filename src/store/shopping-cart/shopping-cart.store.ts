@@ -48,7 +48,6 @@ const storeApiCart: StateCreator<State> = (set, get) => ({
     const subTotal = cart.reduce((subTotal, product) => {
       return subTotal + product.quantity * product.price;
     }, 0);
-    console.log({ subTotal, cart });
     const itemsInCart = get().getTotalItems(); // Obtener el total de items en el carrito con un método personalizado
     return {
       subTotal,
