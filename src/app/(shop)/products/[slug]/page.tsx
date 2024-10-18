@@ -32,6 +32,11 @@ export default async function ProductDetailPage({ params: { slug } }: Props) {
   if (!product) {
     notFound();
   }
+  const discountedPrice =
+    product.inDiscount && product.discount
+      ? product.price * (1 - product.discount / 100)
+      : product.price;
+
   return (
     <section
       style={{ minHeight: 'calc(100dvh - 40px - 240px)' }}
@@ -58,19 +63,19 @@ export default async function ProductDetailPage({ params: { slug } }: Props) {
             ))}
           </ReusableCarousel>
         </div>
-        <div>
+        <div className="flex flex-col gap-3">
           <h1 className="text-3xl font-bold">{product.title}</h1>
           <p className="mt-2 text-zinc-500 dark:text-zinc-400">
             {product.description}
           </p>
           <StockLabel slug={product.slug} />
-          <div className="mt-4 flex items-center gap-0.5">
+          {/* <div className="mt-4 flex items-center gap-0.5">
             <StarIcon className="h-5 w-5 fill-primary" />
             <StarIcon className="h-5 w-5 fill-primary" />
             <StarIcon className="h-5 w-5 fill-primary" />
             <StarIcon className="h-5 w-5 fill-primary" />
             <StarIcon className="h-5 w-5 fill-muted stroke-muted-foreground" />
-          </div>
+          </div> */}
           {product.color && (
             <div className="mt-4">
               <span>
@@ -78,11 +83,26 @@ export default async function ProductDetailPage({ params: { slug } }: Props) {
               </span>
             </div>
           )}
-          <h2 className="mt-4 text-4xl font-bold">
-            {currencyFormat(product.price)}
-          </h2>
+          {product.inDiscount && product.discount ? (
+            <div className="flex items-center space-x-2">
+              <span
+                className={`text-3xl font-bold text-blue-600 dark:text-blue-400 lg:text-4xl`}
+              >
+                {currencyFormat(discountedPrice)}
+              </span>
+              <span className={`text-lg line-through`}>
+                {currencyFormat(product.price)}
+              </span>
+            </div>
+          ) : (
+            <span
+              className={`text-3xl font-bold text-blue-600 dark:text-blue-400 lg:text-4xl`}
+            >
+              {currencyFormat(product.price)}
+            </span>
+          )}
 
-          <div className="my-8 grid">
+          <div className="my-8 mt-4 grid">
             <AddToCart product={product} />
 
             {/* <Button className="flex-1 uppercase">
