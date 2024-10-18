@@ -12,27 +12,29 @@ cloudinary.config({
 });
 
 const productSchema = z.object({
-  title: z.string(),
-  description: z.string(),
-  fullDescription: z.string(),
-  price: z.string(),
-  inStock: z.string(),
-  color: z.enum(['cyan', 'black', 'magenta', 'yellow']).or(z.null()),
-  tags: z.string(),
-  slug: z.string(),
-  inDiscount: z.string(),
-  discount: z.string(),
-  isActive: z.string().or(z.boolean()),
-  isFeatured: z.string().or(z.boolean()),
-  brandId: z.string(),
-  categoryId: z.string(),
+  title: z.string(), //
+  description: z.string(), //
+  fullDescription: z.string(), //
+  price: z.string(), //
+  inStock: z.string(), //
+  color: z.enum(['cyan', 'black', 'magenta', 'yellow', '']), //
+  tags: z.string(), //
+  slug: z.string(), //
+  inDiscount: z.string(), //
+  discount: z.string(), //
+  isActive: z.string(), //
+  isFeatured: z.string(), //
+  brandId: z.string(), //
+  categoryId: z.string(), //
 });
 
 export const updateProduct = async (formData: FormData) => {
   const data = Object.fromEntries(formData);
   const { success, data: product, error } = productSchema.safeParse(data);
+  console.log({ success });
 
   if (!success) {
+    console.error('Validation errors:', error.format());
     return {
       ok: false,
       message: 'Invalid data',
@@ -51,6 +53,7 @@ export const updateProduct = async (formData: FormData) => {
         },
         data: {
           ...product,
+          color: product.color === '' ? undefined : product.color,
           price: parseFloat(product.price),
           inStock: parseInt(product.inStock),
           isActive: product.isActive === 'true',
@@ -59,7 +62,9 @@ export const updateProduct = async (formData: FormData) => {
           inDiscount:
             product.inDiscount === ''
               ? undefined
-              : product.inDiscount === 'true',
+              : product.inDiscount === 'true'
+                ? true
+                : false,
           tags: tagsArray,
         },
       });
