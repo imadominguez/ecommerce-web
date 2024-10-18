@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { CarouselItem } from '@/components/ui/carousel';
 import { currencyFormat } from '@/utils/currencyFormat';
-import { StarIcon } from 'lucide-react';
 import { notFound } from 'next/navigation';
 import { AddToCart } from './components/add-to-cart';
 import { Product } from '@/types/product';
