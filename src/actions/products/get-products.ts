@@ -55,7 +55,7 @@ export const getProducts = async ({
         color: color as Color,
       },
       orderBy: {
-        inStock: 'asc',
+        inStock: 'desc',
       },
       skip: (page - 1) * take,
       take: take,
