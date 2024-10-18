@@ -44,6 +44,7 @@ import { createProduct } from '@/actions/products/create-product';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { ProductImage } from '@/components/product/product-image';
+import { updateProduct } from '@/actions/products/update-product';
 
 const PRODUCT_IMAGE_PLACEHOLDER = '/imgs/placeholder.jpg';
 
@@ -57,6 +58,7 @@ const formSchema = z.object({
   description: z
     .string()
     .min(10, 'La descripción debe tener al menos 10 caracteres'),
+  fullDescription: z.string(),
   price: z.string().refine((value) => parseFloat(value) > 0, {
     message: 'El precio debe ser mayor a 0',
   }),
@@ -103,6 +105,7 @@ export const FormProduct = ({ product, categories, brands }: Props) => {
   const {
     title,
     description,
+    fullDescription,
     inStock,
     categoryId,
     isFeatured,
@@ -120,6 +123,7 @@ export const FormProduct = ({ product, categories, brands }: Props) => {
     defaultValues: {
       title: title,
       description: description,
+      fullDescription: fullDescription,
       inStock: inStock.toString(),
       categoryId: categoryId!,
       isFeatured: isFeatured.toString(),
@@ -150,6 +154,7 @@ export const FormProduct = ({ product, categories, brands }: Props) => {
     const formData = new FormData();
     formData.append('title', values.title);
     formData.append('description', values.description);
+    formData.append('fullDescription', values.fullDescription);
     formData.append('price', values.price);
     formData.append('inStock', values.inStock);
     formData.append('categoryId', values.categoryId);
@@ -168,19 +173,19 @@ export const FormProduct = ({ product, categories, brands }: Props) => {
     }
 
     setIsLoading(true);
-    const { ok, message } = await createProduct(formData);
+    const { ok, message } = await updateProduct(formData);
 
     if (ok) {
       form.reset();
       setImagePreviews([]);
       setIsLoading(false);
       setIsColor(false);
-      toast.success('Producto creado con éxito');
+      toast.success('Producto editado con éxito');
       router.push('/dashboard/products');
     } else {
       console.error({ message });
       setIsLoading(false);
-      toast.error('Ocurrió un error al crear el producto');
+      toast.error(message);
     }
   }
 

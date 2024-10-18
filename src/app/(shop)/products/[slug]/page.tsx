@@ -100,8 +100,14 @@ export default async function ProductDetailPage({ params: { slug } }: Props) {
         <h2 className="mb-6 text-2xl font-bold">Productos relacionados</h2>
         <ReusableCarousel autoplay loop autoplayInterval={5000}>
           {relatedProducts.products.map((product: Product, index: number) => (
-            <CarouselItem key={index} className="basis-full pl-4 md:basis-1/4">
-              <Card key={index}>
+            <CarouselItem
+              key={index}
+              className="h-full max-w-xs basis-full pl-4"
+            >
+              <Card
+                key={index}
+                className="h-full w-[96] overflow-hidden" // Asegúrate de que el Card tenga overflow-hidden
+              >
                 <CardContent className="flex flex-col items-center p-0">
                   <ProductImage
                     src={product.images[0]}
@@ -110,7 +116,7 @@ export default async function ProductDetailPage({ params: { slug } }: Props) {
                     height={200}
                     className="mb-4 h-48 w-full rounded-md object-cover"
                   />
-                  <h3 className="mb-2 text-lg font-semibold">
+                  <h3 className="mb-2 overflow-hidden text-ellipsis whitespace-nowrap text-xl font-semibold">
                     {product.title}
                   </h3>
                   <p className="opacity-80">{currencyFormat(product.price)}</p>

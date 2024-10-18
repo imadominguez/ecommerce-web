@@ -66,9 +66,7 @@ export default function ReusableCarousel({
         loop,
       }}
     >
-      <CarouselContent className={`-ml-4 ${gap} flex`}>
-        {children}
-      </CarouselContent>
+      <CarouselContent className={`-ml-4 ${gap} `}>{children}</CarouselContent>
       {showControls && (
         <>
           <CarouselPrevious className="hidden lg:flex" />
