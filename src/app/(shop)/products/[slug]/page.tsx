@@ -10,12 +10,17 @@ import { StarIcon } from 'lucide-react';
 import { notFound } from 'next/navigation';
 import { AddToCart } from './components/add-to-cart';
 import { Product } from '@/types/product';
+import { Metadata } from 'next';
 
 interface Props {
   params: {
     slug: string;
   };
 }
+
+export const metadata: Metadata = {
+  title: 'Detalle de producto',
+};
 
 export default async function ProductDetailPage({ params: { slug } }: Props) {
   const product = await getProductBySlug({ slug });

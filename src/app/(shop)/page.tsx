@@ -7,6 +7,11 @@ import { CARROUSEL_IMAGES_HOME } from '@/lib/constant';
 import Image from 'next/image';
 import { Separator } from '@/components/ui/separator';
 import { CustomLinkButton } from '@/components/button/custom-link-button';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Inicio',
+};
 
 export default async function Home() {
   return (

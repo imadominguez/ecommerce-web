@@ -6,6 +6,7 @@ import { Separator } from '@/components/ui/separator';
 import { FilterProduct } from './components/filter-product';
 import { getCategories } from '@/actions/categories/get-categories';
 import { Title } from '@/components/title';
+import { Metadata } from 'next';
 
 interface Props {
   searchParams: {
@@ -17,6 +18,10 @@ interface Props {
     color?: string;
   };
 }
+
+export const metadata: Metadata = {
+  title: 'Tienda',
+};
 
 export default async function ProductsPage({ searchParams }: Props) {
   const page = searchParams.page ? parseInt(searchParams.page) : 1;

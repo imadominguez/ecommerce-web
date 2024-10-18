@@ -2,6 +2,12 @@ import { LoginForm } from '@/app/(auth)/login/components/login-form';
 import { Suspense } from 'react';
 import Image from 'next/image';
 import { Title } from '@/components/title';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Ingresa',
+};
+
 export default function LoginPage() {
   return (
     <div

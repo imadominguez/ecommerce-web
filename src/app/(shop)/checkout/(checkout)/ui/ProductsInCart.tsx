@@ -33,7 +33,13 @@ export const ProductsInCart = () => {
 
   return (
     <div className="space-y-2">
-      <CustomLinkButton href={'/cart'}>Editar carrito</CustomLinkButton>
+      <CustomLinkButton
+        className="w-1/2 max-w-sm"
+        variant={'standard'}
+        href={'/cart'}
+      >
+        Editar carrito
+      </CustomLinkButton>
       {productsInCart.map((product) => (
         <Card key={product.id} className="mb-4">
           <CardContent className="p-4">

@@ -4,6 +4,12 @@ import Link from 'next/link';
 import { Suspense } from 'react';
 import Image from 'next/image';
 import { Title } from '@/components/title';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Registrate',
+};
+
 export default function RegisterPage() {
   return (
     <div
