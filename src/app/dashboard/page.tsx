@@ -6,6 +6,7 @@ import { TotalRenueveCard } from './(components)/components/total-revenue-card';
 import { SkeletonCard } from '@/components/skeleton-card';
 import { OrdersRecentCard } from './(components)/components/orders-recent-card';
 import { BrandCard } from './(components)/components/brand-card';
+import { ShippingPrice } from './(components)/components/shipping-price';
 
 export default function DashboardPage() {
   return (
@@ -36,6 +37,7 @@ export default function DashboardPage() {
           <BrandCard />
         </Suspense>
       </div>
+      <ShippingPrice />
     </PageContainer>
   );
 }
