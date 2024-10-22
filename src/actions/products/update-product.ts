@@ -24,6 +24,7 @@ const productSchema = z.object({
   discount: z.string(), //
   isActive: z.string(), //
   isFeatured: z.string(), //
+  isAvailableOnline: z.string(),
   brandId: z.string(), //
   categoryId: z.string(), //
 });
@@ -53,6 +54,8 @@ export const updateProduct = async (formData: FormData) => {
         },
         data: {
           ...product,
+          isAvailableOnline:
+            product.isAvailableOnline === 'true' ? true : false,
           color: product.color === '' ? undefined : product.color,
           price: parseFloat(product.price),
           inStock: parseInt(product.inStock),
