@@ -37,20 +37,21 @@ model Category {
 }
 
 model Product {
-  id              String   @id @default(uuid())
-  title           String
-  description     String
-  fullDescription String
-  price           Float
-  color           Color?
-  inStock         Int      @default(0)
-  slug            String   @unique
-  tags            String[] @default([])
-  images          String[]
-  inDiscount      Boolean  @default(false)
-  discount        Int?
-  isActive        Boolean  @default(true)
-  isFeatured      Boolean  @default(false)
+  id                String   @id @default(uuid())
+  title             String
+  description       String
+  fullDescription   String
+  price             Float
+  color             Color?
+  inStock           Int      @default(0)
+  slug              String   @unique
+  tags              String[] @default([])
+  images            String[]
+  inDiscount        Boolean  @default(false)
+  discount          Int?
+  isActive          Boolean  @default(true)
+  isFeatured        Boolean  @default(false)
+  isAvailableOnline Boolean  @default(true) // Nueva propiedad para ventas online
 
   // Relaciones
   brand      Brand     @relation(fields: [brandId], references: [id])
@@ -258,6 +259,12 @@ model Favorite {
   updatedAt DateTime @updatedAt
 
   @@unique([userId, productId])
+}
+
+model ShippingPrice {
+  id          String @id @default(uuid())
+  olavarria   Int    @default(0)
+  otherCities Int    @default(0)
 }
 
 generator dbml {
