@@ -30,7 +30,9 @@ export default function DashboardLayout({
             <NavbarLinks className="grid items-start px-2 text-sm font-medium lg:px-4" />
           </div>
           <div className="mt-auto p-4">
-            <CustomLinkButton href="/">Ir a la tienda</CustomLinkButton>
+            <CustomLinkButton variant={'outline'} href="/">
+              Ir a la tienda
+            </CustomLinkButton>
           </div>
         </div>
       </aside>
@@ -51,7 +53,9 @@ export default function DashboardLayout({
               <NavbarLinks className="grid gap-2 text-lg font-medium" />
 
               <div className="mt-auto">
-                <CustomLinkButton href="/">Ir a la tienda</CustomLinkButton>
+                <CustomLinkButton variant={'outline'} href="/">
+                  Ir a la tienda
+                </CustomLinkButton>
               </div>
             </SheetContent>
           </Sheet>
