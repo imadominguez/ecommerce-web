@@ -25,6 +25,7 @@ const productSchema = z.object({
   tags: z.string(),
   slug: z.string(),
   // images: z.array(z.string()),
+  isAvailableOnline: z.string(),
   inDiscount: z.string(),
   discount: z.string(),
   isActive: z.string().or(z.boolean()),
@@ -97,7 +98,8 @@ export const createProduct = async (productData: FormData) => {
             product.inDiscount === ''
               ? undefined
               : product.inDiscount === 'true',
-          // ?? TODO: Add brandId to the product data object ??
+          isAvailableOnline:
+            product.isAvailableOnline === 'true' ? true : false,
 
           tags: tagsArray,
         },
