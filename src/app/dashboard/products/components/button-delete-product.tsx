@@ -2,7 +2,7 @@
 
 import { deleteProduct } from '@/actions/products/delete-product';
 import { Button } from '@/components/ui/button';
-import { LoaderCircleIcon, TrashIcon } from 'lucide-react';
+import { LoaderCircleIcon, Trash2Icon, TrashIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
@@ -32,18 +32,13 @@ export const ButtonDeleteProduct = ({ slug }: Props) => {
   };
 
   return (
-    <Button
-      variant={'destructive'}
-      onClick={handleClick}
-      className="w-full justify-start"
-      disabled={isDeleting}
-    >
+    <Button variant={'destructive'} onClick={handleClick} disabled={isDeleting}>
       {isDeleting ? (
         <LoaderCircleIcon className="animate-spin" size={16} />
       ) : (
         <>
-          <TrashIcon className="mr-2 h-4 w-4" />
-          <span>Eliminar</span>
+          <Trash2Icon className="h-4 w-4" />
+          <span className="sr-only">Eliminar</span>
         </>
       )}
     </Button>

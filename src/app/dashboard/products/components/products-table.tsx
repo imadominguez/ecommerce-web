@@ -32,6 +32,12 @@ import { getProducts } from '@/actions/products/get-products';
 import { ProductImage } from '@/components/product/product-image';
 import { ButtonDeleteProduct } from './button-delete-product';
 import { CustomLinkButton } from '@/components/button/custom-link-button';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 interface Props {
   query?: string;
@@ -66,16 +72,15 @@ export const ProductsTable = async ({
         <Table className="text-xs">
           <TableHeader>
             <TableRow>
-              <TableHead className="hidden w-[100px] sm:table-cell">
+              <TableHead className="hidden w-[100px] md:table-cell">
                 <span className="sr-only">Image</span>
               </TableHead>
               <TableHead>Nombre</TableHead>
-              <TableHead>En stock</TableHead>
+              <TableHead className="hidden sm:table-cell">En stock</TableHead>
               <TableHead className="hidden md:table-cell">
                 En descuento
               </TableHead>
-              <TableHead className="hidden md:table-cell">Precio</TableHead>
-
+              <TableHead>Precio</TableHead>
               <TableHead className="hidden md:table-cell">Creado el</TableHead>
               <TableHead>
                 <span className="sr-only">Actions</span>
@@ -95,7 +100,7 @@ export const ProductsTable = async ({
                 slug,
               }) => (
                 <TableRow key={id}>
-                  <TableCell>
+                  <TableCell className="hidden md:table-cell">
                     <ProductImage
                       src={images[0]}
                       alt={title}
@@ -105,7 +110,7 @@ export const ProductsTable = async ({
                     />
                   </TableCell>
                   <TableCell>{title}</TableCell>
-                  <TableCell>
+                  <TableCell className="hidden sm:table-cell">
                     <Badge
                       variant={
                         inStock > 10
@@ -125,39 +130,42 @@ export const ProductsTable = async ({
                       <Badge variant="nostock">No</Badge>
                     )}
                   </TableCell>
-                  <TableCell className="hidden md:table-cell">
-                    {currencyFormat(price)}
-                  </TableCell>
-
+                  <TableCell>{currencyFormat(price)}</TableCell>
                   <TableCell className="hidden md:table-cell">
                     {createdAt.toLocaleDateString()}
                   </TableCell>
                   <TableCell>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                          <span className="sr-only">Abrir menú</span>
-                          <MoreVerticalIcon className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-                        <DropdownMenuItem className="p-0">
-                          <CustomLinkButton
-                            href={`/dashboard/products/${slug}`}
-                            className={'w-full !justify-start'}
-                            variant={'secondary'}
-                          >
-                            <EditIcon className="mr-2 h-4 w-4" />
-                            Editar
-                          </CustomLinkButton>
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem className="p-0">
-                          <ButtonDeleteProduct slug={slug} />
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                    <div className="flex space-x-2">
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <CustomLinkButton
+                              href={`/dashboard/products/${slug}`}
+                              variant="outline"
+                              className="w-fit"
+                            >
+                              <EditIcon className="h-4 w-4" />
+                              <span className="sr-only">Editar</span>
+                            </CustomLinkButton>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Editar producto</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <ButtonDeleteProduct
+                              slug={slug}
+                            ></ButtonDeleteProduct>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Eliminar producto</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </div>
                   </TableCell>
                 </TableRow>
               )
