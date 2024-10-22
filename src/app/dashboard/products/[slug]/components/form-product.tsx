@@ -40,7 +40,6 @@ import { Brand, Category, Product } from '@prisma/client';
 import { useEffect, useState } from 'react';
 import { DollarSign, LoaderCircleIcon, Package, Percent } from 'lucide-react';
 import { Label } from '@/components/ui/label';
-import { createProduct } from '@/actions/products/create-product';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { ProductImage } from '@/components/product/product-image';
@@ -48,7 +47,7 @@ import { updateProduct } from '@/actions/products/update-product';
 
 const PRODUCT_IMAGE_PLACEHOLDER = '/imgs/placeholder.jpg';
 
-const COLORS = ['blue', 'black', 'magenta', 'yellow'];
+const COLORS = ['cyan', 'black', 'magenta', 'yellow'];
 
 const formSchema = z.object({
   title: z
@@ -74,6 +73,7 @@ const formSchema = z.object({
   }),
   isActive: z.string(),
   isFeatured: z.string(),
+  isAvailableOnline: z.string(),
   tags: z.string().refine((value) => value.trim() !== '', {
     message: 'Debes ingresar al menos un tag',
   }),
@@ -112,6 +112,7 @@ export const FormProduct = ({ product, categories, brands }: Props) => {
     color,
     isActive,
     brandId,
+    isAvailableOnline,
     price,
     tags,
     inDiscount,
@@ -129,6 +130,7 @@ export const FormProduct = ({ product, categories, brands }: Props) => {
       isFeatured: isFeatured.toString(),
       color: color,
       isActive: isActive.toString(),
+      isAvailableOnline: isAvailableOnline ? 'true' : 'false',
       brandId: brandId!,
       price: price.toString(),
       tags: tags.toString(),
@@ -166,6 +168,7 @@ export const FormProduct = ({ product, categories, brands }: Props) => {
     formData.append('slug', values.title.toLowerCase().replace(/ /g, '-'));
     formData.append('inDiscount', values.inDiscount.toString());
     formData.append('discount', values.discountPercentage?.toString() ?? '');
+    formData.append('isAvailableOnline', values.isAvailableOnline.toString());
     if (files) {
       for (let i = 0; i < files.length; i++) {
         formData.append('file', files[i]);
@@ -206,7 +209,7 @@ export const FormProduct = ({ product, categories, brands }: Props) => {
         <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
           <Card x-chunk="dashboard-07-chunk-0">
             <CardHeader>
-              <CardTitle>Detalle del producto</CardTitle>
+              <CardTitle>Detalle del producto</CardTitle>s
             </CardHeader>
             <CardContent>
               <div className="grid gap-6">
@@ -447,6 +450,35 @@ export const FormProduct = ({ product, categories, brands }: Props) => {
                   Separar cada palabra con comas y sin espacio. Ejemplo:
                   tag1,tag2,tag3
                 </small>
+              </div>
+              <div className="mt-3">
+                <FormField
+                  control={form.control}
+                  name="isAvailableOnline"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Venta online</FormLabel>
+                      <FormControl>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value ?? undefined}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Selecciona un estado" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectItem value="true">Venta online</SelectItem>
+                              <SelectItem value="false">No se vende</SelectItem>
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
               <div className="mt-3">
                 <FormDescription>
