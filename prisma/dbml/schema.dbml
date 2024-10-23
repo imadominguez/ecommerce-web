@@ -25,6 +25,7 @@ Table Product {
   discount Int
   isActive Boolean [not null, default: true]
   isFeatured Boolean [not null, default: false]
+  isAvailableOnline Boolean [not null, default: true]
   brand Brand [not null]
   brandId String [not null]
   category Category
@@ -201,6 +202,12 @@ Table Favorite {
   indexes {
     (userId, productId) [unique]
   }
+}
+
+Table ShippingPrice {
+  id String [pk]
+  olavarria Int [not null, default: 0]
+  otherCities Int [not null, default: 0]
 }
 
 Enum Role {

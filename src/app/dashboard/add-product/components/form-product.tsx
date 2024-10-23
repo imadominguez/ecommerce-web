@@ -75,6 +75,7 @@ const formSchema = z.object({
   }),
   isActive: z.string(),
   isFeatured: z.string(),
+  isAvailableOnline: z.string(),
   tags: z.string().refine((value) => value.trim() !== '', {
     message: 'Debes ingresar al menos un tag',
   }),
@@ -113,6 +114,7 @@ export const FormProduct = ({ categories, brands }: Props) => {
       isFeatured: 'false',
       color: null,
       isActive: 'false',
+      isAvailableOnline: 'true',
       brandId: '',
       price: '',
       tags: '',
@@ -151,6 +153,7 @@ export const FormProduct = ({ categories, brands }: Props) => {
     formData.append('slug', values.title.toLowerCase().replace(/ /g, '-'));
     formData.append('inDiscount', values.inDiscount.toString());
     formData.append('discount', values.discountPercentage?.toString() ?? '');
+    formData.append('isAvailableOnline', values.isAvailableOnline.toString());
     if (files) {
       for (let i = 0; i < files.length; i++) {
         formData.append('file', files[i]);
@@ -443,6 +446,35 @@ export const FormProduct = ({ categories, brands }: Props) => {
                   Separar cada palabra con comas y sin espacio. Ejemplo:
                   tag1,tag2,tag3
                 </small>
+              </div>
+              <div className="mt-3">
+                <FormField
+                  control={form.control}
+                  name="isAvailableOnline"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Venta online</FormLabel>
+                      <FormControl>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value.toString() ?? undefined}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Selecciona un estado" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectItem value="true">Venta online</SelectItem>
+                              <SelectItem value="false">No se vende</SelectItem>
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
               <div className="mt-3">
                 <FormDescription>

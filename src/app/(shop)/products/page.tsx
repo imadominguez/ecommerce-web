@@ -6,6 +6,9 @@ import { Separator } from '@/components/ui/separator';
 import { FilterProduct } from './components/filter-product';
 import { getCategories } from '@/actions/categories/get-categories';
 import { Title } from '@/components/title';
+import { Metadata } from 'next';
+import { Suspense } from 'react';
+import { SkeletonCard } from '@/components/skeleton-card';
 
 interface Props {
   searchParams: {
@@ -17,6 +20,10 @@ interface Props {
     color?: string;
   };
 }
+
+export const metadata: Metadata = {
+  title: 'Tienda',
+};
 
 export default async function ProductsPage({ searchParams }: Props) {
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
@@ -55,10 +62,12 @@ export default async function ProductsPage({ searchParams }: Props) {
 
           <Separator className="my-2 mb-5" />
 
-          <ProductGrid
-            className={'grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3'}
-            products={products}
-          />
+          <Suspense key={title} fallback={<SkeletonCard />}>
+            <ProductGrid
+              className={'grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3'}
+              products={products}
+            />
+          </Suspense>
 
           <Paginations totalPages={totalPages} />
         </div>

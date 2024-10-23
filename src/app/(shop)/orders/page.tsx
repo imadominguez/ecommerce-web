@@ -20,43 +20,13 @@ import {
 } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { dateFormat } from '@/utils/dateFormat';
-import { Search, Star } from 'lucide-react';
-import Image from 'next/image';
-const purchases = [
-  {
-    id: 1,
-    date: '13 de junio',
-    status: 'Entregado',
-    deliveryDate: 'Lo retiraste el 18 de junio',
-    productName: 'Blanqueamiento X2 Jeringas Ambulatorio 15%/20% Opalescence',
-    quantity: '1 u.',
-    additionalInfo: 'PORCENTAJE %20',
-    seller: 'Sebastian Obrist',
-    image: '/placeholder.svg?height=80&width=80',
-  },
-  {
-    id: 2,
-    date: '17 de febrero',
-    status: 'Entregado',
-    deliveryDate: 'Lo retiraste el 21 de febrero',
-    productName: 'Gorra Vintage Clásica Denim Gastada Pre Lavada Chabilla',
-    quantity: '1 u.',
-    additionalInfo: 'Color: Gris Claro, Talle: Único Regulable',
-    seller: 'Deprole S.R.L Deprole S.R.L',
-    image: '/placeholder.svg?height=80&width=80',
-  },
-  {
-    id: 3,
-    date: '17 de febrero',
-    status: 'Entregado',
-    deliveryDate: 'Lo retiraste el 21 de febrero',
-    productName: 'Gorra Ny Y La Bordado 3d Baseball Algodón Hebilla C Y Plana',
-    quantity: '1 u.',
-    additionalInfo: 'Color: Vintage Mostaza NY, Talle: Único Regulable',
-    seller: 'Deprole S.R.L Deprole S.R.L',
-    image: '/placeholder.svg?height=80&width=80',
-  },
-];
+import { Search } from 'lucide-react';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Mis ordenes',
+};
+
 export default async function OrdersPage() {
   const { ok, orders } = await getOrders();
 

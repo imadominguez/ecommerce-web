@@ -40,14 +40,14 @@ import { Brand, Category, Product } from '@prisma/client';
 import { useEffect, useState } from 'react';
 import { DollarSign, LoaderCircleIcon, Package, Percent } from 'lucide-react';
 import { Label } from '@/components/ui/label';
-import { createProduct } from '@/actions/products/create-product';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { ProductImage } from '@/components/product/product-image';
+import { updateProduct } from '@/actions/products/update-product';
 
 const PRODUCT_IMAGE_PLACEHOLDER = '/imgs/placeholder.jpg';
 
-const COLORS = ['blue', 'black', 'magenta', 'yellow'];
+const COLORS = ['cyan', 'black', 'magenta', 'yellow'];
 
 const formSchema = z.object({
   title: z
@@ -57,6 +57,7 @@ const formSchema = z.object({
   description: z
     .string()
     .min(10, 'La descripción debe tener al menos 10 caracteres'),
+  fullDescription: z.string(),
   price: z.string().refine((value) => parseFloat(value) > 0, {
     message: 'El precio debe ser mayor a 0',
   }),
@@ -72,6 +73,7 @@ const formSchema = z.object({
   }),
   isActive: z.string(),
   isFeatured: z.string(),
+  isAvailableOnline: z.string(),
   tags: z.string().refine((value) => value.trim() !== '', {
     message: 'Debes ingresar al menos un tag',
   }),
@@ -103,12 +105,14 @@ export const FormProduct = ({ product, categories, brands }: Props) => {
   const {
     title,
     description,
+    fullDescription,
     inStock,
     categoryId,
     isFeatured,
     color,
     isActive,
     brandId,
+    isAvailableOnline,
     price,
     tags,
     inDiscount,
@@ -120,11 +124,13 @@ export const FormProduct = ({ product, categories, brands }: Props) => {
     defaultValues: {
       title: title,
       description: description,
+      fullDescription: fullDescription,
       inStock: inStock.toString(),
       categoryId: categoryId!,
       isFeatured: isFeatured.toString(),
       color: color,
       isActive: isActive.toString(),
+      isAvailableOnline: isAvailableOnline ? 'true' : 'false',
       brandId: brandId!,
       price: price.toString(),
       tags: tags.toString(),
@@ -150,6 +156,7 @@ export const FormProduct = ({ product, categories, brands }: Props) => {
     const formData = new FormData();
     formData.append('title', values.title);
     formData.append('description', values.description);
+    formData.append('fullDescription', values.fullDescription);
     formData.append('price', values.price);
     formData.append('inStock', values.inStock);
     formData.append('categoryId', values.categoryId);
@@ -161,6 +168,7 @@ export const FormProduct = ({ product, categories, brands }: Props) => {
     formData.append('slug', values.title.toLowerCase().replace(/ /g, '-'));
     formData.append('inDiscount', values.inDiscount.toString());
     formData.append('discount', values.discountPercentage?.toString() ?? '');
+    formData.append('isAvailableOnline', values.isAvailableOnline.toString());
     if (files) {
       for (let i = 0; i < files.length; i++) {
         formData.append('file', files[i]);
@@ -168,19 +176,19 @@ export const FormProduct = ({ product, categories, brands }: Props) => {
     }
 
     setIsLoading(true);
-    const { ok, message } = await createProduct(formData);
+    const { ok, message } = await updateProduct(formData);
 
     if (ok) {
       form.reset();
       setImagePreviews([]);
       setIsLoading(false);
       setIsColor(false);
-      toast.success('Producto creado con éxito');
+      toast.success('Producto editado con éxito');
       router.push('/dashboard/products');
     } else {
       console.error({ message });
       setIsLoading(false);
-      toast.error('Ocurrió un error al crear el producto');
+      toast.error(message);
     }
   }
 
@@ -201,7 +209,7 @@ export const FormProduct = ({ product, categories, brands }: Props) => {
         <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
           <Card x-chunk="dashboard-07-chunk-0">
             <CardHeader>
-              <CardTitle>Detalle del producto</CardTitle>
+              <CardTitle>Detalle del producto</CardTitle>s
             </CardHeader>
             <CardContent>
               <div className="grid gap-6">
@@ -442,6 +450,35 @@ export const FormProduct = ({ product, categories, brands }: Props) => {
                   Separar cada palabra con comas y sin espacio. Ejemplo:
                   tag1,tag2,tag3
                 </small>
+              </div>
+              <div className="mt-3">
+                <FormField
+                  control={form.control}
+                  name="isAvailableOnline"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Venta online</FormLabel>
+                      <FormControl>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value ?? undefined}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Selecciona un estado" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectItem value="true">Venta online</SelectItem>
+                              <SelectItem value="false">No se vende</SelectItem>
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
               <div className="mt-3">
                 <FormDescription>

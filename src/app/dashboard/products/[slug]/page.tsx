@@ -37,8 +37,8 @@ export default async function ProductDetailPage({ params: { slug } }: Props) {
   const brands = await db.brand.findMany();
 
   return (
-    <PageContainer>
-      <div className="mx-auto grid w-full max-w-[59rem] flex-1 auto-rows-max gap-4">
+    <PageContainer className="!max-w-none">
+      <div className="grid w-full flex-1 auto-rows-max gap-4">
         <FormProduct
           product={product}
           categories={categories}

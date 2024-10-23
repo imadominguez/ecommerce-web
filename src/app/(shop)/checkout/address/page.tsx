@@ -7,11 +7,11 @@ import { PageContainer } from '@/components/layout/page-container';
 import { getUserAddress } from '@/actions/user/get-user-address';
 
 export const metadata: Metadata = {
-  title: 'Dirección - Teslo | SHOP',
+  title: 'Dirección',
   description:
-    'Completa y actualiza tu dirección de entrega en Teslo SHOP. Asegúrate de que tus pedidos se entreguen correctamente al proporcionar una dirección de envío precisa y actualizada.',
+    'Completa y actualiza tu dirección de entrega en Servicios Integrados. Asegúrate de que tus pedidos se entreguen correctamente al proporcionar una dirección de envío precisa y actualizada.',
   keywords:
-    'Dirección, Teslo, SHOP, Dirección de Entrega, Formulario de Dirección',
+    'Dirección, Servicios Integrados, Dirección de Entrega, Formulario de Dirección',
 };
 
 export default async function AddressPage() {

@@ -5,10 +5,10 @@ import { Title } from '@/components/title';
 import { PlaceOrder } from './ui/PlaceOrder';
 
 export const metadata: Metadata = {
-  title: 'Verificar Orden - Teslo | SHOP',
+  title: 'Verificar Orden',
   description:
-    'Verifica y ajusta los elementos de tu orden en Teslo SHOP antes de confirmar tu compra. Edita los productos en tu carrito y revisa un resumen detallado antes de proceder al pago.',
-  keywords: 'Verificar Orden, Teslo, SHOP, Carrito, Confirmar Compra',
+    'Verifica y ajusta los elementos de tu orden en Servicios Integrados antes de confirmar tu compra. Edita los productos en tu carrito y revisa un resumen detallado antes de proceder al pago.',
+  keywords: 'Verificar Orden, Servicios Integrados, Carrito, Confirmar Compra',
 };
 
 export default function CheckoutPage() {

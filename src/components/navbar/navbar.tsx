@@ -11,7 +11,7 @@ import { Suspense } from 'react';
 
 export const Navbar = () => {
   return (
-    <header className="sticky left-0 right-0 top-0 z-50 flex w-full items-center justify-between border-b bg-background px-4 py-4 shadow-md">
+    <header className="sticky left-0 right-0 top-0 z-50 mx-auto flex w-full max-w-7xl items-center justify-between bg-background p-3 lg:px-8">
       {/* mobile */}
       <NavbarMobile />
       <Link href="/" className="hidden flex-1 items-center gap-x-2 lg:flex">

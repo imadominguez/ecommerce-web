@@ -23,12 +23,12 @@ export const CARROUSEL_IMAGES_HOME: Images[] = [
 
 export const LINKS_NAVBAR = [
   {
-    name: 'Nuestra empresa',
+    name: 'Nuestra Empresa',
     href: '/',
     isDisable: false,
   },
   {
-    name: 'Tienda online',
+    name: 'Nuestros Productos',
     href: '/products',
     isDisable: false,
   },

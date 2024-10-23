@@ -72,7 +72,7 @@ export const PlaceOrder = () => {
 
   return (
     <div>
-      <Card className="mx-auto max-w-md bg-card text-card-foreground">
+      <Card className="mx-auto bg-card text-card-foreground xl:max-w-md">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-2xl font-bold">
             Dirección de entrega
@@ -120,7 +120,7 @@ export const PlaceOrder = () => {
           </div>
         </CardContent>
       </Card>
-      <Card className="mx-auto mt-6 max-w-md">
+      <Card className="mx-auto mt-6 xl:max-w-md">
         <CardHeader>
           <CardTitle>Resumen de orden</CardTitle>
         </CardHeader>

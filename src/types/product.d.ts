@@ -13,6 +13,7 @@ export interface Product {
   discount: number | null;
   isActive: boolean;
   isFeatured: boolean;
+  isAvailableOnline: boolean;
   brandId: string;
   categoryId: string;
   createdAt: Date;

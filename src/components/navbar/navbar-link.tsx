@@ -25,6 +25,7 @@ export function Links({ href, name }: LinksProps) {
               ? 'standard'
               : 'outline',
         className: 'w-full',
+        size: 'sm',
       })}
     >
       {name}
