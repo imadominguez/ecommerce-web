@@ -24,7 +24,7 @@ export const OrdersRecentCard = async () => {
     where: {
       isPaid: true,
     },
-    take: 5,
+    take: 4,
     orderBy: {
       createdAt: 'desc',
     },

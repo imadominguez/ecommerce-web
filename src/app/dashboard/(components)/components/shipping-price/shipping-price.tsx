@@ -9,7 +9,7 @@ export const ShippingPrice = async () => {
   const [shippingPrice] = await db.shippingPrice.findMany();
 
   return (
-    <Card className="w-full max-w-sm">
+    <Card className="w-full">
       <CardHeader>
         <CardTitle>Precios de envío</CardTitle>
       </CardHeader>
