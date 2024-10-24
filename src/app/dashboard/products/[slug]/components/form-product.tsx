@@ -209,7 +209,7 @@ export const FormProduct = ({ product, categories, brands }: Props) => {
         <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
           <Card x-chunk="dashboard-07-chunk-0">
             <CardHeader>
-              <CardTitle>Detalle del producto</CardTitle>s
+              <CardTitle>Detalle del producto</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid gap-6">
