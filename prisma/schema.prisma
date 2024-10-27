@@ -64,9 +64,10 @@ model Product {
   Comment      Comment[]
 
   // Fechas
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  Favorite  Favorite[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  Favorite     Favorite[]
+  SalesHistory SalesHistory[]
 }
 
 model ProductImage {
@@ -265,6 +266,19 @@ model ShippingPrice {
   id          String @id @default(uuid())
   olavarria   Int    @default(0)
   otherCities Int    @default(0)
+}
+
+model SalesHistory {
+  id        String   @id @default(uuid())
+  productId String
+  quantity  Int
+  date      DateTime @default(now())
+
+  // Relaciones
+  product Product @relation(fields: [productId], references: [id])
+
+  // Fechas
+  createdAt DateTime @default(now())
 }
 
 generator dbml {
