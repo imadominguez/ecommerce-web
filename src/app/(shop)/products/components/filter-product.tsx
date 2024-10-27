@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import {
   Select,
@@ -159,7 +160,7 @@ const Filters = ({
   categories,
 }: PropsFilters) => {
   return (
-    <div className="mt-4 h-fit space-y-4 border p-4 lg:mt-0">
+    <Card className="mt-4 h-fit space-y-4 border p-4 lg:mt-0">
       <div>
         <h4 className="mb-2 text-sm font-medium">Categoría</h4>
         <Select
@@ -173,7 +174,7 @@ const Filters = ({
             <SelectGroup>
               <SelectItem value="null">Todas las categorías</SelectItem>
               {categories.map((category) => (
-                <SelectItem key={category.id} value={category.name}>
+                <SelectItem key={category.id} value={category.id}>
                   {category.name}
                 </SelectItem>
               ))}
@@ -230,6 +231,6 @@ const Filters = ({
       >
         Limpiar filtros
       </Button>
-    </div>
+    </Card>
   );
 };

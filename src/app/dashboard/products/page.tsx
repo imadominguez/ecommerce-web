@@ -45,7 +45,7 @@ export default function ProductsPage({
         </div>
 
         {/* All Products */}
-        <TabsContent value="all" className="h-full flex-1">
+        <TabsContent value="all">
           <Suspense
             key={query ?? '' + currentPage}
             fallback={<SkeletonTableProduct />}

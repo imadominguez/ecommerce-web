@@ -3,7 +3,7 @@ import { ProductImage } from '@/components/product/product-image';
 import { StockLabel } from '@/components/product/stock-label';
 import ReusableCarousel from '@/components/reusable-carousel';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { CarouselItem } from '@/components/ui/carousel';
 import { currencyFormat } from '@/utils/currencyFormat';
 import { notFound } from 'next/navigation';
@@ -125,7 +125,7 @@ export default async function ProductDetailPage({ params: { slug } }: Props) {
             >
               <Card
                 key={index}
-                className="h-full w-[96] overflow-hidden" // Asegúrate de que el Card tenga overflow-hidden
+                className="h-full overflow-hidden" // Asegúrate de que el Card tenga overflow-hidden
               >
                 <CardContent className="flex flex-col items-center p-0">
                   <ProductImage
@@ -133,14 +133,16 @@ export default async function ProductDetailPage({ params: { slug } }: Props) {
                     alt={product.title}
                     width={200}
                     height={200}
-                    className="mb-4 h-48 w-full rounded-md object-cover"
+                    className="mb-4 h-56 w-full rounded-md object-cover"
                   />
                   <h3 className="mb-2 overflow-hidden text-ellipsis whitespace-nowrap text-xl font-semibold">
                     {product.title}
                   </h3>
                   <p className="opacity-80">{currencyFormat(product.price)}</p>
-                  <Button className="mt-4 w-full">Ver detalles</Button>
                 </CardContent>
+                <CardFooter>
+                  <Button className="mt-4 w-full">Ver detalles</Button>
+                </CardFooter>
               </Card>
             </CarouselItem>
           ))}

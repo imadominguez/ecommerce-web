@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 
 export default async function ProductsPage({ searchParams }: Props) {
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
-  const category = searchParams.category;
+  const category = searchParams.category || undefined;
   const pmin = Number(searchParams.pmin) || 0;
   const pmax = Number(searchParams.pmax) || 0;
   const color = searchParams.color || undefined;

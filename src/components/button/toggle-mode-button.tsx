@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Moon, Sun } from 'lucide-react';
+import { Monitor, Moon, MoonIcon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
 import { Button } from '@/components/ui/button';
@@ -29,18 +29,21 @@ export function ModeToggle() {
           onClick={() => setTheme('light')}
           className={theme === 'light' ? 'bg-muted font-semibold' : ''}
         >
+          <Sun className="mr-2 h-4 w-4" />
           Claro
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => setTheme('dark')}
           className={theme === 'dark' ? 'bg-muted font-semibold' : ''}
         >
+          <MoonIcon className="mr-2 h-4 w-4" />
           Oscuro
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => setTheme('system')}
           className={theme === 'system' ? 'bg-muted font-semibold' : ''}
         >
+          <Monitor className="mr-2 h-4 w-4" />
           Sistema
         </DropdownMenuItem>
       </DropdownMenuContent>
