@@ -15,8 +15,8 @@ export default function DashboardLayout({
 }) {
   return (
     <div className="grid min-h-screen w-full lg:grid-cols-[280px_1fr]">
-      <aside className="sticky top-0 hidden border-r bg-background lg:block lg:min-h-screen">
-        <div className="flex h-full max-h-screen flex-col gap-2">
+      <aside className="relative top-0 hidden border-r bg-background lg:block lg:min-h-screen">
+        <div className="sticky top-0 flex h-screen flex-col gap-2">
           {/* logo */}
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
             <Image

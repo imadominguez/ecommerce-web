@@ -42,12 +42,12 @@ export const OrderSummary = () => {
         <span className="opacity-80">Subtotal</span>
         <span className="font-medium">{currencyFormat(subTotal)}</span>
       </div>
-      <div className="flex justify-between pb-2">
+      {/* <div className="flex justify-between pb-2">
         <span className="opacity-80">Envio</span>
         <span className="font-medium">
           {currencyFormat(Number(process.env.NEXT_PUBLIC_ENVIO || 0))}
         </span>
-      </div>
+      </div> */}
 
       <Separator />
       <div className="flex justify-between py-2 font-bold">

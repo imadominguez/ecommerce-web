@@ -37,7 +37,7 @@ export const UserButton = async () => {
           {session.user.role === 'admin' ? (
             <>
               <DropdownMenuItem>
-                <Link href={'/dashboard'} className="flex items-center">
+                <Link href={'/dashboard'} className="flex w-full items-center">
                   <HomeIcon className="mr-2 h-4 w-4" />
                   Dashboard
                 </Link>

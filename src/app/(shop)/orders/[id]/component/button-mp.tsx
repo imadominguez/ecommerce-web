@@ -12,9 +12,10 @@ interface Props {
     quantity: number;
     unit_price: number;
   }[];
+  order_id: string;
 }
 
-export const ButtonMp = ({ products }: Props) => {
+export const ButtonMp = ({ products, order_id }: Props) => {
   const [url, setUrl] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -23,7 +24,7 @@ export const ButtonMp = ({ products }: Props) => {
       setLoading(true);
 
       try {
-        const generatePreference = await paymentMP({ products });
+        const generatePreference = await paymentMP({ products, order_id });
         if (generatePreference.url) {
           setUrl(generatePreference.url);
         }
@@ -34,7 +35,7 @@ export const ButtonMp = ({ products }: Props) => {
       }
     };
     generateLink();
-  }, [products]);
+  }, [products, order_id]);
   return (
     <div className="w-full">
       {loading ? (

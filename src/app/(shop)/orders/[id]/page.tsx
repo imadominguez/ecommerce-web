@@ -162,6 +162,7 @@ export default async function OrderConfirmation({ params: { id } }: Props) {
                 quantity: product.quantity,
                 unit_price: product.price,
               }))}
+              order_id={order.id}
             />
           )}
         </CardFooter>
