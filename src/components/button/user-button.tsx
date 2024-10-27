@@ -18,7 +18,6 @@ import {
   ShoppingCart,
   User,
 } from 'lucide-react';
-import { CustomLinkButton } from './custom-link-button';
 import { logOut } from '@/actions/auth/sesion';
 
 export const UserButton = async () => {
@@ -68,7 +67,7 @@ export const UserButton = async () => {
             <LogOut className="mr-2 h-4 w-4" />
             <form action={logOut}>
               <button type="submit" className="w-full">
-                <span className="hidden md:block">Cerrar sesion</span>
+                <span className="">Cerrar sesion</span>
               </button>
             </form>
           </DropdownMenuItem>

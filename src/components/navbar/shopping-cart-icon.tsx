@@ -1,6 +1,6 @@
 'use client';
 import { useCartStore } from '@/store/shopping-cart/shopping-cart.store';
-import { ShoppingCartIcon, X } from 'lucide-react';
+import { ChevronRight, ShoppingBag, ShoppingCartIcon, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Badge } from '../ui/badge';
 import {
@@ -15,6 +15,7 @@ import { currencyFormat } from '@/utils/currencyFormat';
 import { Separator } from '../ui/separator';
 
 import { useRouter } from 'next/navigation';
+import { ScrollArea } from '../ui/scroll-area';
 
 export const ShoppingCart = () => {
   // Estado para manejar el componente Sheet abierto/cerrado
@@ -29,7 +30,7 @@ export const ShoppingCart = () => {
   const removeProductFromCart = useCartStore(
     (state) => state.removeProductFromCart
   );
-  const { subTotal, envio, total } = useCartStore((state) =>
+  const { subTotal, total } = useCartStore((state) =>
     state.getSummaryInformation()
   );
 
@@ -55,63 +56,58 @@ export const ShoppingCart = () => {
           )}
         </Button>
       </SheetTrigger>
-      <SheetContent className="w-[300px] sm:w-[400px]">
+      <SheetContent className="w-full sm:max-w-sm">
         <SheetHeader>
           <SheetTitle className="flex items-center justify-between">
             Carrito de compra
           </SheetTitle>
         </SheetHeader>
-        <div className="mt-8 space-y-4">
-          {cartItems.map((item, index) => (
-            <>
-              <div key={item.id} className="flex items-center space-x-4">
-                {/* <ProductImage
-                src={item.image}
-                alt={item.title}
-                width={80}
-                height={80}
-                className="rounded-md"
-              /> */}
-                <div className="flex-1">
-                  <h3 className="font-base font-semibold">{item.title}</h3>
-                  {item.color && (
-                    <p className="text-sm uppercase opacity-80">
-                      {item.color === 'black' ? 'Negro' : item.color}
-                    </p>
-                  )}
-                  <span className="text-xs">Cantidad {item.quantity}</span>
-                </div>
-                <div className="flex flex-col items-end justify-between gap-3">
-                  <Button
-                    variant="destructive"
-                    size={'icon'}
-                    className="h-auto w-auto p-1"
-                    onClick={() => removeProductFromCart(item.id)}
-                  >
-                    <X className="!h-4 !w-4" />
-                  </Button>
-
-                  <span className="font-medium">${item.price.toFixed(2)}</span>
-                </div>
-              </div>
-              {cartItems.length + 1 !== index && <Separator />}
-            </>
-          ))}
+        <div className="mt-2 flex items-center text-sm text-muted-foreground">
+          <ShoppingBag size={16} className="mr-2" />
+          {cartItems.length} {cartItems.length === 1 ? 'artículo' : 'artículos'}
         </div>
-        <div className="mt-4 space-y-4">
+        <ScrollArea className="mb-6 mt-6 h-[calc(100vh-24rem)] flex-grow">
+          {cartItems.map((item) => (
+            <div
+              key={item.id}
+              className="mb-6 flex items-center justify-between rounded-lg bg-accent/50 p-4"
+            >
+              <div>
+                <h3 className="font-semibold text-foreground">{item.title}</h3>
+                <p className="text-sm text-muted-foreground">{item.color}</p>
+                <p className="text-sm text-muted-foreground">
+                  Cantidad: {item.quantity}
+                </p>
+              </div>
+              <div className="flex items-center">
+                <p className="mr-4 font-semibold text-foreground">
+                  ${(item.price * item.quantity).toLocaleString('es-CO')}
+                </p>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => removeProductFromCart(item.id)}
+                  className="text-destructive hover:text-destructive/90"
+                >
+                  <X size={20} />
+                  <span className="sr-only">Eliminar artículo</span>
+                </Button>
+              </div>
+            </div>
+          ))}
+        </ScrollArea>
+        <div className="space-y-4">
           {/* <Separator /> */}
-          <div className="flex items-center justify-between">
-            <span className="font-medium">Subtotal</span>
-            <span className="font-medium">{currencyFormat(subTotal)}</span>
-          </div>
-          <div className="flex items-center justify-between">
-            <span className="font-medium">Envio</span>
-            <span className="font-medium">{currencyFormat(envio)}</span>
+          <div className="flex justify-between">
+            <span className="text-muted-foreground">Subtotal</span>
+            <span className="font-semibold">{currencyFormat(subTotal)}</span>
           </div>
           <Separator />
-          <div className="flex items-center justify-between">
-            <span className="font-medium">Total</span>
-            <span className="font-medium">{currencyFormat(total)}</span>
+          <div className="flex justify-between">
+            <span className="text-muted-foreground">Total</span>
+            <span className="text-lg font-semibold">
+              {currencyFormat(total)}
+            </span>
           </div>
 
           <Button
@@ -125,8 +121,8 @@ export const ShoppingCart = () => {
             Comprar carrito
           </Button>
           <div className="text-center">
-            <Button variant="link" className="text-foreground">
-              Continuar Comprando →
+            <Button variant="link" className="w-full text-foreground">
+              Continuar Comprando <ChevronRight size={16} className="ml-2" />
             </Button>
           </div>
         </div>
