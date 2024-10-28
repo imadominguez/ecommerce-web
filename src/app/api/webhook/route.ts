@@ -8,6 +8,7 @@ import { MercadoPagoConfig, Payment } from 'mercadopago';
 const client = new MercadoPagoConfig({
   accessToken: process.env.NEXT_PUBLIC_MP_ACCESS_TOKEN ?? '',
 });
+
 export async function POST(req: Request) {
   const body = await req.json();
 
@@ -17,7 +18,7 @@ export async function POST(req: Request) {
   const payment = await new Payment(client).get({ id: payment_id });
 
   if (payment.status === 'approved') {
-    const order_id = payment.external_reference;
+    const order_id = body.external_reference;
     try {
       const order = await db.order.update({
         where: { id: order_id },
