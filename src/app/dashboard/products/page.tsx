@@ -5,8 +5,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ProductsTable } from './components/products-table';
 import { SkeletonTableProduct } from '@/components/product/skeleton/skeleton-table-product';
 import { CustomLinkButton } from '@/components/button/custom-link-button';
+import { getMonthlySales } from '@/actions/analytics/products/get-monthly-sales';
+import { ChartProducts } from './components/charts/chart-products';
+import { ChartCategory } from './components/charts/chart-category';
 
-export default function ProductsPage({
+export default async function ProductsPage({
   searchParams,
 }: {
   searchParams?: {
@@ -16,8 +19,17 @@ export default function ProductsPage({
 }) {
   const query = searchParams?.query || undefined;
   const currentPage = Number(searchParams?.page) || 1;
+
+  const productsSale = await getMonthlySales();
+
+  console.log({ productsSale });
+
   return (
     <PageContainer className="!max-w-none">
+      <section className="mb-5 grid gap-4 lg:grid-cols-2 2xl:grid-cols-4">
+        <ChartProducts data={productsSale} />
+        <ChartCategory />
+      </section>
       <Tabs defaultValue="all" className="h-full flex-1">
         {/* Tabs */}
         <div className="flex items-center justify-between">

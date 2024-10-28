@@ -58,9 +58,9 @@ export default async function ProductsPage({ searchParams }: Props) {
         </div>
 
         <div className="relative lg:col-span-3">
-          <Title title="Productos" />
+          {/* <Title title="Productos" /> */}
 
-          <Separator className="my-2 mb-5" />
+          {/* <Separator className="my-2 mb-5" /> */}
 
           <Suspense key={title} fallback={<SkeletonCard />}>
             <ProductGrid

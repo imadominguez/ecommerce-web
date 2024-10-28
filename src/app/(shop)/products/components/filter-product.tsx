@@ -47,6 +47,7 @@ export const FilterProduct = ({
 
   const handleFilter = (key: string, value: string) => {
     const params = new URLSearchParams(searchParams);
+    params.set('page', '1');
     if (key === 'category' && value === 'null') {
       params.delete('category');
       replace(`${pathname}?${params.toString()}`);
@@ -106,7 +107,7 @@ export const FilterProduct = ({
 
   return (
     <>
-      <div className="flex items-end justify-end lg:hidden">
+      <div className="mb-5 flex items-end justify-end lg:hidden">
         {/* Filtros mobile */}
         <Sheet>
           <SheetTrigger asChild>
@@ -127,7 +128,7 @@ export const FilterProduct = ({
       </div>
       <div
         style={{ maxHeight: 'calc(100dvh - 40px - 240px)' }}
-        className="hidden h-full bg-background text-accent-foreground lg:sticky lg:top-24 lg:flex"
+        className="hidden h-full bg-background text-accent-foreground lg:sticky lg:top-20 lg:flex"
       >
         <Filters
           filters={filters}

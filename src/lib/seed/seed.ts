@@ -1,7 +1,7 @@
 import bcryptjs from 'bcryptjs';
 import { SeedCountry, countries } from './seed-countries';
 
-type ValidColors = 'black' | 'magenta' | 'blue' | 'red' | 'yellow' | 'cyan'; // Colores válidos para los productos
+export type ValidColors = 'black' | 'magenta' | 'yellow' | 'cyan'; // Colores válidos para los productos
 type SeedRole = 'user' | 'admin';
 
 interface SeedProduct {
@@ -13,7 +13,7 @@ interface SeedProduct {
   inStock: number;
   slug: string;
   tags: string[];
-  images?: string[];
+  images: string[];
   brand: string;
 }
 
@@ -24,12 +24,19 @@ type SeedUser = {
   role: SeedRole;
 };
 
+interface SalesHistory {
+  productId: string; // Referencia al ID del producto
+  quantity: number; // Cantidad vendida
+  date: Date; // Fecha de la venta
+}
+
 interface SeedData {
   categories: string[]; // Lista de nombres de categorías
-  brand: string[]; // Lista de nombres de categorías
+  brand: string[]; // Lista de marcas
   products: SeedProduct[]; // Lista de productos a sembrar en la base de datos
   users: SeedUser[];
   countries: SeedCountry[];
+  salesHistory: SalesHistory[]; // Ventas
 }
 
 export const initialData: SeedData = {
@@ -48,7 +55,6 @@ export const initialData: SeedData = {
       images: ['placeholder.jpg', 'starman_750x750.jpg'],
       fullDescription:
         'Cartucho de tinta original HP 63. Imprima documentos de texto nítidos y gráficos en color que resisten el agua y se mantienen durante décadas.',
-      productImage: ['1740176-00-A_0_2000.jpg', '1740176-00-A_1.jpg'],
       brand: 'gneiss',
     },
     ...Array.from({ length: 100 }).map((_, i) => {
@@ -56,17 +62,16 @@ export const initialData: SeedData = {
       return {
         title: `Cartucho GNEISS ${colors[i % 4].toUpperCase()}`,
         description:
-          'Introducing the Tesla Chill Collection. The Men’s Chill Crew Neck Sweatshirt has a premium, heavyweight exterior and soft fleece interior for comfort in any season. The sweatshirt features a subtle thermoplastic polyurethane T logo on the chest and a Tesla wordmark below the back collar. Made from 60% cotton and 40% recycled polyester.',
+          'Introducing the Tesla Chill Collection. The Men’s Chill Crew Neck Sweatshirt has a premium, heavyweight exterior and soft fleece interior for comfort in any season.',
         price: 75,
-        inStock: 7,
+        inStock: Math.floor(Math.random() * 50), // Inventar stock
         color: colors[i % 4],
         fullDescription:
           'Cartucho de tinta original HP 63. Imprima documentos de texto nítidos y gráficos en color que resisten el agua y se mantienen durante décadas.',
         images: ['1473814-00-A_alt.jpg', '1473809-00-A_alt.jpg'],
-        productImage: ['1740176-00-A_0_2000.jpg', '1740176-00-A_1.jpg'],
-        slug: `Cartucho GNEISS ${colors[i % 4].toUpperCase()}`
+        slug: `Cartucho-GNEISS-${colors[i % 4].toUpperCase()}`
           .split('-')
-          .join(),
+          .join('-'),
         tags: ['cartucho', 'Tinta', 'HP', 'Epson'],
         brand: 'gneiss',
       };
@@ -89,4 +94,23 @@ export const initialData: SeedData = {
   ],
 
   countries: countries,
+
+  salesHistory: [
+    {
+      productId: 'cartucho-de-tinta-hp-63',
+      quantity: 5,
+      date: new Date('2024-01-15'),
+    },
+    {
+      productId: 'Cartucho GNEISS MAGENTA',
+      quantity: 3,
+      date: new Date('2024-02-20'),
+    },
+    {
+      productId: 'Cartucho GNEISS BLACK',
+      quantity: 7,
+      date: new Date('2024-03-10'),
+    },
+    // Agrega más datos de ventas según sea necesario
+  ],
 };

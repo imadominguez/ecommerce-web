@@ -124,7 +124,7 @@ interface Props {
 
 export function AddressForm({ userStoredAddress, session }: Props) {
   const router = useRouter();
-
+  console.log({ useAddressStore: userStoredAddress.firstName });
   const userAdderss = useAddressStore((state) => state.address);
   const setAddress = useAddressStore((state) => state.setAddress);
 
@@ -178,6 +178,8 @@ export function AddressForm({ userStoredAddress, session }: Props) {
       );
       if (ok) {
         toast.success(message);
+      } else {
+        toast.error(message);
       }
     } else {
       // Eliminar datos de la base de datos
