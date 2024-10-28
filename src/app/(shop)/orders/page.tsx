@@ -1,4 +1,5 @@
 import { getOrders } from '@/actions/orders/get-orders';
+import { auth } from '@/auth';
 import { CustomLinkButton } from '@/components/button/custom-link-button';
 import { PageContainer } from '@/components/layout/page-container';
 import { ProductImage } from '@/components/product/product-image';
@@ -22,12 +23,17 @@ import { Separator } from '@/components/ui/separator';
 import { dateFormat } from '@/utils/dateFormat';
 import { Search } from 'lucide-react';
 import { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 
 export const metadata: Metadata = {
   title: 'Mis ordenes',
 };
 
 export default async function OrdersPage() {
+  const session = await auth();
+  if (!session) {
+    redirect('/login?redirect=/orders');
+  }
   const { ok, orders } = await getOrders();
 
   if (!ok && !orders) {
