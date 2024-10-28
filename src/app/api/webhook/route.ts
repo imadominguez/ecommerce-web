@@ -60,3 +60,12 @@ export async function POST(req: Request) {
 
   return NextResponse.json(null, { status: 200 });
 }
+
+export async function GET() {
+  return NextResponse.json(
+    {
+      message: 'Endpoint correcto',
+    },
+    { status: 200 }
+  );
+}
