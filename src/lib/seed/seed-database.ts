@@ -38,6 +38,13 @@ async function main() {
     })
   );
 
+  await Promise.all(
+    countries.map(async (country) => {
+      return await db.country.create({
+        data: { name: country.name, id: country.id },
+      });
+    })
+  );
   // Crea registros de productos
   const productsWithIds = await Promise.all(
     products.map(async (product, index) => {
@@ -79,11 +86,10 @@ async function main() {
   // Crea usuarios
   const usersWithIds = await Promise.all(
     users.map(async (user) => {
-      const hashedPassword = await bcrypt.hash(user.password, 10);
       return db.user.create({
         data: {
           ...user,
-          password: hashedPassword,
+          password: user.password,
         },
       });
     })

@@ -42,7 +42,7 @@ export default async function OrderConfirmation({ params: { id } }: Props) {
   const isPaid = order.isPaid;
   return (
     <PageContainer
-      className={`flex min-h-screen w-full max-w-none items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4 transition-colors duration-300 dark:from-gray-900 dark:to-gray-800`}
+      className={`flex min-h-screen w-full max-w-none items-center justify-center p-4 transition-colors duration-300`}
     >
       <Card className="w-full max-w-md overflow-hidden">
         <CardHeader className="space-y-1 bg-muted/80">
@@ -119,28 +119,6 @@ export default async function OrderConfirmation({ params: { id } }: Props) {
               <br />
               Argentina, CP {OrderAddress!.postalCode}
             </p>
-          </div>
-          <div>
-            <h3 className="mb-2 flex items-center gap-2 font-semibold">
-              <User className="h-5 w-5" />
-              Información del Cliente
-            </h3>
-            <div className="space-y-1 text-sm">
-              <div className="flex items-center justify-between">
-                <span className="flex items-center gap-2">
-                  <User className="h-4 w-4" />
-                  Cliente:
-                </span>
-                <span>{user.name}</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="flex items-center gap-2">
-                  <Mail className="h-4 w-4" />
-                  Email:
-                </span>
-                <span>{user.email}</span>
-              </div>
-            </div>
           </div>
         </CardContent>
         <CardFooter className="flex flex-col-reverse items-center justify-between gap-4 border-t bg-muted/80 px-6 py-3">
