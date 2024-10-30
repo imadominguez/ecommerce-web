@@ -1,6 +1,5 @@
 import { initialData } from './seed';
 import { db } from '../db';
-import bcrypt from 'bcryptjs';
 
 async function main() {
   // Borrar registros existentes en el orden correcto
@@ -47,7 +46,7 @@ async function main() {
     })
   );
   // Crea registros de productos
-  const productsWithIds = await Promise.all(
+  await Promise.all(
     products.map(async (product, index) => {
       const slug = `${product.title.replace(/\s+/g, '-').toLowerCase()}-${index}`; // Generar slug único
       const createdProduct = await db.product.create({
@@ -85,7 +84,7 @@ async function main() {
   console.log('✅ Productos creados');
 
   // Crea usuarios
-  const usersWithIds = await Promise.all(
+  await Promise.all(
     users.map(async (user) => {
       return db.user.create({
         data: {

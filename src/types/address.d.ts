@@ -1,5 +1,3 @@
-import type { Country } from './country';
-
 export interface UserAddress {
   firstName: string;
   lastName: string;

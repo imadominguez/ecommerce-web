@@ -15,18 +15,8 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { EditIcon, MoreVerticalIcon } from 'lucide-react';
+import { EditIcon } from 'lucide-react';
 import { currencyFormat } from '@/utils/currencyFormat';
-
 import { PaginationProductsTable } from './pagination-products-table';
 import { getProducts } from '@/actions/products/get-products';
 import { ProductImage } from '@/components/product/product-image';

@@ -2,7 +2,7 @@
 
 import { deleteProduct } from '@/actions/products/delete-product';
 import { Button } from '@/components/ui/button';
-import { LoaderCircleIcon, Trash2Icon, TrashIcon } from 'lucide-react';
+import { LoaderCircleIcon, Trash2Icon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';

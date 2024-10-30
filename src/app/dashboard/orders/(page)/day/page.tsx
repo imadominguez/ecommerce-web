@@ -31,51 +31,6 @@ import { OrderStatus } from '@/types/order';
 import { currencyFormat } from '@/utils/currencyFormat';
 import { timeFormat } from '@/utils/dateFormat';
 import { CalendarIcon, Package2, Search } from 'lucide-react';
-type Order = {
-  id: string;
-  customer: string;
-  status: 'Pendiente' | 'En proceso' | 'Enviado' | 'Entregado' | 'Cancelado';
-  total: string;
-  time: string;
-};
-
-const orders: Order[] = [
-  {
-    id: '#1001',
-    customer: 'María García',
-    status: 'Pendiente',
-    total: '$129.99',
-    time: '09:30 AM',
-  },
-  {
-    id: '#1002',
-    customer: 'Juan Pérez',
-    status: 'En proceso',
-    total: '$79.50',
-    time: '10:15 AM',
-  },
-  {
-    id: '#1003',
-    customer: 'Ana Martínez',
-    status: 'Enviado',
-    total: '$199.99',
-    time: '11:45 AM',
-  },
-  {
-    id: '#1004',
-    customer: 'Carlos Rodríguez',
-    status: 'Entregado',
-    total: '$59.99',
-    time: '02:30 PM',
-  },
-  {
-    id: '#1005',
-    customer: 'Laura Sánchez',
-    status: 'Cancelado',
-    total: '$149.99',
-    time: '04:00 PM',
-  },
-];
 
 export default async function OrdersDayPage() {
   const ordersDay = await db.order.findMany({

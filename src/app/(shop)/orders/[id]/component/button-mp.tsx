@@ -40,7 +40,7 @@ export const ButtonMp = ({ products, order_id, envio }: Props) => {
       }
     };
     generateLink();
-  }, [products, order_id]);
+  }, [products, order_id, envio]);
   return (
     <div className="w-full">
       {loading ? (

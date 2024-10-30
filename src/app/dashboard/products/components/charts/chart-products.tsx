@@ -20,15 +20,6 @@ import { MonthlySales } from '@/actions/analytics/products/get-monthly-sales';
 
 export const description = 'A horizontal bar chart';
 
-const chartData = [
-  { month: 'Enero', productos: 186 },
-  { month: 'Febrero', productos: 305 },
-  { month: 'Marzo', productos: 237 },
-  { month: 'Abril', productos: 73 },
-  { month: 'Mayo', productos: 209 },
-  { month: 'Junio', productos: 214 },
-];
-
 const chartConfig = {
   desktop: {
     label: 'Desktop',

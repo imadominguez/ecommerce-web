@@ -42,6 +42,7 @@ export const setUserAddress = async (userId: string, address: UserAddress) => {
 
     address.vatCondition =
       address.taxType === 'consumidor_final' ? undefined : address.taxType;
+    // eslint-disable-next-line no-unused-vars
     const { country, ...addressData } = address;
     if (!userAddress) {
       await db.userAddress.create({
