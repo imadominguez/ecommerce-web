@@ -18,6 +18,7 @@ async function main() {
   await db.country.deleteMany(); // Finalmente los países
   await db.account.deleteMany(); // Borra cuentas si existen
   await db.verificationToken.deleteMany(); // Borra tokens de verificación si existen
+  await db.shippingPrice.deleteMany();
 
   console.log('✅ Registros borrados');
 
@@ -128,101 +129,101 @@ async function main() {
   */
 
   // Crea órdenes y artículos de orden
-  await Promise.all(
-    usersWithIds.map(async (user) => {
-      const order = await db.order.create({
-        data: {
-          userId: user.id,
-          subTotal: Math.floor(Math.random() * 500) + 100,
-          envio: 10,
-          total: Math.floor(Math.random() * 500) + 110,
-          itemsInOrder: Math.floor(Math.random() * 5) + 1,
-        },
-      });
+  // await Promise.all(
+  //   usersWithIds.map(async (user) => {
+  //     const order = await db.order.create({
+  //       data: {
+  //         userId: user.id,
+  //         subTotal: Math.floor(Math.random() * 500) + 100,
+  //         envio: 10,
+  //         total: Math.floor(Math.random() * 500) + 110,
+  //         itemsInOrder: Math.floor(Math.random() * 5) + 1,
+  //       },
+  //     });
 
-      // Crea artículos de orden
-      const itemsInOrderPromises = Array.from(
-        { length: order.itemsInOrder },
-        async () => {
-          return db.orderItem.create({
-            data: {
-              quantity: Math.floor(Math.random() * 3) + 1,
-              price: Math.floor(Math.random() * 100) + 10,
-              orderId: order.id,
-              productId:
-                productsWithIds[
-                  Math.floor(Math.random() * productsWithIds.length)
-                ].id,
-            },
-          });
-        }
-      );
-      await Promise.all(itemsInOrderPromises);
-    })
-  );
-  console.log('✅ Órdenes y artículos de orden creados');
+  //     // Crea artículos de orden
+  //     const itemsInOrderPromises = Array.from(
+  //       { length: order.itemsInOrder },
+  //       async () => {
+  //         return db.orderItem.create({
+  //           data: {
+  //             quantity: Math.floor(Math.random() * 3) + 1,
+  //             price: Math.floor(Math.random() * 100) + 10,
+  //             orderId: order.id,
+  //             productId:
+  //               productsWithIds[
+  //                 Math.floor(Math.random() * productsWithIds.length)
+  //               ].id,
+  //           },
+  //         });
+  //       }
+  //     );
+  //     await Promise.all(itemsInOrderPromises);
+  //   })
+  // );
+  // console.log('✅ Órdenes y artículos de orden creados');
 
   // Crea comentarios
-  await Promise.all(
-    productsWithIds.map(async (product) => {
-      return db.comment.create({
-        data: {
-          content: 'Comentario de ejemplo',
-          productId: product.id,
-          userId:
-            usersWithIds[Math.floor(Math.random() * usersWithIds.length)].id,
-        },
-      });
-    })
-  );
-  console.log('✅ Comentarios creados');
+  // await Promise.all(
+  //   productsWithIds.map(async (product) => {
+  //     return db.comment.create({
+  //       data: {
+  //         content: 'Comentario de ejemplo',
+  //         productId: product.id,
+  //         userId:
+  //           usersWithIds[Math.floor(Math.random() * usersWithIds.length)].id,
+  //       },
+  //     });
+  //   })
+  // );
+  // console.log('✅ Comentarios creados');
 
   // Crea precios de envío
   await db.shippingPrice.create({
     data: {
-      olavarria: 50,
-      otherCities: 100,
+      olavarria: 2000,
+      otherCities: 3500,
     },
   });
   console.log('✅ Precios de envío creados');
 
   // Crea historial de ventas
-  const generateRandomSales = async (
-    productId: string,
-    month: number,
-    year: number,
-    quantity: number
-  ): Promise<void> => {
-    await db.salesHistory.create({
-      data: {
-        productId,
-        quantity,
-        date: new Date(`${year}-${month}-01`), // Establecer la fecha del primer día del mes
-      },
-    });
-  };
+  // const generateRandomSales = async (
+  //   productId: string,
+  //   month: number,
+  //   year: number,
+  //   quantity: number
+  // ): Promise<void> => {
+  //   await db.salesHistory.create({
+  //     data: {
+  //       productId,
+  //       quantity,
+  //       date: new Date(`${year}-${month}-01`), // Establecer la fecha del primer día del mes
+  //     },
+  //   });
+  // };
 
-  const createSalesHistory = async (productsWithIds: { id: string }[]) => {
-    const salesPromises: Promise<void>[] = [];
-    const currentYear = new Date().getFullYear(); // Año actual
+  // const createSalesHistory = async (productsWithIds: { id: string }[]) => {
+  //   const salesPromises: Promise<void>[] = [];
+  //   const currentYear = new Date().getFullYear(); // Año actual
 
-    productsWithIds.forEach((product) => {
-      // Generar entre 1 a 5 ventas por producto en diferentes meses
-      const numberOfSales = Math.floor(Math.random() * 5) + 1;
-      for (let i = 0; i < numberOfSales; i++) {
-        const month = Math.floor(Math.random() * 12) + 1; // Mes aleatorio entre 1 y 12
-        const quantity = Math.floor(Math.random() * 10) + 1; // Cantidad aleatoria entre 1 y 10
-        salesPromises.push(
-          generateRandomSales(product.id, month, currentYear, quantity)
-        );
-      }
-    });
+  //   productsWithIds.forEach((product) => {
+  //     // Generar entre 1 a 5 ventas por producto en diferentes meses
+  //     const numberOfSales = Math.floor(Math.random() * 5) + 1;
+  //     for (let i = 0; i < numberOfSales; i++) {
+  //       const month = Math.floor(Math.random() * 12) + 1; // Mes aleatorio entre 1 y 12
+  //       const quantity = Math.floor(Math.random() * 10) + 1; // Cantidad aleatoria entre 1 y 10
+  //       salesPromises.push(
+  //         generateRandomSales(product.id, month, currentYear, quantity)
+  //       );
+  //     }
+  //   });
 
-    await Promise.all(salesPromises);
-  };
+  //   await Promise.all(salesPromises);
+  // };
 
-  await createSalesHistory(productsWithIds);
-  console.log('✅ Historial de ventas creado');
+  // await createSalesHistory(productsWithIds);
+  // console.log('✅ Historial de ventas creado');
 
   console.log('✅ Seed ejecutado con éxito');
 }
