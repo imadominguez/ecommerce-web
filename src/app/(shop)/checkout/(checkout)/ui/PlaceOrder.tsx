@@ -11,8 +11,13 @@ import { Separator } from '@/components/ui/separator';
 import { LoaderCircleIcon, Mail, MapPin, Phone, User } from 'lucide-react';
 import { currencyFormat } from '@/utils/currencyFormat';
 import { placeOrder } from '@/actions/orders/set-order';
+import { ShippingPrice } from '@prisma/client';
 
-export const PlaceOrder = () => {
+export const PlaceOrder = ({
+  shippingPrice,
+}: {
+  shippingPrice: ShippingPrice;
+}) => {
   const router = useRouter();
   const [loaded, setLoaded] = useState(false);
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
@@ -30,6 +35,10 @@ export const PlaceOrder = () => {
     setLoaded(true);
   }, []);
 
+  const envio =
+    +address.postalCode === 7400
+      ? shippingPrice.olavarria
+      : shippingPrice.otherCities;
   const onPlaceOrder = async () => {
     setIsPlacingOrder(true);
 
@@ -41,7 +50,11 @@ export const PlaceOrder = () => {
     });
 
     //! Server Action
-    const { ok, message, order } = await placeOrder(productsToOrder, address);
+    const { ok, message, order } = await placeOrder(
+      productsToOrder,
+      address,
+      envio
+    );
 
     if (!ok) {
       setIsPlacingOrder(false);
@@ -138,12 +151,12 @@ export const PlaceOrder = () => {
             </div>
             <div className="flex justify-between">
               <span>Envio:</span>
-              <span>{currencyFormat(2000)}</span>
+              <span>{currencyFormat(envio)}</span>
             </div>
             <Separator className="my-2" />
             <div className="flex justify-between font-semibold">
               <span>Total:</span>
-              <span>{currencyFormat(total)}</span>
+              <span>{currencyFormat(total + envio)}</span>
             </div>
           </div>
           <p className="mt-4 text-xs">

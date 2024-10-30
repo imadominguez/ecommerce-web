@@ -12,7 +12,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { currencyFormat } from '@/utils/currencyFormat';
 import { dateFormat } from '@/utils/dateFormat';
-import { Calendar, Mail, Package, Truck, User } from 'lucide-react';
+import { Calendar, Package, Truck } from 'lucide-react';
 
 import { redirect } from 'next/navigation';
 import { ButtonMp } from './component/button-mp';
@@ -148,6 +148,7 @@ export default async function OrderConfirmation({ params: { id } }: Props) {
                 quantity: product.quantity,
                 unit_price: product.price,
               }))}
+              envio={order.envio}
               order_id={order.id}
             />
           )}

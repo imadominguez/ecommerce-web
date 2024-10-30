@@ -3,6 +3,7 @@ import { ProductsInCart } from './ui/ProductsInCart';
 import { PageContainer } from '@/components/layout/page-container';
 import { Title } from '@/components/title';
 import { PlaceOrder } from './ui/PlaceOrder';
+import { db } from '@/lib/db';
 
 export const metadata: Metadata = {
   title: 'Verificar Orden',
@@ -11,14 +12,15 @@ export const metadata: Metadata = {
   keywords: 'Verificar Orden, Servicios Integrados, Carrito, Confirmar Compra',
 };
 
-export default function CheckoutPage() {
+export default async function CheckoutPage() {
+  const [shippingPrice] = await db.shippingPrice.findMany();
   return (
     <PageContainer>
       <Title title="Verificar Orden" />
 
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
         <ProductsInCart />
-        <PlaceOrder />
+        <PlaceOrder shippingPrice={shippingPrice} />
       </div>
     </PageContainer>
   );

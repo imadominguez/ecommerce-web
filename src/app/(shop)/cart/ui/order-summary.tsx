@@ -52,7 +52,7 @@ export const OrderSummary = () => {
       <Separator />
       <div className="flex justify-between py-2 font-bold">
         <span>Importe total</span>
-        <span>{currencyFormat(subTotal + envio)}</span>
+        <span>{currencyFormat(subTotal)}</span>
       </div>
       <CustomLinkButton
         href={'/checkout/address'}
