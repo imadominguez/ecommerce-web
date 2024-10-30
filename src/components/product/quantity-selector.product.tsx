@@ -1,6 +1,6 @@
 'use client';
 
-import { CircleAlertIcon, CircleMinusIcon, CirclePlusIcon } from 'lucide-react';
+import { CircleMinusIcon, CirclePlusIcon } from 'lucide-react';
 import { Button } from '../ui/button';
 import { toast } from 'sonner';
 

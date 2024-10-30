@@ -10,7 +10,7 @@ export async function GET() {
   return NextResponse.json(products, { status: 200 });
 }
 
-export async function POST(req: any) {
+export async function POST() {
   const secretName: string = process.env.NEXT_PUBLIC_SECRET_NAME ?? '';
 
   if (!secretName) {

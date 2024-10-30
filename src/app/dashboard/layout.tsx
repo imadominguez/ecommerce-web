@@ -14,7 +14,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="grid min-h-screen w-full lg:grid-cols-[280px_1fr]">
+    <div className="mx-auto grid min-h-screen w-full max-w-[2000px] lg:grid-cols-[280px_1fr]">
       <aside className="relative top-0 hidden border-r bg-background lg:block lg:min-h-screen">
         <div className="sticky top-0 flex h-screen flex-col gap-2">
           {/* logo */}

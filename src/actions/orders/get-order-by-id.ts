@@ -49,7 +49,10 @@ export const getOrderById = async (id: string) => {
     console.log(error.message);
 
     return {
-      user: {},
+      user: {
+        name: null,
+        email: '',
+      },
       OrderAddress: {},
       OrderItem: [],
       order: null,

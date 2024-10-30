@@ -3,7 +3,6 @@ import { Metadata } from 'next';
 import { ProdcutsCart } from './ui/products-cart';
 import { OrderSummary } from './ui/order-summary';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-// import { ConsultaEnvio } from './ui/andreani';
 
 export const metadata: Metadata = {
   title: 'Carrito de compra',

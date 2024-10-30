@@ -42,7 +42,7 @@ export const SalesCard = async () => {
     0
   );
 
-  const percentage = ((sales - salesPrevious) / salesPrevious) * 100;
+  const percentage = ((sales - salesPrevious) / salesPrevious) * 100 || 0;
 
   return (
     <Card x-chunk="dashboard-01-chunk-2">

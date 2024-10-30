@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { CartProduct } from '@/types/product';
 import { StateCreator, create } from 'zustand';
 import { createJSONStorage, devtools, persist } from 'zustand/middleware';

@@ -1,16 +1,14 @@
+/* eslint-disable no-unused-vars */
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
 import {
   Carousel,
   CarouselContent,
-  CarouselItem,
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import { cn } from '@/lib/utils';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface ReusableCarouselProps {
   children: React.ReactNode;

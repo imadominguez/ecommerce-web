@@ -12,7 +12,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { currencyFormat } from '@/utils/currencyFormat';
 import { dateFormat } from '@/utils/dateFormat';
-import { Calendar, Mail, Package, Truck, User } from 'lucide-react';
+import { Calendar, Package, Truck } from 'lucide-react';
 
 import { redirect } from 'next/navigation';
 import { ButtonMp } from './component/button-mp';
@@ -25,6 +25,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { cn } from '@/lib/utils';
+import { auth } from '@/auth';
 
 interface Props {
   params: {
@@ -33,8 +34,15 @@ interface Props {
 }
 
 export default async function OrderConfirmation({ params: { id } }: Props) {
+  const session = await auth();
+  if (!session) {
+    redirect('/login?redirect=/orders');
+  }
   const { user, OrderAddress, OrderItem, order } = await getOrderById(id);
-
+  console.log(user);
+  if (user.email !== session.user.email) {
+    redirect('/orders');
+  }
   if (!order) {
     redirect('/orders');
   }
@@ -140,6 +148,7 @@ export default async function OrderConfirmation({ params: { id } }: Props) {
                 quantity: product.quantity,
                 unit_price: product.price,
               }))}
+              envio={order.envio}
               order_id={order.id}
             />
           )}

@@ -11,9 +11,7 @@ export const OrderSummary = () => {
   const [loaded, setLoaded] = useState(false);
 
   // Obtenemos información del carrito de compras desde el store
-  const { subTotal, envio } = useCartStore((state) =>
-    state.getSummaryInformation()
-  );
+  const { subTotal } = useCartStore((state) => state.getSummaryInformation());
 
   // Efecto para indicar que el componente ha cargado
   useEffect(() => {
@@ -52,7 +50,7 @@ export const OrderSummary = () => {
       <Separator />
       <div className="flex justify-between py-2 font-bold">
         <span>Importe total</span>
-        <span>{currencyFormat(subTotal + envio)}</span>
+        <span>{currencyFormat(subTotal)}</span>
       </div>
       <CustomLinkButton
         href={'/checkout/address'}

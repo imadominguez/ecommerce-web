@@ -16,6 +16,7 @@ import { Separator } from '../ui/separator';
 
 import { useRouter } from 'next/navigation';
 import { ScrollArea } from '../ui/scroll-area';
+import { CustomLinkButton } from '../button/custom-link-button';
 
 export const ShoppingCart = () => {
   // Estado para manejar el componente Sheet abierto/cerrado
@@ -121,9 +122,9 @@ export const ShoppingCart = () => {
             Comprar carrito
           </Button>
           <div className="text-center">
-            <Button variant="link" className="w-full text-foreground">
+            <CustomLinkButton href="/products" variant="link" className="w-fit">
               Continuar Comprando <ChevronRight size={16} className="ml-2" />
-            </Button>
+            </CustomLinkButton>
           </div>
         </div>
       </SheetContent>

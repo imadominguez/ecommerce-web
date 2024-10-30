@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
-import { Home, Package, ShoppingCart } from 'lucide-react';
+import { Home, ImageIcon, Package, ShoppingCart } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
 type DashboardLinks = {
@@ -26,6 +26,11 @@ const NAVBAR_DASHBOARD_LINKS: DashboardLinks[] = [
     name: 'productos',
     href: '/dashboard/products',
     icon: <Package className="h-4 w-4" />,
+  },
+  {
+    name: 'Imagenes',
+    href: '/dashboard/cloudinary',
+    icon: <ImageIcon className="h-4 w-4" />,
   },
 ];
 
