@@ -38,7 +38,9 @@ export const TotalRenueveCard = async () => {
     0
   );
 
-  const percentage = ((renueveTotal - renuevePrevious) / renuevePrevious) * 100;
+  const percentage =
+    ((renueveTotal - renuevePrevious) / renuevePrevious) * 100 || 0;
+
   return (
     <Card x-chunk="dashboard-01-chunk-0">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
