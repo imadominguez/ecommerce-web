@@ -7,8 +7,6 @@ import { v2 as cloudinary } from 'cloudinary';
 import { revalidatePath } from 'next/cache';
 import { Color } from '@/types/product';
 
-// import { Color } from '@prisma/client';
-
 cloudinary.config({
   cloud_name: 'dqpj5d9d1',
   api_key: '919518468483841',
@@ -24,7 +22,7 @@ const productSchema = z.object({
   color: z.string(),
   tags: z.string(),
   slug: z.string(),
-  // images: z.array(z.string()),
+  images: z.string(),
   isAvailableOnline: z.string(),
   inDiscount: z.string(),
   discount: z.string(),
@@ -63,7 +61,7 @@ export const createProduct = async (productData: FormData) => {
 
   // Obtener el producto de la base de datos
   const product = productParsed.data;
-
+  const images = JSON.parse(product.images) as string[];
   // Ajustar el precio del producto
   const precioDeseado = parseFloat(product.price);
   const comisionMercadoPago = 6.29 / 100; // 6.29%
@@ -87,6 +85,7 @@ export const createProduct = async (productData: FormData) => {
       const newProduct = await db.product.create({
         data: {
           ...product,
+          images,
           color: product.color === '' ? null : (product.color as Color),
           price: precioRedondeado,
           inStock: parseInt(product.inStock),
@@ -104,73 +103,6 @@ export const createProduct = async (productData: FormData) => {
           tags: tagsArray,
         },
       });
-
-      // Proceso de carga y guardado de imagenes
-      // Recorrer las imagenes y guardarlas en la base de datos
-      if (productData.getAll('file').length > 0) {
-        // Asegúrate de que los elementos sean archivos
-        const imageFiles = productData.getAll('file').map((file) => {
-          // Verifica si es un archivo y realiza la conversión si es necesario
-          if (file instanceof File) {
-            return file;
-          }
-          // Manejo de error si no es un archivo válido
-          throw new Error('El archivo no es válido');
-        });
-
-        try {
-          // Subir las imagenes a cloudinary
-          const imagesUploaded = await uploadImages(imageFiles);
-
-          // Asegúrate de que se haya subido al menos una imagen
-          if (!imagesUploaded || imagesUploaded.length === 0) {
-            throw new Error('Se produjo un error al cargar las imágenes');
-          }
-
-          // Crear los registros de las imagenes en la base de datos
-          await db.productImage.createMany({
-            data: imagesUploaded.map((url) => ({
-              url: url!,
-              productId: newProduct.id,
-            })),
-          });
-        } catch (error) {
-          console.error('Error uploading images:', error);
-          throw new Error('Error al cargar imágenes: ');
-        }
-
-        try {
-          // Actualizar la propiedad images del producto con las urls de las imagenes subidas
-          // traemos el productImages asociado al id del producto creado
-          const productImages = await db.productImage.findMany({
-            where: {
-              productId: newProduct.id,
-            },
-          });
-          // Actualizamos el producto con las urls de las imagenes
-          await db.product.update({
-            where: {
-              id: newProduct.id,
-            },
-            data: {
-              images: {
-                set: productImages.map(
-                  (image: {
-                    id: string;
-                    url: string;
-                    productId: string;
-                    createdAt: Date;
-                    updatedAt: Date;
-                  }) => image.url
-                ),
-              },
-            },
-          });
-        } catch (error) {
-          console.error('Error updating product images:', error);
-          throw new Error('Error al actualizar las imágenes del producto');
-        }
-      }
 
       return newProduct;
     });
@@ -192,32 +124,3 @@ export const createProduct = async (productData: FormData) => {
     };
   }
 };
-
-// Función para subir las imagenes a cloudinary
-async function uploadImages(images: File[]) {
-  try {
-    const uploadPromises = images.map(async (image) => {
-      try {
-        const buffer = await image.arrayBuffer();
-        const base64Image = Buffer.from(buffer).toString('base64');
-        return cloudinary.uploader
-          .upload(`data:image/png;base64,${base64Image}`, {
-            folder: 'ecommerce-web/products',
-          })
-          .then((res) => {
-            return res.secure_url;
-          });
-      } catch (error) {
-        console.log(error);
-        return null;
-      }
-    });
-
-    const uploadedImages = await Promise.all(uploadPromises);
-
-    return uploadedImages;
-  } catch (error) {
-    console.log(error);
-    return null;
-  }
-}
