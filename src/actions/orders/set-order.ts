@@ -13,7 +13,8 @@ interface ProductToOrder {
 
 export const placeOrder = async (
   products: ProductToOrder[],
-  address: UserAddress
+  address: UserAddress,
+  envio: number
 ) => {
   const session = await auth();
   const userId = session?.user.id;
@@ -105,8 +106,8 @@ export const placeOrder = async (
           data: {
             userId,
             subTotal,
-            envio: Number(process.env.NEXT_PUBLIC_ENVIO || 0) || 0,
-            total: subTotal + Number(process.env.NEXT_PUBLIC_ENVIO || 0) || 0,
+            envio,
+            total: subTotal + envio,
             itemsInOrder: itemsInOrder,
             isPaid: false,
             OrderItem: {
