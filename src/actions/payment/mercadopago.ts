@@ -12,9 +12,10 @@ interface Props {
     unit_price: number;
   }[];
   order_id: string;
+  envio: number;
 }
 
-export const paymentMP = async ({ products, order_id }: Props) => {
+export const paymentMP = async ({ products, order_id, envio }: Props) => {
   const productsBody = products.map((product, index) => ({
     ...product,
     id: `producto-${index + 1}`,
@@ -26,7 +27,7 @@ export const paymentMP = async ({ products, order_id }: Props) => {
           id: 'Envio',
           quantity: 1,
           title: 'Envio',
-          unit_price: 2000,
+          unit_price: envio,
         },
         ...productsBody,
       ],
