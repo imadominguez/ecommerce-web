@@ -24,7 +24,6 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import Image from 'next/image';
 import {
   Form,
@@ -37,15 +36,20 @@ import {
 } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
 import { Brand, Category, Product } from '@prisma/client';
-import { useEffect, useState } from 'react';
-import { DollarSign, LoaderCircleIcon, Package, Percent } from 'lucide-react';
+import { useState } from 'react';
+import {
+  CheckCircle2,
+  DollarSign,
+  LoaderCircleIcon,
+  Package,
+  Percent,
+} from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-import { ProductImage } from '@/components/product/product-image';
 import { updateProduct } from '@/actions/products/update-product';
-
-const PRODUCT_IMAGE_PLACEHOLDER = '/imgs/placeholder.jpg';
+import { CloudinaryResource } from '@/types/cloudinary';
+import { CldImage } from 'next-cloudinary';
 
 const COLORS = ['cyan', 'black', 'magenta', 'yellow'];
 
@@ -99,9 +103,10 @@ interface Props {
   product: Product;
   categories: Category[];
   brands: Brand[];
+  images: Array<CloudinaryResource>;
 }
 
-export const FormProduct = ({ product, categories, brands }: Props) => {
+export const FormProduct = ({ product, categories, brands, images }: Props) => {
   const {
     title,
     description,
@@ -139,20 +144,15 @@ export const FormProduct = ({ product, categories, brands }: Props) => {
     },
   });
 
-  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
-  const [files, setFiles] = useState<FileList | null>(null);
   const [isColor, setIsColor] = useState(color !== null);
   const [isLoading, setIsLoading] = useState(false);
+  const [imagesProduct, setImagesProduct] = useState<string[]>(product.images);
 
-  const handleFileChange = (fileList: FileList | null) => {
-    if (fileList) {
-      const fileArray = Array.from(fileList);
-      const previews = fileArray.map((file) => URL.createObjectURL(file));
-      setImagePreviews((prev) => [...prev, ...previews]);
-      setFiles(fileList);
-    }
-  };
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    if (imagesProduct.length === 0) {
+      toast.error('Debes asignar imagenes al producto');
+      return;
+    }
     const formData = new FormData();
     formData.append('title', values.title);
     formData.append('description', values.description);
@@ -169,18 +169,13 @@ export const FormProduct = ({ product, categories, brands }: Props) => {
     formData.append('inDiscount', values.inDiscount.toString());
     formData.append('discount', values.discountPercentage?.toString() ?? '');
     formData.append('isAvailableOnline', values.isAvailableOnline.toString());
-    if (files) {
-      for (let i = 0; i < files.length; i++) {
-        formData.append('file', files[i]);
-      }
-    }
+    formData.append('images', JSON.stringify(imagesProduct));
 
     setIsLoading(true);
     const { ok, message } = await updateProduct(formData);
 
     if (ok) {
       form.reset();
-      setImagePreviews([]);
       setIsLoading(false);
       setIsColor(false);
       toast.success('Producto editado con éxito');
@@ -192,21 +187,13 @@ export const FormProduct = ({ product, categories, brands }: Props) => {
     }
   }
 
-  // Previsualización de la imagen del producto
-  // Si no hay imagenes, se muestra un placeholder
-  useEffect(() => {
-    if (product.images) {
-      setImagePreviews(product.images);
-    }
-  }, [product.images]);
-
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8"
+        className="grid gap-4 lg:gap-8"
       >
-        <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
+        <div className="grid auto-rows-max items-start gap-4 lg:grid-cols-2 lg:gap-8">
           <Card x-chunk="dashboard-07-chunk-0">
             <CardHeader>
               <CardTitle>Detalle del producto</CardTitle>
@@ -593,6 +580,44 @@ export const FormProduct = ({ product, categories, brands }: Props) => {
                 >
                   Resetear formulario
                 </Button>
+                <Button
+                  type="submit"
+                  disabled={isLoading}
+                  variant={'outline'}
+                  className="w-full uppercase"
+                >
+                  {isLoading ? (
+                    <LoaderCircleIcon className="h-5 w-5 animate-spin" />
+                  ) : (
+                    'Editar producto'
+                  )}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+          <Card className="h-full">
+            <CardHeader>
+              <CardTitle>Imagenes del producto</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid min-h-60 grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-2">
+                {imagesProduct.map((img, i) => {
+                  return (
+                    <div
+                      key={i}
+                      className="group relative hover:cursor-pointer"
+                    >
+                      <Image
+                        src={img}
+                        alt={''}
+                        width={500}
+                        height={500}
+                        className="h-60 w-full rounded-md object-cover"
+                        sizes="(min-width: 768px) 35vw, (min-width: 1024px) 25vw, (min-width: 1280px) 20vw, 50vw"
+                      />
+                    </div>
+                  );
+                })}
               </div>
             </CardContent>
           </Card>
@@ -602,200 +627,53 @@ export const FormProduct = ({ product, categories, brands }: Props) => {
         <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
           <Card className="overflow-hidden" x-chunk="dashboard-07-chunk-4">
             <CardHeader>
-              <CardTitle>Imagenes del producto</CardTitle>
+              <CardTitle>Imagenes</CardTitle>
               <CardDescription>
-                Añade imágenes de tu producto para que los clientes puedan verlo
-                desde diferentes ángulos.
+                Añade imágenes de tu producto para que los clientes puedan
+                verlo.
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid gap-2">
-                <p className="text-sm text-muted-foreground">
-                  <span className="font-semibold">Nota:</span>{' '}
-                  <small>Solo formato .png</small>
-                </p>
-                <div className="grid grid-cols-3 gap-2">
-                  {imagePreviews.length === 0 ? (
-                    <>
-                      <div className="col-span-3">
-                        <Dialog>
-                          <DialogTrigger>
-                            <Image
-                              alt="Placeholder"
-                              className="aspect-square w-full rounded-md object-cover"
-                              height={300}
-                              src={PRODUCT_IMAGE_PLACEHOLDER}
-                              width={300}
-                            />
-                          </DialogTrigger>
-                          <DialogContent>
-                            <Image
-                              alt="Placeholder"
-                              className="aspect-square w-full rounded-md object-cover"
-                              height={300}
-                              src={PRODUCT_IMAGE_PLACEHOLDER}
-                              width={300}
-                            />
-                          </DialogContent>
-                        </Dialog>
-                      </div>
-                      <ProductImage
-                        alt="Placeholder"
-                        className="aspect-square w-full rounded-md object-cover"
-                        height={300}
-                        src={PRODUCT_IMAGE_PLACEHOLDER}
-                        width={300}
+              <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+                {images.map((image, i) => {
+                  return (
+                    <div
+                      key={i}
+                      className="group relative hover:cursor-pointer"
+                    >
+                      <CldImage
+                        src={image.public_id}
+                        alt={''}
+                        width={image.width}
+                        height={image.height}
+                        onClick={() => {
+                          setImagesProduct([
+                            ...imagesProduct,
+                            image.secure_url,
+                          ]);
+                        }}
+                        className="h-60 w-full rounded-md object-cover"
+                        sizes="(min-width: 768px) 35vw, (min-width: 1024px) 25vw, (min-width: 1280px) 20vw, 50vw"
                       />
-                      <ProductImage
-                        alt="Placeholder"
-                        className="aspect-square w-full rounded-md object-cover"
-                        height={300}
-                        src={PRODUCT_IMAGE_PLACEHOLDER}
-                        width={300}
-                      />
-                    </>
-                  ) : imagePreviews.length === 1 ? (
-                    <>
-                      <div className="col-span-3">
-                        <Dialog>
-                          <DialogTrigger>
-                            <ProductImage
-                              alt="Product Image 1"
-                              className="aspect-square w-full rounded-md object-cover"
-                              height={300}
-                              src={imagePreviews[0]}
-                              width={300}
-                            />
-                          </DialogTrigger>
-                          <DialogContent>
-                            <ProductImage
-                              alt="Product Image 1"
-                              className="aspect-square w-full rounded-md object-cover"
-                              height={300}
-                              src={imagePreviews[0]}
-                              width={300}
-                            />
-                          </DialogContent>
-                        </Dialog>
-                      </div>
-
-                      <div className="">
-                        <Dialog>
-                          <DialogTrigger>
-                            <ProductImage
-                              alt="Placeholder"
-                              className="aspect-square w-full rounded-md object-cover"
-                              height={300}
-                              src={PRODUCT_IMAGE_PLACEHOLDER}
-                              width={300}
-                            />
-                          </DialogTrigger>
-                          <DialogContent>
-                            <ProductImage
-                              alt="Placeholder"
-                              className="aspect-square w-full rounded-md object-cover"
-                              height={300}
-                              src={PRODUCT_IMAGE_PLACEHOLDER}
-                              width={300}
-                            />
-                          </DialogContent>
-                        </Dialog>
-                      </div>
-                      <div className="">
-                        <Dialog>
-                          <DialogTrigger>
-                            <ProductImage
-                              alt="Placeholder"
-                              className="aspect-square w-full rounded-md object-cover"
-                              height={300}
-                              src={PRODUCT_IMAGE_PLACEHOLDER}
-                              width={300}
-                            />
-                          </DialogTrigger>
-                          <DialogContent>
-                            <ProductImage
-                              alt="Placeholder"
-                              className="aspect-square w-full rounded-md object-cover"
-                              height={300}
-                              src={PRODUCT_IMAGE_PLACEHOLDER}
-                              width={300}
-                            />
-                          </DialogContent>
-                        </Dialog>
-                      </div>
-                    </>
-                  ) : (
-                    imagePreviews.map((src, index) => (
-                      <div key={index} className="">
-                        <Dialog>
-                          <DialogTrigger>
-                            <ProductImage
-                              alt={`Product Image ${index + 1}`}
-                              className="aspect-square w-full rounded-md object-cover"
-                              height={300}
-                              src={src}
-                              width={300}
-                            />
-                          </DialogTrigger>
-                          <DialogContent>
-                            <ProductImage
-                              alt={`Product Image ${index + 1}`}
-                              className="aspect-square w-full rounded-md object-cover"
-                              height={300}
-                              src={src}
-                              width={300}
-                            />
-                          </DialogContent>
-                        </Dialog>
-                      </div>
-                    ))
-                  )}
-
-                  <FormField
-                    control={form.control}
-                    name="file"
-                    render={({}) => (
-                      <FormItem className="col-span-3">
-                        <FormLabel>Subir archivo</FormLabel>
-                        <FormControl>
-                          <Input
-                            id="file"
-                            type="file"
-                            multiple
-                            accept="image/*"
-                            onChange={(e) => handleFileChange(e.target.files)}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <div className="mt-3 space-y-3">
-                  <Button
-                    type="button"
-                    variant={'secondary'}
-                    onClick={() => {
-                      form.unregister('file');
-                      setImagePreviews([]);
-                    }}
-                    className="w-full uppercase"
-                  >
-                    Limpiar
-                  </Button>
-                  <Button
-                    type="submit"
-                    disabled={isLoading}
-                    variant={'outline'}
-                    className="w-full uppercase"
-                  >
-                    {isLoading ? (
-                      <LoaderCircleIcon className="h-5 w-5 animate-spin" />
-                    ) : (
-                      'Editar producto'
-                    )}
-                  </Button>
-                </div>
+                      {imagesProduct.includes(image.secure_url) && (
+                        <div
+                          onClick={() => {
+                            setImagesProduct(
+                              imagesProduct.filter(
+                                (img) => img !== image.secure_url
+                              )
+                            );
+                          }}
+                          className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 opacity-100 transition-opacity"
+                        >
+                          <span className="shadow-red absolute bottom-2 right-2 grid h-10 w-10 place-content-center rounded-full bg-primary shadow-2xl">
+                            <CheckCircle2 className="h-6 w-6" />
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             </CardContent>
           </Card>

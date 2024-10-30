@@ -33,9 +33,9 @@ export const Navbar = () => {
 
       <div className="flex flex-1 items-center justify-end gap-x-2">
         <div className="ml-5 w-full">
-          <Suspense fallback={<div>Loading...</div>}>
-            <SearchInput />
-          </Suspense>
+          {/* <Suspense fallback={<div>Loading...</div>}> */}
+          <SearchInput />
+          {/* </Suspense> */}
         </div>
         <ShoppingCart />
         <div className="ml-1">
