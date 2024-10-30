@@ -53,7 +53,7 @@ export async function POST(req: Request) {
           message: 'No se pudo actualizar la orden',
         },
         {
-          status: 200,
+          status: 400,
         }
       );
     }
