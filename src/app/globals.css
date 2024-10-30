@@ -80,15 +80,15 @@
 
 /* Estilo para la pista (el fondo detrás del scrollbar) */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #172554;
   border-radius: 10px;
 }
 
 /* Estilo para la manija (la parte que se desplaza) */
 ::-webkit-scrollbar-thumb {
-  background-color: var(--blue-primary);
+  background-color: #1e3a8a;
   border-radius: 10px;
-  border: 3px solid #f1f1f1; /* Añadir un borde para un efecto "más delgado" */
+  border: 1px solid #6e6e6e; /* Añadir un borde para un efecto "más delgado" */
 }
 
 /* Estilo para el hover sobre la manija */
