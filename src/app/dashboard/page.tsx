@@ -9,10 +9,11 @@ import { RecentSales } from '@/app/dashboard/(components)/components/orders/rece
 import { BrandCard } from '@/app/dashboard/(components)/components/brand/brand-card';
 import { ShippingPrice } from '@/app/dashboard/(components)/components/shipping-price/shipping-price';
 import { CategoryCard } from '@/app/dashboard/(components)/components/category/category-card';
+import { CreateCategoryInput } from './(components)/components/category/create-category-input';
 
 export default function DashboardPage() {
   return (
-    <PageContainer className="w-full max-w-none justify-start gap-8">
+    <PageContainer className="w-full justify-start gap-8">
       <section className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
         <Suspense fallback={<SkeletonCard />}>
           <TotalRenueveCard />
@@ -28,9 +29,9 @@ export default function DashboardPage() {
           <SalesCard />
         </Suspense>
       </section>
-      <section className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
+      <section className="grid grid-cols-2 gap-4 lg:grid-cols-6">
         <ShippingPrice />
-        <CategoryCard />
+        <CreateCategoryInput />
         <CreateBrandInput />
       </section>
       <section className="grid h-full gap-4 md:gap-8 lg:grid-cols-2">

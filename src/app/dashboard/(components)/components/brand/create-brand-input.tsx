@@ -27,7 +27,7 @@ export const CreateBrandInput = () => {
     }
   };
   return (
-    <Card>
+    <Card className="col-span-2 md:col-span-1 lg:col-span-2">
       <CardHeader>
         <CardTitle>Crear Marca</CardTitle>
         <CardDescription>Gestiona tus marcas.</CardDescription>
