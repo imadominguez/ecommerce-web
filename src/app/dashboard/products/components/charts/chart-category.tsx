@@ -56,7 +56,7 @@ const chartConfig = {
 
 export function ChartCategory() {
   return (
-    <Card className="flex flex-col">
+    <Card className="flex flex-col 2xl:col-span-2">
       <CardHeader className="items-center pb-0">
         <CardTitle>Categorias mas vendidas</CardTitle>
         <CardDescription>January - June 2024</CardDescription>

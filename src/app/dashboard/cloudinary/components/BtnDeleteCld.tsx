@@ -14,10 +14,10 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 
 export const BtnDeleteCld = ({
-  key,
+  key_id,
   publicId,
 }: {
-  key: number;
+  key_id: number;
   publicId: string;
 }) => {
   const { refresh } = useRouter();
@@ -42,7 +42,7 @@ export const BtnDeleteCld = ({
     }
   };
   return (
-    <Dialog key={key} open={open} onOpenChange={setOpen}>
+    <Dialog key={key_id} open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="destructive" className="absolute bottom-2 right-2">
           <Trash2 className="mr-2 h-4 w-4" /> Eliminar

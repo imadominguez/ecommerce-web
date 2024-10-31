@@ -109,8 +109,9 @@ export default async function OrdersPage({
                 <TableRow>
                   <TableHead>Cliente</TableHead>
                   <TableHead>Estado</TableHead>
+                  <TableHead>Pago</TableHead>
                   <TableHead>
-                    <span className="sr-only">Cambiar estado</span>
+                    <span>Cambiar estado</span>
                   </TableHead>
                   <TableHead className="hidden md:table-cell">Total</TableHead>
                   <TableHead className="hidden md:table-cell">
@@ -128,6 +129,13 @@ export default async function OrdersPage({
                     <TableRow key={order.id}>
                       <TableCell>{order.user.name}</TableCell>
                       <TableCell>{getStatusBadge(order.status)}</TableCell>
+                      <TableCell>
+                        {order.isPaid ? (
+                          <Badge variant={'stock'}>Pagado</Badge>
+                        ) : (
+                          <Badge variant={'warning'}>Pago pendiente</Badge>
+                        )}
+                      </TableCell>
                       <TableCell>
                         <Select
                           value={order.status}
