@@ -3,10 +3,10 @@ import { updatedShippingPrice } from '@/actions/shipping-price/updated-shipping-
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useToast } from '@/hooks/use-toast';
 import { LoaderCircleIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
-import { toast } from 'sonner';
 
 interface Props {
   olavarria: number;
@@ -14,6 +14,7 @@ interface Props {
   id: string;
 }
 export const FormShippingPrice = ({ otherCities, olavarria, id }: Props) => {
+  const { toast } = useToast();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [price, setPrice] = useState({
@@ -26,15 +27,24 @@ export const FormShippingPrice = ({ otherCities, olavarria, id }: Props) => {
 
     setLoading(true);
     if (price.olavarria === olavarria && price.otherCities === otherCities) {
-      toast.error('No has realizado ningún cambio de precio');
+      toast({
+        variant: 'destructive',
+        title: 'No has realizado ningún cambio de precio',
+      });
       setLoading(false);
       return;
     }
     const { ok, message } = await updatedShippingPrice(price, id);
     if (ok) {
-      toast.success(message);
+      toast({
+        variant: 'success',
+        title: message,
+      });
     } else {
-      toast.error(message);
+      toast({
+        variant: 'destructive',
+        title: message,
+      });
     }
     setLoading(false);
     router.refresh();

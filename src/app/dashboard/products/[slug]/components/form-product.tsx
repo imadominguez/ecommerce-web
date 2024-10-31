@@ -45,11 +45,11 @@ import {
   Percent,
 } from 'lucide-react';
 import { Label } from '@/components/ui/label';
-import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { updateProduct } from '@/actions/products/update-product';
 import { CloudinaryResource } from '@/types/cloudinary';
 import { CldImage } from 'next-cloudinary';
+import { useToast } from '@/hooks/use-toast';
 
 const COLORS = ['cyan', 'black', 'magenta', 'yellow'];
 
@@ -107,6 +107,7 @@ interface Props {
 }
 
 export const FormProduct = ({ product, categories, brands, images }: Props) => {
+  const { toast } = useToast();
   const {
     title,
     description,
@@ -150,10 +151,22 @@ export const FormProduct = ({ product, categories, brands, images }: Props) => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (imagesProduct.length === 0) {
-      toast.error('Debes asignar imagenes al producto');
+      toast({
+        variant: 'destructive',
+        title: 'Debes asignar imagenes al producto',
+      });
       return;
     }
+    if (imagesProduct.length === 1) {
+      toast({
+        variant: 'destructive',
+        title: 'Debes asignar mas de una imagen al producto',
+      });
+      return;
+    }
+
     const formData = new FormData();
+
     formData.append('title', values.title);
     formData.append('description', values.description);
     formData.append('fullDescription', values.fullDescription);
@@ -178,12 +191,18 @@ export const FormProduct = ({ product, categories, brands, images }: Props) => {
       form.reset();
       setIsLoading(false);
       setIsColor(false);
-      toast.success('Producto editado con éxito');
+      toast({
+        variant: 'success',
+        title: 'Producto editado con éxito',
+      });
       router.push('/dashboard/products');
     } else {
       console.error({ message });
       setIsLoading(false);
-      toast.error(message);
+      toast({
+        variant: 'destructive',
+        title: message,
+      });
     }
   }
 
@@ -615,6 +634,20 @@ export const FormProduct = ({ product, categories, brands, images }: Props) => {
                         className="h-60 w-full rounded-md object-cover"
                         sizes="(min-width: 768px) 35vw, (min-width: 1024px) 25vw, (min-width: 1280px) 20vw, 50vw"
                       />
+                      <div
+                        onClick={() => {
+                          setImagesProduct(
+                            imagesProduct.filter(
+                              (img) => img !== imagesProduct[i]
+                            )
+                          );
+                        }}
+                        className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 opacity-100 transition-opacity"
+                      >
+                        <span className="shadow-red absolute bottom-2 right-2 grid h-10 w-10 place-content-center rounded-full bg-primary shadow-2xl">
+                          <CheckCircle2 className="h-6 w-6" />
+                        </span>
+                      </div>
                     </div>
                   );
                 })}

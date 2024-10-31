@@ -2,16 +2,17 @@
 
 import { deleteProduct } from '@/actions/products/delete-product';
 import { Button } from '@/components/ui/button';
+import { useToast } from '@/hooks/use-toast';
 import { LoaderCircleIcon, Trash2Icon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { toast } from 'sonner';
 
 interface Props {
   slug: string;
 }
 
 export const ButtonDeleteProduct = ({ slug }: Props) => {
+  const { toast } = useToast();
   const [isDeleting, setIsDeleting] = useState(false);
 
   const { refresh } = useRouter();
@@ -21,11 +22,17 @@ export const ButtonDeleteProduct = ({ slug }: Props) => {
     const { message, ok } = await deleteProduct(slug);
 
     if (ok) {
-      toast.success('El producto ha sido eliminado');
+      toast({
+        variant: 'success',
+        title: 'El producto ha sido eliminado',
+      });
       setIsDeleting(false);
       refresh();
     } else {
-      toast.error('Error al eliminar el producto');
+      toast({
+        variant: 'destructive',
+        title: 'Error al eliminar el producto',
+      });
       setIsDeleting(false);
       console.error(message);
     }

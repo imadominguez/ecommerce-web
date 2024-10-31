@@ -11,10 +11,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { useToast } from '@/hooks/use-toast';
 import { LoaderCircle, Trash2Icon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { toast } from 'sonner';
 
 interface Props {
   name: string;
@@ -22,6 +22,7 @@ interface Props {
 }
 
 export const DeleteBrand = ({ name, id }: Props) => {
+  const { toast } = useToast();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -32,12 +33,18 @@ export const DeleteBrand = ({ name, id }: Props) => {
     const { ok, message } = await deleteBrand(id);
 
     if (!ok) {
-      toast.error(message);
+      toast({
+        variant: 'destructive',
+        title: message,
+      });
       setLoading(false);
       return;
     }
 
-    toast.success(message);
+    toast({
+      variant: 'success',
+      title: message,
+    });
     setLoading(false);
     setOpen(false);
     router.refresh();

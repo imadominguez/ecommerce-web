@@ -7,7 +7,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { EyeOffIcon, EyeIcon, RotateCcwIcon } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { toast } from 'sonner';
 import Link from 'next/link';
 // componentes
 import { Button, buttonVariants } from '@/components/ui/button';
@@ -24,8 +23,10 @@ import {
 // server action
 import { loginAction } from '@/actions/auth-action';
 import { TypeInputPassword } from '@/types/inputs';
+import { useToast } from '@/hooks/use-toast';
 
 export const LoginForm = () => {
+  const { toast } = useToast();
   const router = useRouter();
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams);
@@ -51,14 +52,20 @@ export const LoginForm = () => {
       const { success, message, name_user } = await loginAction(values);
       if (success) {
         setIsSuccess(true);
-        toast.success(`Bienvenido/a ${name_user}`);
+        toast({
+          variant: 'success',
+          title: `Bienvenido/a ${name_user}`,
+        });
         if (params.get('redirect')) {
           router.push(params.get('redirect') as string);
           return;
         }
         router.push('/');
       } else {
-        toast.error(message);
+        toast({
+          variant: 'destructive',
+          title: message,
+        });
       }
     });
   }

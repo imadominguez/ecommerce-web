@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { ThemeProvider } from '@/components/theme-provider';
 import './globals.css';
 import { roboto } from '@/config/fonts';
-import { Toaster } from 'sonner';
+import { Toaster } from '@/components/ui/toaster';
 import { Providers } from '@/components/layout/providers';
 
 export const metadata: Metadata = {
@@ -27,7 +27,7 @@ export default function RootLayout({
         <Providers>
           <ThemeProvider attribute="class" defaultTheme="system">
             {children}
-            <Toaster richColors position="bottom-center" />
+            <Toaster />
           </ThemeProvider>
         </Providers>
       </body>

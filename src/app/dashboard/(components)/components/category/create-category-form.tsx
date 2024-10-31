@@ -2,20 +2,27 @@
 import { createCategory } from '@/actions/categories/create-category';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useToast } from '@/hooks/use-toast';
 import { Plus } from 'lucide-react';
 import React, { FormEvent, useState } from 'react';
-import { toast } from 'sonner';
 
 export const CreateCategoryForm = () => {
+  const { toast } = useToast();
   const [value, setValue] = useState('');
 
   const handleCreateBrand = async (event: FormEvent) => {
     event.preventDefault();
     const { ok, message } = await createCategory(value);
     if (ok) {
-      toast.success(message);
+      toast({
+        variant: 'success',
+        title: message,
+      });
     } else {
-      toast.error(message);
+      toast({
+        variant: 'destructive',
+        title: message,
+      });
     }
   };
   return (
