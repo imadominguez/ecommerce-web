@@ -8,18 +8,19 @@ import {
   DialogHeader,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { useToast } from '@/hooks/use-toast';
 import { Loader2, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { toast } from 'sonner';
 
 export const BtnDeleteCld = ({
-  key,
+  key_id,
   publicId,
 }: {
-  key: number;
+  key_id: number;
   publicId: string;
 }) => {
+  const { toast } = useToast();
   const { refresh } = useRouter();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -32,17 +33,23 @@ export const BtnDeleteCld = ({
           publicId,
         }),
       });
-      toast.success('Imagen eliminada');
+      toast({
+        variant: 'success',
+        title: 'Imagen eliminada',
+      });
       setOpen(false);
       refresh();
     } catch (error) {
-      toast.error('No se pudo eliminar la imagen');
+      toast({
+        variant: 'destructive',
+        title: 'No se pudo eliminar la imagen',
+      });
     } finally {
       setLoading(false);
     }
   };
   return (
-    <Dialog key={key} open={open} onOpenChange={setOpen}>
+    <Dialog key={key_id} open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="destructive" className="absolute bottom-2 right-2">
           <Trash2 className="mr-2 h-4 w-4" /> Eliminar

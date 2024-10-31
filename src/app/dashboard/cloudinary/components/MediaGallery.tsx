@@ -30,7 +30,7 @@ export const MediaGallery = ({ resources }: MediaGalleryProps) => {
               sizes="(min-width: 768px) 35vw, (min-width: 1024px) 25vw, (min-width: 1280px) 20vw, 50vw"
             />
             <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity group-hover:opacity-100">
-              <BtnDeleteCld key={index} publicId={imagen.public_id} />
+              <BtnDeleteCld key_id={index} publicId={imagen.public_id} />
             </div>
           </CardContent>
         </Card>

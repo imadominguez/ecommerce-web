@@ -17,12 +17,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { LoaderCircleIcon } from 'lucide-react';
-import { toast } from 'sonner';
+import { useToast } from '@/hooks/use-toast';
 
 const formSchema = z.object({
   email: z.string().email(),
 });
 export const FormSendEmailForgotPassword = () => {
+  const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<null | string>(null);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -53,12 +54,18 @@ export const FormSendEmailForgotPassword = () => {
       );
 
       if (response.status === 200) {
-        toast.success('Correo enviado');
+        toast({
+          variant: 'success',
+          title: 'Correo enviado',
+        });
         setMessage('Correo enviado, chequea tu bandeja de entrada');
         return;
       }
 
-      toast.error('El email no esta registrado');
+      toast({
+        variant: 'destructive',
+        title: 'El email no esta registrado',
+      });
       return;
     } catch (error) {
       form.setError('email', {

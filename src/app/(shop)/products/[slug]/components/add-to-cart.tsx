@@ -2,17 +2,18 @@
 
 import { QuantitySelector } from '@/components/product/quantity-selector.product';
 import { Button } from '@/components/ui/button';
+import { useToast } from '@/hooks/use-toast';
 import { useCartStore } from '@/store/shopping-cart/shopping-cart.store';
 import type { CartProduct, Product } from '@/types/product';
 import { ShoppingCart } from 'lucide-react';
 import { useState } from 'react';
-import { toast } from 'sonner';
 
 interface Props {
   product: Product;
 }
 
 export const AddToCart = ({ product }: Props) => {
+  const { toast } = useToast();
   const [quantity, setQuantity] = useState(1);
   const addProductToCart = useCartStore((state) => state.addProductToCart);
   const productToCart: CartProduct = {
@@ -35,7 +36,10 @@ export const AddToCart = ({ product }: Props) => {
         variant={'shop'}
         onClick={() => {
           addProductToCart(productToCart, product.inStock);
-          toast.success('Producto agregado');
+          toast({
+            variant: 'success',
+            title: 'Producto agregado',
+          });
           setQuantity(1);
         }}
         disabled={productToCart.quantity > product.inStock}

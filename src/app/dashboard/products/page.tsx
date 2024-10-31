@@ -25,8 +25,8 @@ export default async function ProductsPage({
   console.log({ productsSale });
 
   return (
-    <PageContainer className="!max-w-none">
-      <section className="mb-5 grid gap-4 lg:grid-cols-2 2xl:grid-cols-4">
+    <PageContainer>
+      <section className="mb-5 grid gap-4 lg:grid-cols-2 2xl:grid-cols-6">
         <ChartProducts data={productsSale} />
         <ChartCategory />
       </section>

@@ -44,19 +44,6 @@ export const initialData: SeedData = {
   brand: ['atomlux', 'gneiss'],
 
   products: [
-    {
-      title: 'Cartucho de tinta HP 63',
-      description: 'Cartucho de tinta original HP 63',
-      price: 100,
-      color: 'black',
-      inStock: 100,
-      slug: 'cartucho-de-tinta-hp-63',
-      tags: ['HP', '63', 'Tinta'],
-      images: ['placeholder.jpg', 'starman_750x750.jpg'],
-      fullDescription:
-        'Cartucho de tinta original HP 63. Imprima documentos de texto nítidos y gráficos en color que resisten el agua y se mantienen durante décadas.',
-      brand: 'gneiss',
-    },
     ...Array.from({ length: 100 }).map((_, i) => {
       const colors: ValidColors[] = ['magenta', 'black', 'yellow', 'cyan'];
       return {

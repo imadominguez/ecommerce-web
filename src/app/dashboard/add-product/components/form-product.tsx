@@ -46,11 +46,11 @@ import {
 } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { createProduct } from '@/actions/products/create-product';
-import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { CldImage } from 'next-cloudinary';
 import { CloudinaryResource } from '@/types/cloudinary';
 import Image from 'next/image';
+import { useToast } from '@/hooks/use-toast';
 
 const COLORS = ['cyan', 'black', 'magenta', 'yellow'];
 
@@ -110,6 +110,7 @@ interface Props {
 }
 
 export const FormProduct = ({ categories, brands, images }: Props) => {
+  const { toast } = useToast();
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -137,7 +138,10 @@ export const FormProduct = ({ categories, brands, images }: Props) => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (imagesProduct.length === 0) {
-      toast.error('Debes asignar imagenes al producto');
+      toast({
+        variant: 'destructive',
+        title: 'Debes asignar imagenes al producto',
+      });
       return;
     }
     const formData = new FormData();
@@ -165,12 +169,18 @@ export const FormProduct = ({ categories, brands, images }: Props) => {
       form.reset();
       setIsLoading(false);
       setIsColor(false);
-      toast.success('Producto creado con éxito');
+      toast({
+        variant: 'success',
+        title: 'Producto creado con éxito',
+      });
       router.push('/dashboard/products');
     } else {
       console.error({ message });
       setIsLoading(false);
-      toast.error('Ocurrió un error al crear el producto');
+      toast({
+        variant: 'destructive',
+        title: 'Ocurrió un error al crear el producto',
+      });
     }
   }
 

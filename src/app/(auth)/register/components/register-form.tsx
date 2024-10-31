@@ -6,7 +6,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { EyeOffIcon, EyeIcon, RotateCcwIcon } from 'lucide-react';
 import { z } from 'zod';
-import { toast } from 'sonner';
 
 // componentes
 import { Button } from '@/components/ui/button';
@@ -24,8 +23,10 @@ import {
 // server actions
 import { loginAction, registerAction } from '@/actions/auth-action';
 import { TypeInputPassword } from '@/types/inputs';
+import { useToast } from '@/hooks/use-toast';
 
 export const RegisterForm = () => {
+  const { toast } = useToast();
   const router = useRouter();
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams);
@@ -55,12 +56,18 @@ export const RegisterForm = () => {
       // Intento de registro
       const { success, message, name_user } = await registerAction(values);
       if (success) {
-        toast.success(`Bienvenido/a ${name_user}`);
+        toast({
+          variant: 'success',
+          title: `Bienvenido/a ${name_user}`,
+        });
 
         // Intento de inicio de sesión automático después del registro
         const { success: isLoggin } = await loginAction(values);
         if (!isLoggin) {
-          toast.error('No se pudo iniciar sesión. Intente nuevamente');
+          toast({
+            variant: 'destructive',
+            title: 'No se pudo iniciar sesión. Intente nuevamente',
+          });
         } else {
           // Redirección después de iniciar sesión
           if (params.get('redirect')) {
@@ -71,7 +78,10 @@ export const RegisterForm = () => {
           }
         }
       } else {
-        toast.error(message);
+        toast({
+          variant: 'destructive',
+          title: message,
+        });
       }
     });
   }

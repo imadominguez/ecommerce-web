@@ -29,7 +29,7 @@ const chartConfig = {
 
 export function ChartProducts({ data }: { data: MonthlySales[] }) {
   return (
-    <Card>
+    <Card className="2xl:col-span-2">
       <CardHeader>
         <CardTitle>Productos vendidos en total</CardTitle>
         {/* <CardDescription>January - June 2024</CardDescription> */}

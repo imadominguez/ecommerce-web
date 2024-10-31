@@ -16,9 +16,10 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-import { toast } from 'sonner';
+
 import { LoaderCircleIcon } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
+import { useToast } from '@/hooks/use-toast';
 
 const formSchema = z.object({
   password: z.string().min(8),
@@ -30,6 +31,7 @@ interface Props {
 }
 
 export const FormResetPassword = ({ token }: Props) => {
+  const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<null | string>(null);
   const pathname = usePathname();
@@ -70,17 +72,24 @@ export const FormResetPassword = ({ token }: Props) => {
       );
 
       if (response.status === 200) {
-        toast.success('Contrasena restablecida');
+        toast({
+          variant: 'success',
+          title: 'Contrasena restablecida',
+        });
         setMessage('Contrasena restablecida');
         router.push('/login');
         return;
       }
 
-      toast.error('Algo ocurrio al restablecer la contrasena');
+      toast({
+        variant: 'destructive',
+        title: 'Algo ocurrio al restablecer la contrasena',
+      });
     } catch (error) {
-      toast.error(
-        'Algo ocurrio al restablecer la contrasena. Intenta nuevamente'
-      );
+      toast({
+        variant: 'destructive',
+        title: 'Algo ocurrio al restablecer la contrasena. Intenta nuevamente',
+      });
     } finally {
       setLoading(false);
     }

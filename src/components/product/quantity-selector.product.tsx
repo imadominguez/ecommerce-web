@@ -2,7 +2,7 @@
 
 import { CircleMinusIcon, CirclePlusIcon } from 'lucide-react';
 import { Button } from '../ui/button';
-import { toast } from 'sonner';
+import { useToast } from '@/hooks/use-toast';
 
 // Propiedades esperadas para el componente QuantitySelector
 interface Props {
@@ -18,12 +18,15 @@ export const QuantitySelector = ({
   onQuantityChange,
   quantityTotal,
 }: Props) => {
+  const { toast } = useToast();
   // Función para manejar el cambio en la cantidad
   const onQuantityValue = (value: number) => {
     // Verificar que la cantidad no pase el total de stock del producto
     if (quantityTotal) {
       if (quantity + value > quantityTotal) {
-        toast.error(`La cantidad supera el stock disponible del producto `, {
+        toast({
+          variant: 'destructive',
+          title: `La cantidad supera el stock disponible del producto `,
           duration: 1500,
         });
         return;

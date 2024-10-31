@@ -34,12 +34,11 @@ import {
 } from '@/components/ui/form';
 import { UserAddress } from '@/types/address';
 import { setUserAddress } from '@/actions/address/set-user-address';
-
-import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { deleteUserAddress } from '@/actions/address/delete-user-address';
 import { Session } from 'next-auth';
 import { useAddressStore } from '@/store/address/address-store';
+import { useToast } from '@/hooks/use-toast';
 
 const formSchema = z
   .object({
@@ -123,6 +122,7 @@ interface Props {
 }
 
 export function AddressForm({ userStoredAddress, session }: Props) {
+  const { toast } = useToast();
   const router = useRouter();
   console.log({ useAddressStore: userStoredAddress.firstName });
   const userAdderss = useAddressStore((state) => state.address);
@@ -177,9 +177,15 @@ export function AddressForm({ userStoredAddress, session }: Props) {
         values
       );
       if (ok) {
-        toast.success(message);
+        toast({
+          variant: 'success',
+          title: message,
+        });
       } else {
-        toast.error(message);
+        toast({
+          variant: 'destructive',
+          title: message,
+        });
       }
     } else {
       // Eliminar datos de la base de datos
