@@ -22,10 +22,10 @@ interface Props {
 export const metadata: Metadata = {
   title: 'Cartuchos de Tinta, Tóneres y Accesorios de PC',
   description:
-    'Encuentra cartuchos de tinta y tóner para impresoras Epson y HP, junto con una amplia selección de accesorios de PC como USBs y discos externos. Productos de calidad para tus necesidades de impresión y tecnología en Servicios Integrados',
+    'En Servicios Integrados en Olavarría, encuentra cartuchos de tinta y tóner para impresoras Epson y HP, además de una amplia gama de accesorios de PC como USBs y discos externos. Calidad y cercanía para todas tus necesidades tecnológicas',
   keywords: [
-    'cartuchos de tinta Epson',
-    'cartuchos de tinta HP',
+    'cartuchos de tinta Epson Olavarría',
+    'cartuchos de tinta HP Olavarría',
     'tóners para impresoras',
     'accesorios de PC',
     'USB',

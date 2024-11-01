@@ -12,7 +12,7 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Servicios Integrados Home',
   description:
-    'Expertos en calefacción, seguridad y computación. Productos de calidad respaldados por Ariston Termo Argentina. Soluciones personalizadas y mantenimiento.',
+    'Expertos en calefacción, seguridad y computación en Olavarria. Productos de calidad respaldados por Ariston Termo Argentina. Soluciones personalizadas y mantenimiento.',
   keywords: [
     'servicios de calefacción',
     'sistemas de seguridad',
