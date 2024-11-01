@@ -10,7 +10,19 @@ import { CustomLinkButton } from '@/components/button/custom-link-button';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Inicio',
+  title: 'Servicios Integrados Home',
+  description:
+    'Expertos en calefacción, seguridad y computación. Productos de calidad respaldados por Ariston Termo Argentina. Soluciones personalizadas y mantenimiento.',
+  keywords: [
+    'servicios de calefacción',
+    'sistemas de seguridad',
+    'servicios informáticos',
+    'mantenimiento de calderas',
+    'cartuchos de tinta',
+    'cartuchos',
+    'epson',
+    'hp',
+  ],
 };
 
 export default async function Home() {

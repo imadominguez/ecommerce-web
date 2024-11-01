@@ -20,7 +20,19 @@ interface Props {
 }
 
 export const metadata: Metadata = {
-  title: 'Tienda',
+  title: 'Cartuchos de Tinta, Tóneres y Accesorios de PC',
+  description:
+    'Encuentra cartuchos de tinta y tóner para impresoras Epson y HP, junto con una amplia selección de accesorios de PC como USBs y discos externos. Productos de calidad para tus necesidades de impresión y tecnología en Servicios Integrados',
+  keywords: [
+    'cartuchos de tinta Epson',
+    'cartuchos de tinta HP',
+    'tóners para impresoras',
+    'accesorios de PC',
+    'USB',
+    'cartuchos de impresora',
+    'suministros de impresión',
+    'tienda de tecnología',
+  ],
 };
 
 export default async function ProductsPage({ searchParams }: Props) {
