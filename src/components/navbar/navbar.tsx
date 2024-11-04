@@ -14,16 +14,18 @@ export const Navbar = () => {
     <header className="sticky left-0 right-0 top-0 z-50 mx-auto flex w-full max-w-7xl items-center justify-between bg-background p-3 lg:px-8">
       {/* mobile */}
       <NavbarMobile />
-      <Link href="/" className="hidden flex-1 items-center gap-x-2 lg:flex">
-        <Image
-          src="/imgs/logo-si.png"
-          alt="Your Company"
-          width={120}
-          height={100}
-          className="h-10"
-          priority
-        />
-      </Link>
+      <div className="hidden flex-1 items-center gap-x-2 lg:flex">
+        <Link href="/">
+          <Image
+            src="/imgs/logo-si.png"
+            alt="Your Company"
+            width={120}
+            height={100}
+            className="h-10"
+            priority
+          />
+        </Link>
+      </div>
 
       <nav className="hidden lg:block">
         <ul className="flex items-center gap-x-5">
