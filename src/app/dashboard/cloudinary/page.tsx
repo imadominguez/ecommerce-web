@@ -7,7 +7,7 @@ import { getImagesCloudinary } from '@/lib/cloudinary';
 export default async function CloudinaryPage() {
   const resources = await getImagesCloudinary();
   return (
-    <PageContainer>
+    <PageContainer className="justify-start">
       <h1 className="mb-4 text-2xl font-bold">Dashboard de Fotos</h1>
 
       {/* Sección para subir fotos */}
