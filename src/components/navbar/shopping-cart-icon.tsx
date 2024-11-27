@@ -17,6 +17,8 @@ import { Separator } from '../ui/separator';
 import { useRouter } from 'next/navigation';
 import { ScrollArea } from '../ui/scroll-area';
 import { CustomLinkButton } from '../button/custom-link-button';
+import Image from 'next/image';
+import { ProductImage } from '../product/product-image';
 
 export const ShoppingCart = () => {
   // Estado para manejar el componente Sheet abierto/cerrado
@@ -71,28 +73,26 @@ export const ShoppingCart = () => {
           {cartItems.map((item) => (
             <div
               key={item.id}
-              className="mb-6 flex items-center justify-between rounded-lg bg-accent/50 p-4"
+              className="mb-6 flex items-center justify-between rounded-lg bg-card p-4"
             >
-              <div>
-                <h3 className="font-semibold text-foreground">{item.title}</h3>
-                <p className="text-sm text-muted-foreground">{item.color}</p>
-                <p className="text-sm text-muted-foreground">
+              <div className="flex items-center justify-between">
+                <ProductImage
+                  width={64}
+                  height={64}
+                  src={item.image}
+                  alt={item.title}
+                  className="h-16 w-16 rounded-md object-cover"
+                />
+                <div className="flex flex-1 flex-col">
+                  <h3 className="text-xs font-semibold text-foreground">
+                    {item.title}
+                  </h3>
+
+                  <p className="text-sm text-muted-foreground">{item.color}</p>
+                </div>
+                <p className="text-xs text-muted-foreground">
                   Cantidad: {item.quantity}
                 </p>
-              </div>
-              <div className="flex items-center">
-                <p className="mr-4 font-semibold text-foreground">
-                  ${(item.price * item.quantity).toLocaleString('es-CO')}
-                </p>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => removeProductFromCart(item.id)}
-                  className="text-destructive hover:text-destructive/90"
-                >
-                  <X size={20} />
-                  <span className="sr-only">Eliminar artículo</span>
-                </Button>
               </div>
             </div>
           ))}
@@ -119,7 +119,7 @@ export const ShoppingCart = () => {
             variant="default"
             className="w-full"
           >
-            Comprar carrito
+            Ver Carrito
           </Button>
           <div className="text-center">
             <CustomLinkButton href="/products" variant="link" className="w-fit">

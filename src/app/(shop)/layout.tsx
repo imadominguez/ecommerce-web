@@ -15,10 +15,10 @@ export default function ShopLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="mx-auto w-full max-w-[2500px]">
+    <>
       <Navbar />
       {children}
       <Footer />
-    </div>
+    </>
   );
 }

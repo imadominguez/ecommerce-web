@@ -76,7 +76,7 @@ export const LoginForm = () => {
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           method="POST"
-          className="space-y-6"
+          className="space-y-4"
         >
           <FormField
             control={form.control}
@@ -86,7 +86,7 @@ export const LoginForm = () => {
                 <FormLabel>Correo Electrónico</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Ingresa tu correo electrónico"
+                    placeholder="ejemplo@gmail.com"
                     type="email"
                     {...field}
                   />
@@ -116,7 +116,7 @@ export const LoginForm = () => {
                 <FormControl>
                   <div className="relative">
                     <Input
-                      placeholder="Ingresa tu contraseña"
+                      placeholder="********"
                       type={typeInputPassword}
                       {...field}
                     />

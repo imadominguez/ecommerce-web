@@ -1,12 +1,12 @@
 'use client';
 
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { Brand, Category } from '@prisma/client';
 import { Button } from '@/components/ui/button';
+import { CldImage } from 'next-cloudinary';
+import { CloudinaryResource } from '@/types/cloudinary';
+import { createProduct } from '@/actions/products/create-product';
 import { Input } from '@/components/ui/input';
-
-import { Switch } from '@/components/ui/switch';
-
+import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
@@ -15,7 +15,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
+import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { useToast } from '@/hooks/use-toast';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Card,
   CardContent,
@@ -23,7 +30,14 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-
+import {
+  CheckCircle2,
+  DollarSign,
+  Loader2Icon,
+  Package,
+  Percent,
+  PlusCircle,
+} from 'lucide-react';
 import {
   Form,
   FormControl,
@@ -33,24 +47,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { useForm } from 'react-hook-form';
-import { Brand, Category } from '@prisma/client';
-import { useState } from 'react';
-import {
-  CheckCircle2,
-  DollarSign,
-  Loader2Icon,
-  Package,
-  Percent,
-  PlusCircle,
-} from 'lucide-react';
-import { Label } from '@/components/ui/label';
-import { createProduct } from '@/actions/products/create-product';
-import { useRouter } from 'next/navigation';
-import { CldImage } from 'next-cloudinary';
-import { CloudinaryResource } from '@/types/cloudinary';
 import Image from 'next/image';
-import { useToast } from '@/hooks/use-toast';
 
 const COLORS = ['cyan', 'black', 'magenta', 'yellow'];
 
@@ -104,8 +101,8 @@ const formSchema = z.object({
 });
 
 interface Props {
-  categories: Category[];
   brands: Brand[];
+  categories: Category[];
   images: Array<CloudinaryResource>;
 }
 
@@ -115,20 +112,20 @@ export const FormProduct = ({ categories, brands, images }: Props) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: '',
-      description: '',
-      inStock: '',
-      categoryId: '',
-      isFeatured: 'false',
-      color: null,
-      isActive: 'false',
-      isAvailableOnline: 'true',
       brandId: '',
-      price: '',
-      tags: '',
+      categoryId: '',
+      color: null,
+      description: '',
+      discountPercentage: '',
       fullDescription: '',
       inDiscount: false,
-      discountPercentage: '',
+      inStock: '',
+      isActive: 'false',
+      isAvailableOnline: 'true',
+      isFeatured: 'false',
+      price: '',
+      tags: '',
+      title: '',
     },
   });
 
@@ -145,22 +142,22 @@ export const FormProduct = ({ categories, brands, images }: Props) => {
       return;
     }
     const formData = new FormData();
-    formData.append('title', values.title);
-    formData.append('description', values.description);
-    formData.append('fullDescription', values.fullDescription);
-    formData.append('price', values.price);
-    formData.append('inStock', values.inStock);
-    formData.append('categoryId', values.categoryId);
     formData.append('brandId', values.brandId);
-    formData.append('isActive', values.isActive);
-    formData.append('isFeatured', values.isFeatured);
-    formData.append('tags', values.tags);
+    formData.append('categoryId', values.categoryId);
     formData.append('color', values.color ?? '');
-    formData.append('slug', values.title.toLowerCase().replace(/ /g, '-'));
-    formData.append('inDiscount', values.inDiscount.toString());
+    formData.append('description', values.description);
     formData.append('discount', values.discountPercentage?.toString() ?? '');
-    formData.append('isAvailableOnline', values.isAvailableOnline.toString());
+    formData.append('fullDescription', values.fullDescription);
     formData.append('images', JSON.stringify(imagesProduct));
+    formData.append('inDiscount', values.inDiscount.toString());
+    formData.append('inStock', values.inStock);
+    formData.append('isActive', values.isActive);
+    formData.append('isAvailableOnline', values.isAvailableOnline.toString());
+    formData.append('isFeatured', values.isFeatured);
+    formData.append('price', values.price);
+    formData.append('slug', values.title.toLowerCase().replace(/ /g, '-'));
+    formData.append('tags', values.tags);
+    formData.append('title', values.title);
 
     setIsLoading(true);
     const { ok, message } = await createProduct(formData);
