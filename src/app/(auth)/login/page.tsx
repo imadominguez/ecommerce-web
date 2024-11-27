@@ -15,7 +15,7 @@ export default function LoginPage() {
       className="w-full lg:grid lg:grid-cols-2"
     >
       <div className="flex flex-col items-center justify-center py-12">
-        <Title title="Ingresa con tu cuenta" />
+        {/* <Title title="Ingresa con tu cuenta" /> */}
         <Suspense fallback={<div>Loading...</div>}>
           <LoginForm />
         </Suspense>

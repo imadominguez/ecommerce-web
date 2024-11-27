@@ -6,8 +6,8 @@ import { Separator } from './ui/separator';
 export default function Footer() {
   return (
     <>
-      <Separator className="mb-8" />
-      <footer className="px-4 pb-8 sm:px-6 lg:px-8">
+      <footer className="bg-gradient-to-t from-blue-400 via-blue-200 to-background px-4 pb-8 dark:from-blue-950 dark:via-blue-950 dark:to-transparent sm:px-6 lg:px-8">
+        <Separator className="mb-8" />
         <div className="mx-auto max-w-7xl">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
             {/* Logo and description */}
@@ -31,22 +31,34 @@ export default function Footer() {
               <h2 className="mb-4 font-semibold">Ayuda</h2>
               <ul className="space-y-2 text-xs">
                 <li>
-                  <Link href="#" className="transition-colors hover:opacity-80">
+                  <Link
+                    href="#"
+                    className="transition-all duration-100 hover:opacity-60"
+                  >
                     Preguntas frecuentes
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="transition-colors hover:opacity-80">
+                  <Link
+                    href="#"
+                    className="transition-all duration-100 hover:opacity-60"
+                  >
                     ¿Cómo comprar?
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="transition-colors hover:opacity-80">
+                  <Link
+                    href="#"
+                    className="transition-all duration-100 hover:opacity-60"
+                  >
                     Arrepentimiento de compra
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="transition-colors hover:opacity-80">
+                  <Link
+                    href="#"
+                    className="transition-all duration-100 hover:opacity-80"
+                  >
                     Términos y condiciones
                   </Link>
                 </li>
@@ -58,20 +70,26 @@ export default function Footer() {
               <h2 className="mb-4 font-semibold">Nosotros</h2>
               <ul className="space-y-2 text-xs">
                 <li>
-                  <Link href="#" className="transition-colors hover:opacity-80">
+                  <Link
+                    href="#"
+                    className="transition-all duration-100 hover:opacity-60"
+                  >
                     Nuestra empresa
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/#services"
-                    className="transition-colors hover:opacity-80"
+                    className="transition-all duration-100 hover:opacity-60"
                   >
                     Nuestros servicios
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="transition-colors hover:opacity-80">
+                  <Link
+                    href="#"
+                    className="transition-all duration-100 hover:opacity-60"
+                  >
                     Atención al cliente
                   </Link>
                 </li>

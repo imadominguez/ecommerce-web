@@ -7,6 +7,7 @@ import { getCategories } from '@/actions/categories/get-categories';
 import { Metadata } from 'next';
 import { Suspense } from 'react';
 import { SkeletonCard } from '@/components/skeleton-card';
+import { PageContainer } from '@/components/layout/page-container';
 
 interface Props {
   searchParams: {
@@ -59,10 +60,7 @@ export default async function ProductsPage({ searchParams }: Props) {
   }
   return (
     <>
-      <div
-        style={{ minHeight: 'calc(100dvh - 40px - 240px)' }}
-        className="relative mx-auto grid max-w-7xl gap-0 bg-background px-4 pt-5 sm:px-6 lg:max-w-7xl lg:grid-cols-4 lg:gap-8 lg:px-8"
-      >
+      <PageContainer className="relative mx-auto grid max-w-7xl gap-0 bg-background px-4 pt-5 sm:px-6 lg:max-w-7xl lg:grid-cols-4 lg:gap-8 lg:px-8">
         <div className="lg:col-span-1">
           <FilterProduct {...searchParams} categories={categories.categories} />
         </div>
@@ -77,7 +75,7 @@ export default async function ProductsPage({ searchParams }: Props) {
 
           <Paginations totalPages={totalPages} />
         </div>
-      </div>
+      </PageContainer>
     </>
   );
 }

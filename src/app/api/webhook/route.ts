@@ -16,7 +16,7 @@ export async function POST(req: Request) {
 
   // Obtenemos la orden a partir del external_reference
   const payment = await new Payment(client).get({ id: payment_id });
-
+  console.log({ payment });
   if (payment.status === 'approved') {
     const order_id = body.external_reference;
     try {

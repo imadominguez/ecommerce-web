@@ -1,3 +1,4 @@
+import { Card, CardContent } from '@/components/ui/card';
 import { Building2, Laptop, Phone, Store, Wrench } from 'lucide-react';
 
 export const WhyUs = () => {
@@ -41,26 +42,30 @@ export const WhyUs = () => {
         </h2>
         <div className="grid grid-cols-1 justify-items-center gap-8 md:grid-cols-3">
           {servicios.slice(0, 3).map((servicio, index) => (
-            <div
+            <Card
               key={index}
               className="flex max-w-sm flex-col items-center rounded-lg border p-6 text-center shadow-md"
             >
-              <div className="mb-4">{servicio.icon}</div>
-              <h3 className="mb-2 text-xl font-semibold">{servicio.title}</h3>
-              <p className="text-sm opacity-60">{servicio.description}</p>
-            </div>
+              <CardContent className="flex flex-col items-center text-center">
+                <div className="mb-4">{servicio.icon}</div>
+                <h3 className="mb-2 text-xl font-semibold">{servicio.title}</h3>
+                <p className="text-sm opacity-60">{servicio.description}</p>
+              </CardContent>
+            </Card>
           ))}
         </div>
         <div className="mt-8 grid grid-cols-1 justify-items-center gap-8 md:grid-cols-2 lg:mx-auto lg:max-w-4xl">
           {servicios.slice(3).map((servicio, index) => (
-            <div
+            <Card
               key={index + 3}
               className="flex max-w-sm flex-col items-center rounded-lg border p-6 text-center shadow-md"
             >
-              <div className="mb-4">{servicio.icon}</div>
-              <h3 className="mb-2 text-xl font-semibold">{servicio.title}</h3>
-              <p className="text-sm opacity-60">{servicio.description}</p>
-            </div>
+              <CardContent className="flex flex-col items-center text-center">
+                <div className="mb-4">{servicio.icon}</div>
+                <h3 className="mb-2 text-xl font-semibold">{servicio.title}</h3>
+                <p className="text-sm opacity-60">{servicio.description}</p>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </div>
